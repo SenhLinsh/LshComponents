@@ -1,5 +1,6 @@
 package com.linsh;
 
+import android.util.TypedValue;
 import android.widget.TextView;
 
 /**
@@ -33,7 +34,7 @@ public class TextViewHelper extends ViewHelper<TextView> implements ITextViewHel
 
     @Override
     public void setTextSize(float size) {
-        mView.setTextSize(size);
+        mView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
     }
 
     @Override
