@@ -16,4 +16,25 @@
             <enum name="vertical" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="Preference">
+        <attr name="titleText" format="string"/>
+        <attr name="titleTextColor" format="color"/>
+        <attr name="titleTextSize" format="dimension"/>
+
+        <attr name="titleWidth" format="dimension"/>
+        <attr name="titleHeight" format="dimension"/>
+        <attr name="detailWidth" format="dimension"/>
+        <attr name="detailHeight" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="TextPreference">
+        <attr name="detailText" format="string"/>
+        <attr name="detailTextColor" format="color"/>
+        <attr name="detailTextSize" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ImagePreference">
+        <attr name="detailImage" format="reference"/>
+    </declare-styleable>
 </resources>
