@@ -39,7 +39,7 @@ public class ImagePreference extends Preference<ImageViewHelper> {
     protected void initAttr(AttributeSet attrs) {
         super.initAttr(attrs);
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ImagePreference);
-        int imageId = typedArray.getResourceId(R.styleable.ImagePreference_detailImage, 0);
+        int imageId = typedArray.getResourceId(R.styleable.ImagePreference_imageSrc, 0);
 
         ImageViewHelper detail = detail();
         if (imageId != 0) {

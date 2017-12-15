@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:detailHeight="36dp"
-        app:detailImage="@mipmap/ic_launcher"
         app:detailWidth="36dp"
+        app:imageSrc="@mipmap/ic_launcher"
         app:titleText="我的头像"/>
 
     <View
@@ -27,6 +27,17 @@
         android:layout_height="wrap_content"
         app:detailText="林声鹤"
         app:titleText="我的名字"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#3333"/>
+
+    <com.linsh.views.preference.TogglePreference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleText="开启无敌模式"
+        app:toggleOn="false"/>
 
     <View
         android:layout_width="match_parent"

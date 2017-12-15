@@ -60,10 +60,8 @@ public class UtilsForLshViews {
         return list;
     }
 
-    public static ColorStateList createEnabledColorSelector(int enabledColor, int disabledColor) {
-        int[][] states = new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{}};
-        int[] colors = new int[]{enabledColor, disabledColor};
-        return new ColorStateList(states, colors);
+    public static Drawable getDrawable(Context context, int resId) {
+        return context.getResources().getDrawable(resId);
     }
 
     public static GradientDrawable createRectangleBorder(float roundRadius, int strokeWidth, int strokeColor) {
@@ -72,6 +70,26 @@ public class UtilsForLshViews {
         gradientDrawable.setCornerRadius(roundRadius);
         gradientDrawable.setStroke(strokeWidth, strokeColor);
         return gradientDrawable;
+    }
+
+    public static GradientDrawable createRectangleCorner(float[] radii) {
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+        gradientDrawable.setCornerRadii(radii);
+        return gradientDrawable;
+    }
+
+    public static GradientDrawable createRectangleCorner(float[] radii, int fillColor) {
+        GradientDrawable rectangleCorner = createRectangleCorner(radii);
+        rectangleCorner.setColor(fillColor);
+        return rectangleCorner;
+    }
+
+
+    public static ColorStateList createEnabledColorSelector(int enabledColor, int disabledColor) {
+        int[][] states = new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{}};
+        int[] colors = new int[]{enabledColor, disabledColor};
+        return new ColorStateList(states, colors);
     }
 
     public static StateListDrawable createEnabledSelector(Drawable enabledDrawable, Drawable disabledDrawable) {
@@ -88,16 +106,10 @@ public class UtilsForLshViews {
         return stateListDrawable;
     }
 
-    public static GradientDrawable createRectangleCorner(float[] radii) {
-        GradientDrawable gradientDrawable = new GradientDrawable();
-        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-        gradientDrawable.setCornerRadii(radii);
-        return gradientDrawable;
-    }
-
-    public static GradientDrawable createRectangleCorner(float[] radii, int fillColor) {
-        GradientDrawable rectangleCorner = createRectangleCorner(radii);
-        rectangleCorner.setColor(fillColor);
-        return rectangleCorner;
+    public static StateListDrawable createSelectedSelector(Drawable selectedDrawable, Drawable normalDrawable) {
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(new int[]{android.R.attr.state_selected}, selectedDrawable);
+        stateListDrawable.addState(new int[]{}, normalDrawable);
+        return stateListDrawable;
     }
 }
