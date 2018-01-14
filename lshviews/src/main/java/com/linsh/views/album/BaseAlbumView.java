@@ -56,10 +56,15 @@ abstract class BaseAlbumView<T extends Image> extends GridView {
 
     public void setPhotos(List<? extends T> images) {
         mAdapter.setData(images);
+        mAdapter.notifyDataSetChanged();
     }
 
     public List<? extends T> getPhotos() {
         return mAdapter.getData();
+    }
+
+    public void notifyDataSetChanged() {
+        mAdapter.notifyDataSetChanged();
     }
 
     protected abstract void setView(T t, ViewHolder viewHolder, int position);
