@@ -19,6 +19,12 @@ public class ImageViewHelper extends ViewHelper<ImageView> implements IImageView
         super(view);
     }
 
+
+    @Override
+    public ImageView getImageView() {
+        return mView;
+    }
+
     @Override
     public void setImage(Bitmap bm) {
         mView.setImageBitmap(bm);

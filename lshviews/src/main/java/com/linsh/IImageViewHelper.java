@@ -15,6 +15,8 @@ import android.widget.ImageView;
  */
 public interface IImageViewHelper extends IViewHelper<ImageView> {
 
+    ImageView getImageView();
+
     void setImage(Bitmap bitmap);
 
     void setImage(Drawable drawable);

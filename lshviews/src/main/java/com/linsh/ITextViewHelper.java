@@ -12,9 +12,9 @@ import android.widget.TextView;
  */
 public interface ITextViewHelper extends IViewHelper<TextView> {
 
-    void setText(CharSequence text);
-
     CharSequence getText();
+
+    void setText(CharSequence text);
 
     void setTextColor(int color);
 
