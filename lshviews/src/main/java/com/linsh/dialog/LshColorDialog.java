@@ -469,18 +469,18 @@ public class LshColorDialog extends Dialog {
     public class InputDialogBuilder extends BtnDialogBuilder<InputDialogBuilder, OnInputPositiveListener, OnInputNegativeListener>
             implements LshColorDialog.InputDialogInterface {
 
-        private String hint;
-        private String text;
+        private CharSequence hint;
+        private CharSequence text;
         private EditText mEditText;
 
         @Override
-        public LshColorDialog.InputDialogBuilder setHint(String hint) {
+        public LshColorDialog.InputDialogBuilder setHint(CharSequence hint) {
             this.hint = hint;
             return this;
         }
 
         @Override
-        public InputDialogBuilder setText(String text) {
+        public InputDialogBuilder setText(CharSequence text) {
             this.text = text;
             return this;
         }
@@ -544,9 +544,9 @@ public class LshColorDialog extends Dialog {
     }
 
     private interface InputDialogInterface<T extends LshColorDialog.InputDialogBuilder> {
-        T setHint(String hint);
+        T setHint(CharSequence hint);
 
-        T setText(String text);
+        T setText(CharSequence text);
 
         T setPositiveButton(String positiveText, LshColorDialog.OnInputPositiveListener listener);
 
