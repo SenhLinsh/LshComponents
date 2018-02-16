@@ -58,7 +58,7 @@ public class TogglePreference extends Preference<TogglePreference.ToggleViewHelp
 
     @Override
     public void onClick(View v) {
-        detail().toggel();
+        detail().toggle();
     }
 
     public class ToggleViewHelper extends ImageViewHelper {
@@ -67,7 +67,7 @@ public class TogglePreference extends Preference<TogglePreference.ToggleViewHelp
             super(view);
         }
 
-        public void toggel() {
+        public void toggle() {
             mView.setSelected(!mView.isSelected());
         }
 
