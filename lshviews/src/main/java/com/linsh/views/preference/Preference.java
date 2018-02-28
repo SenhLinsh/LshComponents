@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,8 +44,15 @@ public abstract class Preference<T extends IViewHelper> extends LinearLayout {
         mTitleHelper = initTitleHelper();
         mDetailHelper = initDetailHelper();
 
-        addView(mTitleHelper.getView());
-        addView(mDetailHelper.getView());
+        LinearLayout.LayoutParams params0 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params1.leftMargin = UtilsForLshViews.dp2px(getContext(), 10);
+        params2.gravity = Gravity.RIGHT;
+        addView(mTitleHelper.getView(), params0);
+        FrameLayout frameLayout = new FrameLayout(getContext());
+        addView(frameLayout, params1);
+        frameLayout.addView(mDetailHelper.getView(), params2);
         initAttr(attrs);
     }
 
