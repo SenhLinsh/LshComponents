@@ -21,7 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.linsh.UtilsForLshViews;
+import com.linsh.LshViewUtil;
 import com.linsh.views.R;
 
 import java.util.Arrays;
@@ -313,7 +313,7 @@ public class LshColorDialog extends Dialog {
 
             FrameLayout contentView = getContentView();
             contentView.addView(recyclerView);
-            contentView.setMinimumWidth(UtilsForLshViews.dp2px(getContext(), 150));
+            contentView.setMinimumWidth(LshViewUtil.dp2px(getContext(), 150));
         }
 
         @Override
@@ -371,7 +371,7 @@ public class LshColorDialog extends Dialog {
 
             FrameLayout contentView = getContentView();
             contentView.addView(recyclerView);
-            contentView.setMinimumWidth(UtilsForLshViews.dp2px(getContext(), 150));
+            contentView.setMinimumWidth(LshViewUtil.dp2px(getContext(), 150));
         }
 
         @Override
@@ -610,7 +610,7 @@ public class LshColorDialog extends Dialog {
 
     private void setBgContent(View view, int color) {
         int dp10 = dp2px(10);
-        GradientDrawable bgContent = UtilsForLshViews.createRectangleCorner(new float[]{dp10, dp10, dp10, dp10, 0, 0, 0, 0}, color);
+        GradientDrawable bgContent = LshViewUtil.createRectangleCorner(new float[]{dp10, dp10, dp10, dp10, 0, 0, 0, 0}, color);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackground(bgContent);
         } else {
@@ -619,9 +619,9 @@ public class LshColorDialog extends Dialog {
     }
 
     private void setBgBtn(View view, float[] radii) {
-        GradientDrawable bgContentWhite = UtilsForLshViews.createRectangleCorner(radii, Color.WHITE);
-        GradientDrawable bgContentGray = UtilsForLshViews.createRectangleCorner(radii, 0xFFEDEDF3);
-        StateListDrawable pressedSelector = UtilsForLshViews.createPressedSelector(bgContentGray, bgContentWhite);
+        GradientDrawable bgContentWhite = LshViewUtil.createRectangleCorner(radii, Color.WHITE);
+        GradientDrawable bgContentGray = LshViewUtil.createRectangleCorner(radii, 0xFFEDEDF3);
+        StateListDrawable pressedSelector = LshViewUtil.createPressedSelector(bgContentGray, bgContentWhite);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackground(pressedSelector);
         } else {

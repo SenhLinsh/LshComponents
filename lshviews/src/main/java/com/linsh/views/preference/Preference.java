@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.linsh.ITextViewHelper;
 import com.linsh.IViewHelper;
 import com.linsh.TextViewHelper;
-import com.linsh.UtilsForLshViews;
+import com.linsh.LshViewUtil;
 import com.linsh.views.R;
 
 /**
@@ -47,7 +47,7 @@ public abstract class Preference<T extends IViewHelper> extends LinearLayout {
         LinearLayout.LayoutParams params0 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params1.leftMargin = UtilsForLshViews.dp2px(getContext(), 10);
+        params1.leftMargin = LshViewUtil.dp2px(getContext(), 10);
         params2.gravity = Gravity.RIGHT;
         addView(mTitleHelper.getView(), params0);
         FrameLayout frameLayout = new FrameLayout(getContext());
@@ -58,7 +58,7 @@ public abstract class Preference<T extends IViewHelper> extends LinearLayout {
 
     protected void initPreference() {
         setMinimumHeight(dp2px(45));
-        int dp10 = UtilsForLshViews.dp2px(getContext(), 10);
+        int dp10 = LshViewUtil.dp2px(getContext(), 10);
         setPadding(dp10, dp10, dp10, dp10);
         setOrientation(HORIZONTAL);
         setGravity(Gravity.CENTER_VERTICAL);

@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.linsh.ImageViewHelper;
-import com.linsh.UtilsForLshViews;
+import com.linsh.LshViewUtil;
 import com.linsh.views.R;
 
 /**
@@ -80,12 +80,12 @@ public class TogglePreference extends Preference<TogglePreference.ToggleViewHelp
         }
 
         public void setToggleImage(int onResId, int offResId) {
-            setToggleImage(UtilsForLshViews.getDrawable(getContext(), onResId),
-                    UtilsForLshViews.getDrawable(getContext(), offResId));
+            setToggleImage(LshViewUtil.getDrawable(getContext(), onResId),
+                    LshViewUtil.getDrawable(getContext(), offResId));
         }
 
         public void setToggleImage(Drawable onDrawable, Drawable offDrawable) {
-            setImage(UtilsForLshViews.createSelectedSelector(onDrawable, offDrawable));
+            setImage(LshViewUtil.createSelectedSelector(onDrawable, offDrawable));
         }
     }
 }

@@ -8,7 +8,7 @@ import android.os.Build;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
-import com.linsh.UtilsForLshViews;
+import com.linsh.LshViewUtil;
 
 /**
  * <pre>
@@ -72,11 +72,11 @@ public class CountDownView extends AppCompatTextView {
 
     private void setColor() {
         // 设置字体颜色
-        setTextColor(UtilsForLshViews.createEnabledColorSelector(enabledColor, disabledColor));
+        setTextColor(LshViewUtil.createEnabledColorSelector(enabledColor, disabledColor));
         // 设置背景
-        Drawable enabledDrawable = UtilsForLshViews.createRectangleBorder(roundRadius, strokeWidth, enabledColor);
-        Drawable disabledDrawable = UtilsForLshViews.createRectangleBorder(roundRadius, strokeWidth, disabledColor);
-        StateListDrawable background = UtilsForLshViews.createEnabledSelector(enabledDrawable, disabledDrawable);
+        Drawable enabledDrawable = LshViewUtil.createRectangleBorder(roundRadius, strokeWidth, enabledColor);
+        Drawable disabledDrawable = LshViewUtil.createRectangleBorder(roundRadius, strokeWidth, disabledColor);
+        StateListDrawable background = LshViewUtil.createEnabledSelector(enabledDrawable, disabledDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             setBackground(background);
         } else {
