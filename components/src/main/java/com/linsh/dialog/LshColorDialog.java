@@ -7,8 +7,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -21,11 +19,16 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.linsh.LshViewUtil;
+import com.linsh.lshutils.utils.Dps;
+import com.linsh.utilseverywhere.DrawableSelectors;
+import com.linsh.utilseverywhere.tools.ShapeBuilder;
 import com.linsh.views.R;
 
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * <pre>
@@ -313,7 +316,7 @@ public class LshColorDialog extends Dialog {
 
             FrameLayout contentView = getContentView();
             contentView.addView(recyclerView);
-            contentView.setMinimumWidth(LshViewUtil.dp2px(getContext(), 150));
+            contentView.setMinimumWidth(Dps.toPx(150));
         }
 
         @Override
@@ -371,7 +374,7 @@ public class LshColorDialog extends Dialog {
 
             FrameLayout contentView = getContentView();
             contentView.addView(recyclerView);
-            contentView.setMinimumWidth(LshViewUtil.dp2px(getContext(), 150));
+            contentView.setMinimumWidth(Dps.toPx(150));
         }
 
         @Override
@@ -610,7 +613,7 @@ public class LshColorDialog extends Dialog {
 
     private void setBgContent(View view, int color) {
         int dp10 = dp2px(10);
-        GradientDrawable bgContent = LshViewUtil.createRectangleCorner(new float[]{dp10, dp10, dp10, dp10, 0, 0, 0, 0}, color);
+        GradientDrawable bgContent = new ShapeBuilder().setCornerRadii(new float[]{dp10, dp10, dp10, dp10, 0, 0, 0, 0}).setColor(color).getShape();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackground(bgContent);
         } else {
@@ -619,9 +622,9 @@ public class LshColorDialog extends Dialog {
     }
 
     private void setBgBtn(View view, float[] radii) {
-        GradientDrawable bgContentWhite = LshViewUtil.createRectangleCorner(radii, Color.WHITE);
-        GradientDrawable bgContentGray = LshViewUtil.createRectangleCorner(radii, 0xFFEDEDF3);
-        StateListDrawable pressedSelector = LshViewUtil.createPressedSelector(bgContentGray, bgContentWhite);
+        GradientDrawable bgContentWhite = new ShapeBuilder().setCornerRadii(radii).setColor(Color.WHITE).getShape();
+        GradientDrawable bgContentGray = new ShapeBuilder().setCornerRadii(radii).setColor(0xFFEDEDF3).getShape();
+        StateListDrawable pressedSelector = DrawableSelectors.pressed(bgContentGray, bgContentWhite);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackground(pressedSelector);
         } else {

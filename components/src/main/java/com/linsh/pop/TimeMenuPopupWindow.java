@@ -17,7 +17,7 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.linsh.LshViewUtil;
+import com.linsh.utilseverywhere.BackgroundUtils;
 import com.linsh.views.R;
 
 /**
@@ -91,7 +91,7 @@ public class TimeMenuPopupWindow extends PopupWindow {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 textView.setTranslationZ(100);
             }
-            LshViewUtil.addPressedEffect(textView);
+            BackgroundUtils.addPressedEffect(textView);
             itemLayout.addView(textView, 0x1E000000);
 
             if (onItemClickListener != null) {

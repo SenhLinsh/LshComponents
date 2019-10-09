@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="lsh_title_text_size">20sp</dimen>
+    <dimen name="lsh_sub_title_text_size">20sp</dimen>
+    <dimen name="lsh_item_text_size">18sp</dimen>
+
+    <dimen name="lsh_item_padding">8dp</dimen>
+</resources>
