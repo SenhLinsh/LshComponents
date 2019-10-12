@@ -1,4 +1,4 @@
-package com.linsh.adapter.recycler;
+package com.linsh.adapter.pager;
 
 import android.view.View;
 import android.view.ViewGroup;

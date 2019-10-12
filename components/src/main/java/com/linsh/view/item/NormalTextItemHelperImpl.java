@@ -1,6 +1,7 @@
 package com.linsh.view.item;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class NormalTextItemHelperImpl implements TextItemHelper {
         int padding = ResourceUtils.getDimens(R.dimen.lsh_item_padding);
         textView.setPadding(padding, padding, padding, padding);
         int textSize = ResourceUtils.getDimens(R.dimen.lsh_item_text_size);
-        textView.setTextSize(textSize);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
     }
 
     @Override

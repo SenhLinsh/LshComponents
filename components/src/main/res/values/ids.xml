@@ -1,4 +1,5 @@
 <resources>
     <item name="tag_position" type="id"/>
     <item name="tag_view_holder" type="id"/>
+    <item name="tag_view_helper" type="id"/>
 </resources>
