@@ -45,6 +45,10 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends ViewH
         notifyDataSetChanged();
     }
 
+    public List<T> getData() {
+        return data;
+    }
+
     @Override
     public int getItemCount() {
         return items.size();
