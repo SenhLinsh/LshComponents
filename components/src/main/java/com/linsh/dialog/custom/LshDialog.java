@@ -1,4 +1,4 @@
-package com.linsh.dialog;
+package com.linsh.dialog.custom;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -34,7 +34,18 @@ import androidx.recyclerview.widget.RecyclerView;
  * </pre>
  */
 public class LshDialog extends Dialog {
+
     private BaseDialogBuilder mBuilder;
+    private View mContentView;
+    private boolean isCreated;
+
+    private CharSequence title;
+    private CharSequence positiveText;
+    private CharSequence negativeText;
+    private OnPositiveListener mOnPositiveListener;
+    private OnNegativeListener mOnNegativeListener;
+    private boolean positiveBtnVisible;
+    private boolean negativeBtnVisible;
 
     public LshDialog(Context context) {
         super(context);
@@ -46,7 +57,10 @@ public class LshDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_lsh);
-        mBuilder.initView(this);
+        isCreated = true;
+        setTitle(title);
+        layoutButtons();
+        mContentView = mBuilder.initView(this);
     }
 
     public TextDialogBuilder buildText() {
@@ -73,14 +87,95 @@ public class LshDialog extends Dialog {
         return inputDialogBuilder;
     }
 
-    private abstract class BaseDialogBuilder<T extends BaseDialogBuilder> implements BaseDialogInterface {
-        private String title;
+    public View getContentView() {
+        return mContentView;
+    }
 
-        @Override
-        public T setTitle(String title) {
-            this.title = title;
-            return (T) this;
+    public void setTitle(CharSequence title) {
+        this.title = title;
+        if (isCreated) {
+            // 设置标题
+            TextView tvTitle = findViewById(R.id.tv_dialog_lsh_title);
+            if (isEmpty(title)) {
+                tvTitle.setVisibility(View.GONE);
+            } else {
+                tvTitle.setText(title);
+                tvTitle.setVisibility(View.VISIBLE);
+            }
         }
+    }
+
+    public LshDialog setPositiveButton(String positiveText, OnPositiveListener listener) {
+        this.positiveText = positiveText;
+        mOnPositiveListener = listener;
+        positiveBtnVisible = positiveText != null || listener != null;
+        layoutButtons();
+        return this;
+    }
+
+    public LshDialog setNegativeButton(String negativeText, OnNegativeListener listener) {
+        this.negativeText = negativeText;
+        mOnNegativeListener = listener;
+        negativeBtnVisible = negativeText != null || listener != null;
+        layoutButtons();
+        return this;
+    }
+
+    private void layoutButtons() {
+        if (!isCreated) return;
+        // 判断是否需要确认取消按钮
+        if (!positiveBtnVisible && !negativeBtnVisible) {
+            findViewById(R.id.ll_dialog_lsh_btn_layout).setVisibility(View.GONE);
+            return;
+        }
+        // 设置确认取消按钮可见
+        findViewById(R.id.ll_dialog_lsh_btn_layout).setVisibility(View.VISIBLE);
+        // 设置确认取消按钮
+        TextView tvPositive = (TextView) findViewById(R.id.tv_dialog_lsh_positive);
+        TextView tvNegative = (TextView) findViewById(R.id.tv_dialog_lsh_negative);
+        if (positiveBtnVisible) {
+            tvPositive.setVisibility(View.VISIBLE);
+            if (!isEmpty(positiveText)) {
+                tvPositive.setText(positiveText);
+            } else {
+                tvPositive.setText("确认");
+            }
+            tvPositive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnPositiveListener != null) {
+                        mOnPositiveListener.onClick(LshDialog.this);
+                    } else {
+                        LshDialog.this.dismiss();
+                    }
+                }
+            });
+        } else {
+            tvPositive.setVisibility(View.GONE);
+        }
+        if (negativeBtnVisible) {
+            tvNegative.setVisibility(View.VISIBLE);
+            if (!isEmpty(negativeText)) {
+                tvNegative.setText(negativeText);
+            } else {
+                tvNegative.setText("取消");
+            }
+            tvNegative.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnNegativeListener != null) {
+                        mOnNegativeListener.onClick(LshDialog.this);
+                    } else {
+                        LshDialog.this.dismiss();
+                    }
+                }
+            });
+        } else {
+            tvNegative.setVisibility(View.GONE);
+        }
+    }
+
+    private abstract class BaseDialogBuilder<T extends BaseDialogBuilder> implements BaseDialogInterface {
 
         @Override
         public LshDialog show() {
@@ -88,25 +183,14 @@ public class LshDialog extends Dialog {
             return LshDialog.this;
         }
 
-        protected void initView(LshDialog dialog) {
-            // 设置标题
-            TextView tvTitle = (TextView) dialog.findViewById(R.id.tv_dialog_lsh_title);
-            if (isEmpty(title)) {
-                tvTitle.setVisibility(View.GONE);
-            } else {
-                tvTitle.setText(title);
-            }
+        protected View initView(LshDialog dialog) {
+            return null;
         }
 
         // 根据子类需要添加不同布局
         protected void addView(LshDialog dialog, View childView) {
             FrameLayout layout = (FrameLayout) dialog.findViewById(R.id.fl_dialog_lsh_content);
             layout.addView(childView);
-        }
-
-        // 设置确认取消按钮是否可见
-        protected void setBtnLayoutVisible() {
-            findViewById(R.id.ll_dialog_lsh_btn_layout).setVisibility(View.VISIBLE);
         }
 
         // 设置窗口宽度占屏幕短边的百分比
@@ -118,87 +202,24 @@ public class LshDialog extends Dialog {
     }
 
     private class BtnDialogBuilder<T extends BtnDialogBuilder> extends BaseDialogBuilder<T> implements BtnDialogInterface {
-        private String positiveText;
-        private String negativeText;
-        private OnPositiveListener mOnPositiveListener;
-        private OnNegativeListener mOnNegativeListener;
-        private boolean positiveBtnVisible;
-        private boolean negativeBtnVisible;
+
 
         @Override
-        public T setPositiveButton(String positiveText, OnPositiveListener listener) {
-            this.positiveText = positiveText;
-            mOnPositiveListener = listener;
-            positiveBtnVisible = true;
-            return (T) this;
-        }
-
-        @Override
-        public T setNegativeButton(String negativeText, OnNegativeListener listener) {
-            this.negativeText = negativeText;
-            mOnNegativeListener = listener;
-            negativeBtnVisible = true;
-            return (T) this;
-        }
-
-        @Override
-        protected void initView(final LshDialog dialog) {
+        protected View initView(final LshDialog dialog) {
             super.initView(dialog);
             // 设置布局宽度为屏幕短边的3/4
             setDialogWidth(dialog, 0.75F);
-            // 判断是否需要确认取消按钮
-            if (!positiveBtnVisible && !negativeBtnVisible) return;
-            setBtnLayoutVisible();
-            // 设置确认取消按钮
-            TextView tvPositive = (TextView) dialog.findViewById(R.id.tv_dialog_lsh_positive);
-            TextView tvNegative = (TextView) dialog.findViewById(R.id.tv_dialog_lsh_negative);
-            if (positiveBtnVisible) {
-                if (!isEmpty(positiveText)) {
-                    tvPositive.setText(positiveText);
-                } else {
-                    tvPositive.setText("确认");
-                }
-                tvPositive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mOnPositiveListener != null) {
-                            mOnPositiveListener.onClick(LshDialog.this);
-                        } else {
-                            LshDialog.this.dismiss();
-                        }
-                    }
-                });
-            } else {
-                tvPositive.setVisibility(View.GONE);
-            }
-            if (negativeBtnVisible) {
-                if (!isEmpty(negativeText)) {
-                    tvNegative.setText(negativeText);
-                } else {
-                    tvNegative.setText("取消");
-                }
-                tvNegative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mOnNegativeListener != null) {
-                            mOnNegativeListener.onClick(LshDialog.this);
-                        } else {
-                            LshDialog.this.dismiss();
-                        }
-                    }
-                });
-            } else {
-                tvNegative.setVisibility(View.GONE);
-            }
+            return null;
         }
     }
 
     private class NoBtnDialogBuilder<T extends NoBtnDialogBuilder> extends BaseDialogBuilder<T> {
         @Override
-        protected void initView(LshDialog dialog) {
+        protected View initView(LshDialog dialog) {
             super.initView(dialog);
             // 设置布局宽度为屏幕短边的3/5
             setDialogWidth(dialog, 0.6F);
+            return null;
         }
     }
 
@@ -212,13 +233,14 @@ public class LshDialog extends Dialog {
         }
 
         @Override
-        protected void initView(LshDialog dialog) {
+        protected View initView(LshDialog dialog) {
             super.initView(dialog);
             // 生成TextView
             TextView textView = new TextView(dialog.getContext());
             textView.setText(content == null ? "" : content);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
             addView(dialog, textView);
+            return textView;
         }
     }
 
@@ -240,7 +262,7 @@ public class LshDialog extends Dialog {
         }
 
         @Override
-        protected void initView(LshDialog dialog) {
+        protected View initView(LshDialog dialog) {
             super.initView(dialog);
             // 生成RecyclerView
             RecyclerView recyclerView = new RecyclerView(dialog.getContext());
@@ -249,6 +271,7 @@ public class LshDialog extends Dialog {
             recyclerView.setLayoutManager(new LinearLayoutManager(dialog.getContext()));
             recyclerView.setAdapter(new ListDialogAdapter(list, mOnItemClickListener));
             addView(dialog, recyclerView);
+            return recyclerView;
         }
     }
 
@@ -327,7 +350,7 @@ public class LshDialog extends Dialog {
         }
 
         @Override
-        protected void initView(LshDialog dialog) {
+        protected View initView(LshDialog dialog) {
             super.initView(dialog);
             // 生成RadioGroup
             RadioGroup radioGroup = new RadioGroup(dialog.getContext());
@@ -361,17 +384,12 @@ public class LshDialog extends Dialog {
                 }
             }
             addView(dialog, radioGroup);
+            return radioGroup;
         }
     }
 
     public class InputDialogBuilder extends BaseDialogBuilder<InputDialogBuilder> implements InputDialogInterface {
         private String hint;
-        private String positiveText;
-        private String negativeText;
-        private OnInputPositiveListener mOnInputPositiveListener;
-        private OnInputNegativeListener mOnInputNegativeListener;
-        private boolean positiveBtnVisible;
-        private boolean negativeBtnVisible;
 
         @Override
         public InputDialogBuilder setHint(String hint) {
@@ -380,23 +398,7 @@ public class LshDialog extends Dialog {
         }
 
         @Override
-        public InputDialogBuilder setPositiveButton(String positiveText, OnInputPositiveListener listener) {
-            this.positiveText = positiveText;
-            mOnInputPositiveListener = listener;
-            positiveBtnVisible = true;
-            return this;
-        }
-
-        @Override
-        public InputDialogBuilder setNegativeButton(String negativeText, OnInputNegativeListener listener) {
-            this.negativeText = negativeText;
-            mOnInputNegativeListener = listener;
-            negativeBtnVisible = true;
-            return this;
-        }
-
-        @Override
-        protected void initView(LshDialog dialog) {
+        protected View initView(LshDialog dialog) {
             super.initView(dialog);
             // 添加输入框
             final EditText editText = new EditText(dialog.getContext());
@@ -406,64 +408,15 @@ public class LshDialog extends Dialog {
             editText.setLayoutParams(new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             addView(dialog, editText);
-
-            // 是否显示确认取消按钮
-            if (!positiveBtnVisible && !negativeBtnVisible) return;
-            setBtnLayoutVisible();
-            // 设置确认取消按钮文字和点击监听
-            TextView tvPositive = (TextView) dialog.findViewById(R.id.tv_dialog_lsh_positive);
-            TextView tvNegative = (TextView) dialog.findViewById(R.id.tv_dialog_lsh_negative);
-            if (positiveBtnVisible) {
-                if (!isEmpty(positiveText)) {
-                    tvPositive.setText(positiveText);
-                } else {
-                    tvPositive.setText("确认");
-                }
-                tvPositive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mOnInputPositiveListener != null) {
-                            mOnInputPositiveListener.onClick(LshDialog.this, editText.getText().toString());
-                        } else {
-                            LshDialog.this.dismiss();
-                        }
-                    }
-                });
-            } else {
-                tvPositive.setVisibility(View.GONE);
-            }
-            if (negativeBtnVisible) {
-                if (!isEmpty(negativeText)) {
-                    tvNegative.setText(negativeText);
-                } else {
-                    tvNegative.setText("取消");
-                }
-                tvNegative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mOnInputNegativeListener != null) {
-                            mOnInputNegativeListener.onClick(LshDialog.this, editText.getText().toString());
-                        } else {
-                            LshDialog.this.dismiss();
-                        }
-                    }
-                });
-            } else {
-                tvNegative.setVisibility(View.GONE);
-            }
+            return editText;
         }
     }
 
     private interface BaseDialogInterface<T extends BaseDialogBuilder> {
-        T setTitle(String title);
-
         LshDialog show();
     }
 
     private interface BtnDialogInterface<T extends BtnDialogBuilder> {
-        T setPositiveButton(String positiveText, OnPositiveListener listener);
-
-        T setNegativeButton(String negativeText, OnNegativeListener listener);
     }
 
     private interface TextDialogInterface<T extends TextDialogBuilder> extends BtnDialogInterface {
@@ -484,10 +437,6 @@ public class LshDialog extends Dialog {
 
     private interface InputDialogInterface<T extends InputDialogBuilder> extends BaseDialogInterface {
         T setHint(String hint);
-
-        T setPositiveButton(String positiveText, OnInputPositiveListener listener);
-
-        T setNegativeButton(String negativeText, OnInputNegativeListener listener);
     }
 
     public interface OnPositiveListener {

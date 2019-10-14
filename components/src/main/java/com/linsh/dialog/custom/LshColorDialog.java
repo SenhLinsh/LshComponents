@@ -1,4 +1,4 @@
-package com.linsh.dialog;
+package com.linsh.dialog.custom;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -43,6 +43,8 @@ public class LshColorDialog extends Dialog {
     private LshColorDialog.BaseDialogBuilder mBuilder;
     private static int bgColor = 0xFF00809C;
 
+    private View mContentView;
+
     public LshColorDialog(Context context) {
         super(context, R.style.lsh_color_dialog);
         // 去掉标题栏
@@ -54,6 +56,10 @@ public class LshColorDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_dialog_lsh_color);
         mBuilder.initView(this);
+    }
+
+    public View getContentView() {
+        return mContentView;
     }
 
     public LshColorDialog.TextDialogBuilder buildText() {
@@ -124,8 +130,9 @@ public class LshColorDialog extends Dialog {
 
         // 根据子类需要添加不同布局
         protected void addView(LshColorDialog dialog, View childView) {
-            FrameLayout layout = (FrameLayout) dialog.findViewById(R.id.fl_dialog_lsh_color_content);
+            FrameLayout layout = dialog.findViewById(R.id.fl_dialog_lsh_color_content);
             layout.addView(childView);
+            mContentView = childView;
         }
 
         protected FrameLayout getContentView() {
@@ -314,9 +321,8 @@ public class LshColorDialog extends Dialog {
                 }
             }));
 
-            FrameLayout contentView = getContentView();
-            contentView.addView(recyclerView);
-            contentView.setMinimumWidth(Dps.toPx(150));
+            addView(dialog, recyclerView);
+            getContentView().setMinimumWidth(Dps.toPx(150));
         }
 
         @Override
@@ -372,9 +378,8 @@ public class LshColorDialog extends Dialog {
             recyclerView.setAdapter(adapter);
             adapter.setOnItemClickListener(mOnItemClickListener);
 
-            FrameLayout contentView = getContentView();
-            contentView.addView(recyclerView);
-            contentView.setMinimumWidth(Dps.toPx(150));
+            addView(dialog, recyclerView);
+            getContentView().setMinimumWidth(Dps.toPx(150));
         }
 
         @Override

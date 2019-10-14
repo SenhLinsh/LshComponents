@@ -1,4 +1,4 @@
-package com.linsh.dialog;
+package com.linsh.dialog.custom;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
