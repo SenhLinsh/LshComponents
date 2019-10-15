@@ -1,10 +1,6 @@
 package com.linsh.dialog.text;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.linsh.dialog.DefaultDialogHelper;
 import com.linsh.dialog.DialogHelper;
@@ -14,54 +10,16 @@ import com.linsh.dialog.custom.LshDialog;
  * <pre>
  *    author : Senh Linsh
  *    github : https://github.com/SenhLinsh
- *    date   : 2019/10/14
+ *    date   : 2019/10/15
  *    desc   :
  * </pre>
  */
-public class LshColorInputDialogHelperImpl implements InputDialogHelper {
+abstract class LshDialogHelperImpl implements DefaultDialogHelper {
 
-    private final LshDialog dialog;
+    protected final LshDialog dialog;
 
-    public LshColorInputDialogHelperImpl(Context context) {
-        dialog = new LshDialog(context)
-                .buildInput()
-                .show();
-    }
-
-    @Override
-    public InputDialogHelper setText(CharSequence text) {
-        View contentView = dialog.getContentView();
-        if (contentView instanceof EditText) {
-            ((EditText) contentView).setText(text);
-            ((EditText) contentView).setSelection(text.length());
-        }
-        return this;
-    }
-
-    @Override
-    public CharSequence getText() {
-        View contentView = dialog.getContentView();
-        if (contentView instanceof TextView) {
-            return ((TextView) contentView).getText();
-        }
-        return null;
-    }
-
-    @Override
-    public Dialog getDialog() {
-        return dialog;
-    }
-
-    @Override
-    public DialogHelper show() {
-        dialog.show();
-        return this;
-    }
-
-    @Override
-    public DialogHelper dismiss() {
-        dialog.dismiss();
-        return this;
+    public LshDialogHelperImpl(LshDialog.BaseDialogInterface lshDialog) {
+        dialog = lshDialog.getDialog();
     }
 
     @Override
@@ -77,7 +35,7 @@ public class LshColorInputDialogHelperImpl implements InputDialogHelper {
     }
 
     @Override
-    public DefaultDialogHelper setPositiveButton(final OnClickListener listener) {
+    public DefaultDialogHelper setPositiveButton(OnClickListener listener) {
         setPositiveButton(listener == null ? null : "确定", listener);
         return this;
     }
@@ -91,7 +49,7 @@ public class LshColorInputDialogHelperImpl implements InputDialogHelper {
                     listener == null ? null : new LshDialog.OnPositiveListener() {
                         @Override
                         public void onClick(LshDialog dialog) {
-                            listener.onClick(LshColorInputDialogHelperImpl.this);
+                            listener.onClick(LshDialogHelperImpl.this);
                         }
                     });
         }
@@ -119,10 +77,27 @@ public class LshColorInputDialogHelperImpl implements InputDialogHelper {
                     listener == null ? null : new LshDialog.OnNegativeListener() {
                         @Override
                         public void onClick(LshDialog dialog) {
-                            listener.onClick(LshColorInputDialogHelperImpl.this);
+                            listener.onClick(LshDialogHelperImpl.this);
                         }
                     });
         }
+        return this;
+    }
+
+    @Override
+    public Dialog getDialog() {
+        return dialog;
+    }
+
+    @Override
+    public DialogHelper show() {
+        dialog.show();
+        return this;
+    }
+
+    @Override
+    public DialogHelper dismiss() {
+        dialog.dismiss();
         return this;
     }
 }

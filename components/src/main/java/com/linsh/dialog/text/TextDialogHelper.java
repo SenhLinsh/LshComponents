@@ -11,5 +11,8 @@ import com.linsh.dialog.DefaultDialogHelper;
  * </pre>
  */
 public interface TextDialogHelper extends DefaultDialogHelper {
-    void setText(CharSequence text);
+
+    TextDialogHelper setText(CharSequence text);
+
+    CharSequence getText();
 }

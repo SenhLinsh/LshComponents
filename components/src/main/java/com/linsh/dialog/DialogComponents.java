@@ -2,8 +2,8 @@ package com.linsh.dialog;
 
 import android.content.Context;
 
-import com.linsh.dialog.text.LshColorInputDialogHelperImpl;
-import com.linsh.dialog.text.LshColorTextDialogHelperImpl;
+import com.linsh.dialog.text.LshInputDialogHelperImpl;
+import com.linsh.dialog.text.LshTextDialogHelperImpl;
 import com.linsh.utilseverywhere.ClassUtils;
 
 import java.util.HashMap;
@@ -25,8 +25,8 @@ public class DialogComponents {
 
     static {
         register(
-                LshColorInputDialogHelperImpl.class,
-                LshColorTextDialogHelperImpl.class
+                LshInputDialogHelperImpl.class,
+                LshTextDialogHelperImpl.class
         );
     }
 

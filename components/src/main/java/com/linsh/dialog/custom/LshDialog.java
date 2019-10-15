@@ -175,11 +175,15 @@ public class LshDialog extends Dialog {
         }
     }
 
-    private abstract class BaseDialogBuilder<T extends BaseDialogBuilder> implements BaseDialogInterface {
+    public abstract class BaseDialogBuilder<T extends BaseDialogBuilder> implements BaseDialogInterface {
 
         @Override
         public LshDialog show() {
             LshDialog.this.show();
+            return LshDialog.this;
+        }
+
+        public LshDialog getDialog() {
             return LshDialog.this;
         }
 
@@ -412,7 +416,8 @@ public class LshDialog extends Dialog {
         }
     }
 
-    private interface BaseDialogInterface<T extends BaseDialogBuilder> {
+    public interface BaseDialogInterface<T extends BaseDialogBuilder> {
+        LshDialog getDialog();
         LshDialog show();
     }
 
