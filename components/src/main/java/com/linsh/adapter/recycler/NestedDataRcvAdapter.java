@@ -39,10 +39,24 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends ViewH
         items.clear();
         if (data != null) {
             for (int i = 0; i < data.size(); i++) {
-                items.add(new NestedItem(new int[]{i}));
+                int[] positions = {i};
+                items.add(new NestedItem(positions));
+                checkOpen(data.get(i), positions);
             }
         }
         notifyDataSetChanged();
+    }
+
+    private void checkOpen(NestedInfo t, int[] positions) {
+        if (!t.isOpened()) return;
+        List<? extends NestedInfo> children = t.getChildren();
+        for (int i = 0; i < children.size(); i++) {
+            int[] childPositions = Arrays.copyOf(positions, positions.length + 1);
+            childPositions[childPositions.length - 1] = i;
+            items.add(new NestedItem(childPositions));
+            NestedInfo child = children.get(i);
+            checkOpen(child, childPositions);
+        }
     }
 
     public List<T> getData() {
@@ -135,7 +149,7 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends ViewH
             t.setOpened(!t.isOpened());
             if (t.isOpened()) {
                 List<? extends NestedInfo> children = t.getChildren();
-                for (int i = 0; i < children.size(); i++) {
+                for (int i = children.size() - 1; i >= 0; i--) {
                     int[] positions = items.get(position).position;
                     positions = Arrays.copyOf(positions, positions.length + 1);
                     positions[positions.length - 1] = i;
