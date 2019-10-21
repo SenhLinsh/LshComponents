@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -35,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class LshDialog extends Dialog {
 
+    private final View rootLayout;
     private BaseDialogBuilder mBuilder;
     private View mContentView;
     private boolean isCreated;
@@ -51,39 +53,45 @@ public class LshDialog extends Dialog {
         super(context);
         // 去掉标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        rootLayout = LayoutInflater.from(context).inflate(R.layout.dialog_lsh, null);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(dp2px(250), ViewGroup.LayoutParams.WRAP_CONTENT);
+        rootLayout.setLayoutParams(params);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_lsh);
+        setContentView(rootLayout);
         isCreated = true;
         setTitle(title);
         layoutButtons();
-        mContentView = mBuilder.initView(this);
     }
 
     public TextDialogBuilder buildText() {
         TextDialogBuilder textDialogBuilder = new TextDialogBuilder();
         mBuilder = textDialogBuilder;
+        mContentView = mBuilder.initView(this);
         return textDialogBuilder;
     }
 
     public ListDialogBuilder buildList() {
         ListDialogBuilder listDialogBuilder = new ListDialogBuilder();
         mBuilder = listDialogBuilder;
+        mContentView = mBuilder.initView(this);
         return listDialogBuilder;
     }
 
     public SelectDialogBuilder buildSelect() {
         SelectDialogBuilder selectDialogBuilder = new SelectDialogBuilder();
         mBuilder = selectDialogBuilder;
+        mContentView = mBuilder.initView(this);
         return selectDialogBuilder;
     }
 
     public InputDialogBuilder buildInput() {
         InputDialogBuilder inputDialogBuilder = new InputDialogBuilder();
         mBuilder = inputDialogBuilder;
+        mContentView = mBuilder.initView(this);
         return inputDialogBuilder;
     }
 
@@ -95,7 +103,7 @@ public class LshDialog extends Dialog {
         this.title = title;
         if (isCreated) {
             // 设置标题
-            TextView tvTitle = findViewById(R.id.tv_dialog_lsh_title);
+            TextView tvTitle = rootLayout.findViewById(R.id.tv_dialog_lsh_title);
             if (isEmpty(title)) {
                 tvTitle.setVisibility(View.GONE);
             } else {
@@ -125,14 +133,14 @@ public class LshDialog extends Dialog {
         if (!isCreated) return;
         // 判断是否需要确认取消按钮
         if (!positiveBtnVisible && !negativeBtnVisible) {
-            findViewById(R.id.ll_dialog_lsh_btn_layout).setVisibility(View.GONE);
+            rootLayout.findViewById(R.id.ll_dialog_lsh_btn_layout).setVisibility(View.GONE);
             return;
         }
         // 设置确认取消按钮可见
-        findViewById(R.id.ll_dialog_lsh_btn_layout).setVisibility(View.VISIBLE);
+        rootLayout.findViewById(R.id.ll_dialog_lsh_btn_layout).setVisibility(View.VISIBLE);
         // 设置确认取消按钮
-        TextView tvPositive = (TextView) findViewById(R.id.tv_dialog_lsh_positive);
-        TextView tvNegative = (TextView) findViewById(R.id.tv_dialog_lsh_negative);
+        TextView tvPositive = (TextView) rootLayout.findViewById(R.id.tv_dialog_lsh_positive);
+        TextView tvNegative = (TextView) rootLayout.findViewById(R.id.tv_dialog_lsh_negative);
         if (positiveBtnVisible) {
             tvPositive.setVisibility(View.VISIBLE);
             if (!isEmpty(positiveText)) {
@@ -193,13 +201,13 @@ public class LshDialog extends Dialog {
 
         // 根据子类需要添加不同布局
         protected void addView(LshDialog dialog, View childView) {
-            FrameLayout layout = (FrameLayout) dialog.findViewById(R.id.fl_dialog_lsh_content);
+            FrameLayout layout = (FrameLayout) rootLayout.findViewById(R.id.fl_dialog_lsh_content);
             layout.addView(childView);
         }
 
         // 设置窗口宽度占屏幕短边的百分比
         protected void setDialogWidth(LshDialog dialog, float shortSidePercent) {
-            ViewGroup rootView = (ViewGroup) dialog.findViewById(R.id.ll_dialog_lsh_root);
+            ViewGroup rootView = (ViewGroup) rootLayout.findViewById(R.id.ll_dialog_lsh_root);
             ViewGroup.LayoutParams layoutParams = rootView.getLayoutParams();
             layoutParams.width = (int) (getScreenShortSide() * shortSidePercent);
         }
@@ -418,6 +426,7 @@ public class LshDialog extends Dialog {
 
     public interface BaseDialogInterface<T extends BaseDialogBuilder> {
         LshDialog getDialog();
+
         LshDialog show();
     }
 
