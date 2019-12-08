@@ -60,6 +60,10 @@ public abstract class SingleItemTypeRcvAdapter<T, V extends ViewHelper>
         notifyDataSetChanged();
     }
 
+    public List<T> getData() {
+        return data;
+    }
+
     static class ViewHolder<V extends ViewHelper> extends RecyclerView.ViewHolder {
 
         private V viewHelper;
@@ -76,19 +80,21 @@ public abstract class SingleItemTypeRcvAdapter<T, V extends ViewHelper>
         if (tag instanceof SingleItemTypeRcvAdapter.ViewHolder) {
             SingleItemTypeRcvAdapter.ViewHolder<V> holder = (SingleItemTypeRcvAdapter.ViewHolder) tag;
             V viewHelper = holder.viewHelper;
-            if (mOnItemClickListener != null)
-                mOnItemClickListener.onItemClick(viewHelper, holder.getAdapterPosition());
+            if (mOnItemClickListener != null) {
+                int position = holder.getAdapterPosition();
+                mOnItemClickListener.onItemClick(viewHelper, data.get(position), position);
+            }
         }
     }
 
-    private SingleItemTypeRcvAdapter.OnItemClickListener<V> mOnItemClickListener;
+    private SingleItemTypeRcvAdapter.OnItemClickListener<T, V> mOnItemClickListener;
 
-    public void setOnItemClickListener(SingleItemTypeRcvAdapter.OnItemClickListener<V> listener) {
+    public void setOnItemClickListener(SingleItemTypeRcvAdapter.OnItemClickListener<T, V> listener) {
         mOnItemClickListener = listener;
     }
 
-    public interface OnItemClickListener<V extends ViewHelper> {
-        void onItemClick(V viewHelper, int position);
+    public interface OnItemClickListener<T, V extends ViewHelper> {
+        void onItemClick(V viewHelper, T item, int position);
     }
 
     @Override
@@ -98,20 +104,21 @@ public abstract class SingleItemTypeRcvAdapter<T, V extends ViewHelper>
             SingleItemTypeRcvAdapter.ViewHolder<V> holder = (SingleItemTypeRcvAdapter.ViewHolder) tag;
             V viewHelper = holder.viewHelper;
             if (mOnItemLongClickListener != null) {
-                mOnItemLongClickListener.onItemLongClick(viewHelper, holder.getAdapterPosition());
+                int position = holder.getAdapterPosition();
+                mOnItemLongClickListener.onItemLongClick(viewHelper, data.get(position), position);
                 return true;
             }
         }
         return false;
     }
 
-    private SingleItemTypeRcvAdapter.OnItemLongClickListener<V> mOnItemLongClickListener;
+    private SingleItemTypeRcvAdapter.OnItemLongClickListener<T, V> mOnItemLongClickListener;
 
-    public void setOnItemLongClickListener(SingleItemTypeRcvAdapter.OnItemLongClickListener<V> listener) {
+    public void setOnItemLongClickListener(SingleItemTypeRcvAdapter.OnItemLongClickListener<T, V> listener) {
         mOnItemLongClickListener = listener;
     }
 
-    public interface OnItemLongClickListener<V extends ViewHelper> {
-        void onItemLongClick(V viewHelper, int position);
+    public interface OnItemLongClickListener<T, V extends ViewHelper> {
+        void onItemLongClick(V viewHelper, T item, int position);
     }
 }
