@@ -48,7 +48,7 @@ public abstract class SingleItemTypeRcvAdapter<T, V extends ViewHelper>
         onBindViewHelper(viewHelper, data == null ? null : data.get(position), position);
     }
 
-    public abstract void onBindViewHelper(V viewHelper, T data, int position);
+    public abstract void onBindViewHelper(V viewHelper, T item, int position);
 
     @Override
     public int getItemCount() {

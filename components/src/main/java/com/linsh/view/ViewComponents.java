@@ -3,6 +3,7 @@ package com.linsh.view;
 import android.content.Context;
 
 import com.linsh.utilseverywhere.ClassUtils;
+import com.linsh.view.item.DefaultButtonItemHelperImpl;
 import com.linsh.view.item.NormalTextItemHelperImpl;
 
 import java.util.HashMap;
@@ -24,7 +25,8 @@ public class ViewComponents {
 
     static {
         register(
-                NormalTextItemHelperImpl.class
+                NormalTextItemHelperImpl.class,
+                DefaultButtonItemHelperImpl.class
         );
     }
 
