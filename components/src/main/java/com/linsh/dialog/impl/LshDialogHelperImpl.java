@@ -1,4 +1,4 @@
-package com.linsh.dialog.text;
+package com.linsh.dialog.impl;
 
 import android.app.Dialog;
 

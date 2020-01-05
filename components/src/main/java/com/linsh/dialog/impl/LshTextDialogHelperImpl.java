@@ -1,11 +1,11 @@
-package com.linsh.dialog.text;
+package com.linsh.dialog.impl;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.linsh.dialog.custom.LshDialog;
+import com.linsh.dialog.text.TextDialogHelper;
 
 /**
  * <pre>
@@ -15,18 +15,17 @@ import com.linsh.dialog.custom.LshDialog;
  *    desc   :
  * </pre>
  */
-public class LshInputDialogHelperImpl extends LshDialogHelperImpl implements InputDialogHelper {
+public class LshTextDialogHelperImpl extends LshDialogHelperImpl implements TextDialogHelper {
 
-    public LshInputDialogHelperImpl(Context context) {
-        super(new LshDialog(context).buildInput());
+    public LshTextDialogHelperImpl(Context context) {
+        super(new LshDialog(context).buildText());
     }
 
     @Override
-    public InputDialogHelper setText(CharSequence text) {
+    public TextDialogHelper setText(CharSequence text) {
         View contentView = dialog.getContentView();
-        if (contentView instanceof EditText) {
-            ((EditText) contentView).setText(text);
-            ((EditText) contentView).setSelection(text.length());
+        if (contentView instanceof TextView) {
+            ((TextView) contentView).setText(text);
         }
         return this;
     }

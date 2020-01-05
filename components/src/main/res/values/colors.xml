@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="dark_grey">#191a1c</color>
+
+    <color name="components_text_title">#2F2F2F</color>
+    <color name="components_text_detail">#999DA0</color>
+    <color name="components_text_button">#5C6A84</color>
+    <color name="components_line_whitebg">#D9D9D9</color>
+    <color name="components_line_blackbg">#161A1D</color>
+    <color name="components_bg_title">#373B3E</color>
+    <color name="components_bg_white">#FFFFFF</color>
+    <color name="components_bg_normal_white">#F6F6F6</color>
+    <color name="components_bg_nothing">#EBEBEB</color>
+    <color name="components_bg_green_select">#43C118</color>
+    <color name="components_bg_green_bt_normal">#43C118</color>
+    <color name="components_bg_green_bt_pressed">#298409</color>
+    <color name="components_white">#FFF</color>
 </resources>
