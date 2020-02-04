@@ -82,6 +82,18 @@ public class ManagerItemActivityStarterImpl extends DefaultActivityStarterImpl i
                     return getPresenter().getDisplayText(item, position);
                 }
             };
+            adapter.setOnItemClickListener(new SingleItemTypeRcvAdapterEx.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    getPresenter().onItemClick(adapter.getData().get(position), position);
+                }
+            });
+            adapter.setOnItemLongClickListener(new SingleItemTypeRcvAdapterEx.OnItemLongClickListener() {
+                @Override
+                public void onItemLongClick(android.view.View view, int position) {
+                    getPresenter().onItemLongClick(adapter.getData().get(position), position);
+                }
+            });
             recyclerView.setAdapter(adapter);
 
             ItemDragHelperEx itemDragHelper = new ItemDragHelperEx(new ItemDragHelperEx.IItemDragCallback() {
@@ -144,7 +156,7 @@ public class ManagerItemActivityStarterImpl extends DefaultActivityStarterImpl i
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
             menu.add("保存").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            return true;
+            return false;
         }
 
         @Override
