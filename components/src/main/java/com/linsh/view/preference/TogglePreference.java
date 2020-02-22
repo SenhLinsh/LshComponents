@@ -41,7 +41,7 @@ public class TogglePreference extends Preference<TogglePreference.ToggleView> im
     @Override
     protected ToggleView initDetailHelper() {
         ToggleView detail = new ToggleView(getContext());
-        detail.setToggleImage(R.drawable.ic_toggle_open, R.drawable.ic_toggle_close);
+        detail.setToggleImage(R.drawable.ic_components_toggle_open, R.drawable.ic_components_toggle_close);
         return detail;
     }
 

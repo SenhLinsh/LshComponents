@@ -107,7 +107,7 @@ public class AlbumSelectView extends BaseAlbumView<Image> implements AdapterView
     protected void setView(Image image, ViewHolder viewHolder, int position) {
         if (mSelectArray != null && mSelectArray[position]) {
             viewHolder.vMask.setVisibility(View.VISIBLE);
-            viewHolder.vMask.setBackgroundResource(R.drawable.ic_done_white);
+            viewHolder.vMask.setBackgroundResource(R.drawable.ic_components_done_white);
         } else if (viewHolder.vMask.getVisibility() != View.GONE) {
             viewHolder.vMask.setVisibility(View.GONE);
             viewHolder.vMask.setBackgroundColor(Color.TRANSPARENT);

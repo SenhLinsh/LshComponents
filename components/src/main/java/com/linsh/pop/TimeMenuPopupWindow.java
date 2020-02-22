@@ -255,7 +255,7 @@ public class TimeMenuPopupWindow extends PopupWindow {
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layout.setLayoutParams(params);
 
-        layout.setBackgroundResource(R.drawable.menu_shadow_bg); // 气泡阴影距边框: 7 1 7 9 dp
+        layout.setBackgroundResource(R.drawable.ic_components_menu_shadow_bg); // 气泡阴影距边框: 7 1 7 9 dp
         layout.setOrientation(LinearLayout.VERTICAL);
 
         GradientDrawable divider = new GradientDrawable();
@@ -276,7 +276,7 @@ public class TimeMenuPopupWindow extends PopupWindow {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         scrollView.setLayoutParams(params);
-        scrollView.setBackgroundResource(R.drawable.menu_shadow_bg); // 气泡阴影距边框: 7 1 7 9 dp
+        scrollView.setBackgroundResource(R.drawable.ic_components_menu_shadow_bg); // 气泡阴影距边框: 7 1 7 9 dp
 
 
         LinearLayout layout = new LinearLayout(context);

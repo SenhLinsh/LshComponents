@@ -13,6 +13,7 @@ import com.linsh.base.LshImage;
 import com.linsh.base.activity.ActivitySubscribe;
 import com.linsh.lshutils.adapter.ViewPagerAdapterEx;
 import com.linsh.utilseverywhere.SystemUtils;
+import com.linsh.views.R;
 
 import java.io.File;
 import java.util.Arrays;
@@ -118,11 +119,11 @@ class PhotoViewActivityFutureImpl extends DefaultActivityFutureImpl implements P
             photoView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             Object obj = getData().get(position);
             if (obj instanceof String) {
-                LshImage.with((String) obj).load(photoView);
+                LshImage.with((String) obj).error(R.drawable.ic_components_error_image).load(photoView);
             } else if (obj instanceof Integer) {
-                LshImage.with((Integer) obj).load(photoView);
+                LshImage.with((Integer) obj).error(R.drawable.ic_components_error_image).load(photoView);
             } else if (obj instanceof File) {
-                LshImage.with((File) obj).load(photoView);
+                LshImage.with((File) obj).error(R.drawable.ic_components_error_image).load(photoView);
             }
             return photoView;
         }
