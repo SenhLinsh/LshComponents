@@ -2,8 +2,7 @@ package com.linsh.activity;
 
 import android.content.Context;
 
-import com.linsh.activity.impl.ManagerItemActivityStarterImpl;
-import com.linsh.activity.impl.PhotoViewActivityStarterImpl;
+import com.linsh.activity.impl.Register;
 import com.linsh.utilseverywhere.ClassUtils;
 
 import java.util.HashMap;
@@ -21,30 +20,27 @@ import androidx.annotation.NonNull;
  */
 public class ActivityComponents {
 
-    private static final Map<Class<? extends ActivityStarter>, Class<? extends ActivityStarter>> IMPLEMENTS = new HashMap<>();
+    private static final Map<Class<? extends ActivityFuture>, Class<? extends ActivityFuture>> IMPLEMENTS = new HashMap<>();
 
     static {
-        register(
-                ManagerItemActivityStarterImpl.class,
-                PhotoViewActivityStarterImpl.class
-        );
+        Register.init();
     }
 
     @NonNull
-    public static <T extends ActivityStarter> T create(final Context context, Class<T> activityHelper) {
+    public static <T extends ActivityFuture> T create(final Context context, Class<T> activityHelper) {
         if (!activityHelper.isInterface())
             throw new IllegalArgumentException("activityHelper must be interface");
-        Class<? extends ActivityStarter> clazz = IMPLEMENTS.get(activityHelper);
+        Class<? extends ActivityFuture> clazz = IMPLEMENTS.get(activityHelper);
         try {
-            Object instance = ClassUtils.newInstance(clazz, new Class[]{Context.class}, new Object[]{context});
+            Object instance = ClassUtils.newInstance(clazz, new Class[]{Context.class}, new Object[]{context}, true);
             return (T) instance;
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
     }
 
-    public static void register(Class<? extends ActivityStarter>... classes) {
-        for (Class<? extends ActivityStarter> clazz : classes) {
+    public static void register(Class<? extends ActivityFuture>... classes) {
+        for (Class<? extends ActivityFuture> clazz : classes) {
             if (clazz.isInterface()) {
                 throw new IllegalArgumentException("can not register interface");
             }
@@ -52,10 +48,10 @@ public class ActivityComponents {
             if (interfaces != null) {
                 for (Class<?> interfaceClass : interfaces) {
                     while (interfaceClass != null
-                            && interfaceClass != ActivityStarter.class
+                            && interfaceClass != ActivityFuture.class
                             && interfaceClass != Object.class
-                            && ActivityStarter.class.isAssignableFrom(interfaceClass)) {
-                        IMPLEMENTS.put((Class<? extends ActivityStarter>) interfaceClass, clazz);
+                            && ActivityFuture.class.isAssignableFrom(interfaceClass)) {
+                        IMPLEMENTS.put((Class<? extends ActivityFuture>) interfaceClass, clazz);
                         interfaceClass = interfaceClass.getSuperclass();
                     }
                 }

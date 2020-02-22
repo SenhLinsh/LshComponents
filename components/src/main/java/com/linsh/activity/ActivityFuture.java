@@ -10,7 +10,8 @@ import com.linsh.base.activity.IntentDelegate;
  *    desc   :
  * </pre>
  */
-public interface ActivityStarter {
+public interface ActivityFuture {
+
     IntentDelegate intent();
 
     void start();

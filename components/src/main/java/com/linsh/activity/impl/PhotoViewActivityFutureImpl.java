@@ -8,15 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.chrisbanes.photoview.PhotoView;
-import com.linsh.activity.PhotoViewActivityStarter;
+import com.linsh.activity.PhotoViewActivityFuture;
 import com.linsh.base.LshImage;
 import com.linsh.base.activity.ActivitySubscribe;
 import com.linsh.lshutils.adapter.ViewPagerAdapterEx;
+import com.linsh.utilseverywhere.SystemUtils;
 
 import java.io.File;
 import java.util.Arrays;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 /**
@@ -27,36 +30,36 @@ import androidx.viewpager.widget.ViewPager;
  *    desc   :
  * </pre>
  */
-public class PhotoViewActivityStarterImpl extends DefaultActivityStarterImpl implements PhotoViewActivityStarter {
+class PhotoViewActivityFutureImpl extends DefaultActivityFutureImpl implements PhotoViewActivityFuture {
 
     public static final String EXTRA_PHOTOS = "photos";
     public static final String EXTRA_DISPLAY_ITEM_INDEX = "display_item_index";
 
-    public PhotoViewActivityStarterImpl(Context context) {
+    public PhotoViewActivityFutureImpl(Context context) {
         super(context);
         getIntent().subscribe(PhotoViewActivitySubscriber.class);
     }
 
     @Override
-    public PhotoViewActivityStarter setPhotos(String... urls) {
+    public PhotoViewActivityFuture setPhotos(String... urls) {
         getIntent().getIntent().putExtra(EXTRA_PHOTOS, urls);
         return this;
     }
 
     @Override
-    public PhotoViewActivityStarter setPhotos(Integer... resources) {
+    public PhotoViewActivityFuture setPhotos(Integer... resources) {
         getIntent().getIntent().putExtra(EXTRA_PHOTOS, resources);
         return this;
     }
 
     @Override
-    public PhotoViewActivityStarter setPhotos(File... files) {
+    public PhotoViewActivityFuture setPhotos(File... files) {
         getIntent().getIntent().putExtra(EXTRA_PHOTOS, files);
         return this;
     }
 
     @Override
-    public PhotoViewActivityStarter setDisplayItemIndex(int index) {
+    public PhotoViewActivityFuture setDisplayItemIndex(int index) {
         getIntent().putExtra(EXTRA_DISPLAY_ITEM_INDEX, index);
         return this;
     }
@@ -76,6 +79,14 @@ public class PhotoViewActivityStarterImpl extends DefaultActivityStarterImpl imp
             viewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             viewPager.setBackgroundColor(Color.BLACK);
             activity.setContentView(viewPager);
+
+            if (activity instanceof AppCompatActivity) {
+                ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.hide();
+                }
+            }
+            SystemUtils.setTranslucentStatusBar(activity, Color.BLACK);
 
             PhotoViewAdapter adapter = new PhotoViewAdapter();
             viewPager.setAdapter(adapter);

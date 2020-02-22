@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.linsh.activity.ManagerItemActivityStarter;
+import com.linsh.activity.ManagerItemActivityFuture;
 import com.linsh.base.activity.ActivitySubscribe;
 import com.linsh.base.activity.Contract;
 import com.linsh.lshutils.adapter.SingleItemTypeRcvAdapterEx;
@@ -31,26 +31,26 @@ import androidx.recyclerview.widget.RecyclerView;
  *    desc   :
  * </pre>
  */
-public class ManagerItemActivityStarterImpl extends DefaultActivityStarterImpl implements ManagerItemActivityStarter {
+class ManagerItemActivityFutureImpl extends DefaultActivityFutureImpl implements ManagerItemActivityFuture {
 
-    public ManagerItemActivityStarterImpl(Context context) {
+    public ManagerItemActivityFutureImpl(Context context) {
         super(context);
         setViewInstance(ManagerItemView.class);
     }
 
     @Override
-    public ManagerItemActivityStarter setTitle(String title) {
+    public ManagerItemActivityFuture setTitle(String title) {
         getIntent().putExtra("title", title);
         return this;
     }
 
     @Override
-    public ManagerItemActivityStarter setPresenter(Class<? extends ManagerItemActivityStarter.Presenter> presenter) {
+    public ManagerItemActivityFuture setPresenter(Class<? extends ManagerItemActivityFuture.Presenter> presenter) {
         getIntent().presenter(presenter);
         return this;
     }
 
-    private static class ManagerItemView implements ManagerItemActivityStarter.View, ActivitySubscribe.OnCreate,
+    private static class ManagerItemView implements ManagerItemActivityFuture.View, ActivitySubscribe.OnCreate,
             ActivitySubscribe.OnCreateOptionsMenu, ActivitySubscribe.OnOptionsItemSelected {
 
         private ComponentActivity activity;

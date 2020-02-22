@@ -12,11 +12,11 @@ import java.util.List;
  *    desc   :
  * </pre>
  */
-public interface ManagerItemActivityStarter extends ActivityStarter {
+public interface ManagerItemActivityFuture extends ActivityFuture {
 
-    ManagerItemActivityStarter setTitle(String title);
+    ManagerItemActivityFuture setTitle(String title);
 
-    ManagerItemActivityStarter setPresenter(Class<? extends Presenter> presenter);
+    ManagerItemActivityFuture setPresenter(Class<? extends Presenter> presenter);
 
     interface Presenter extends Contract.Presenter<View> {
         boolean isItemViewSwipeEnabled();

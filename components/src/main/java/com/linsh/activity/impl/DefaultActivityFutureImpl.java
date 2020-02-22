@@ -2,7 +2,7 @@ package com.linsh.activity.impl;
 
 import android.content.Context;
 
-import com.linsh.activity.ActivityStarter;
+import com.linsh.activity.ActivityFuture;
 import com.linsh.base.LshActivity;
 import com.linsh.base.activity.Contract;
 import com.linsh.base.activity.IntentDelegate;
@@ -15,12 +15,12 @@ import com.linsh.base.activity.IntentDelegate;
  *    desc   :
  * </pre>
  */
-abstract class DefaultActivityStarterImpl implements ActivityStarter {
+abstract class DefaultActivityFutureImpl implements ActivityFuture {
 
     private final Context context;
     private final IntentDelegate intent;
 
-    public DefaultActivityStarterImpl(Context context) {
+    public DefaultActivityFutureImpl(Context context) {
         this.context = context;
         this.intent = LshActivity.intent(ComponentActivity.class);
     }
