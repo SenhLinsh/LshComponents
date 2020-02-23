@@ -1,9 +1,11 @@
-package com.linsh.view.item;
+package com.linsh.view.impl;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.linsh.view.item.IButtonItemView;
 
 import androidx.annotation.NonNull;
 
@@ -15,11 +17,11 @@ import androidx.annotation.NonNull;
  *    desc   :
  * </pre>
  */
-public class DefaultButtonItemHelperImpl implements ButtonItemHelper {
+class IDefaultButtonItemViewImpl implements IButtonItemView {
 
     private final Button button;
 
-    public DefaultButtonItemHelperImpl(Context context) {
+    public IDefaultButtonItemViewImpl(Context context) {
         button = new Button(context);
         button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }

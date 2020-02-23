@@ -8,5 +8,5 @@ package com.linsh.view.item;
  *    desc   :
  * </pre>
  */
-public interface ButtonItemHelper extends TextItemHelper {
+public interface IButtonItemView extends ITextItemView {
 }

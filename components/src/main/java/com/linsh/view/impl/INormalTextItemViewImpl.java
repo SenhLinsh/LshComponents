@@ -1,4 +1,4 @@
-package com.linsh.view.item;
+package com.linsh.view.impl;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.linsh.utilseverywhere.ResourceUtils;
+import com.linsh.view.item.ITextItemView;
 import com.linsh.views.R;
 
 import androidx.annotation.NonNull;
@@ -19,11 +20,11 @@ import androidx.annotation.NonNull;
  *    desc   :
  * </pre>
  */
-public class NormalTextItemHelperImpl implements TextItemHelper {
+class INormalTextItemViewImpl implements ITextItemView {
 
     private final TextView textView;
 
-    public NormalTextItemHelperImpl(Context context) {
+    public INormalTextItemViewImpl(Context context) {
         textView = new TextView(context);
         textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         int padding = ResourceUtils.getDimens(R.dimen.lsh_item_padding);

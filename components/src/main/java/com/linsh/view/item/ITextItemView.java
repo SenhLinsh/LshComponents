@@ -1,6 +1,6 @@
 package com.linsh.view.item;
 
-import com.linsh.view.ViewHelper;
+import com.linsh.view.IView;
 
 /**
  * <pre>
@@ -10,6 +10,6 @@ import com.linsh.view.ViewHelper;
  *    desc   :
  * </pre>
  */
-public interface TextItemHelper extends ViewHelper {
+public interface ITextItemView extends IView {
     void setText(CharSequence text);
 }

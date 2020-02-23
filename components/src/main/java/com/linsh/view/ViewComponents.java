@@ -3,8 +3,7 @@ package com.linsh.view;
 import android.content.Context;
 
 import com.linsh.utilseverywhere.ClassUtils;
-import com.linsh.view.item.DefaultButtonItemHelperImpl;
-import com.linsh.view.item.NormalTextItemHelperImpl;
+import com.linsh.view.impl.Register;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,20 +20,17 @@ import androidx.annotation.NonNull;
  */
 public class ViewComponents {
 
-    private static final Map<Class<? extends ViewHelper>, Class<? extends ViewHelper>> IMPLEMENTS = new HashMap<>();
+    private static final Map<Class<? extends IView>, Class<? extends IView>> IMPLEMENTS = new HashMap<>();
 
     static {
-        register(
-                NormalTextItemHelperImpl.class,
-                DefaultButtonItemHelperImpl.class
-        );
+        Register.init();
     }
 
     @NonNull
-    public static <T extends ViewHelper> T create(final Context context, Class<T> viewHelper) {
+    public static <T extends IView> T create(final Context context, Class<T> viewHelper) {
         if (!viewHelper.isInterface())
             throw new IllegalArgumentException("viewHelper must be interface");
-        Class<? extends ViewHelper> clazz = IMPLEMENTS.get(viewHelper);
+        Class<? extends IView> clazz = IMPLEMENTS.get(viewHelper);
         try {
             Object instance = ClassUtils.newInstance(clazz, new Class[]{Context.class}, new Object[]{context});
             return (T) instance;
@@ -43,8 +39,8 @@ public class ViewComponents {
         }
     }
 
-    public static void register(Class<? extends ViewHelper>... classes) {
-        for (Class<? extends ViewHelper> clazz : classes) {
+    public static void register(Class<? extends IView>... classes) {
+        for (Class<? extends IView> clazz : classes) {
             if (clazz.isInterface()) {
                 throw new IllegalArgumentException("can not register interface");
             }
@@ -52,10 +48,10 @@ public class ViewComponents {
             if (interfaces != null) {
                 for (Class<?> interfaceClass : interfaces) {
                     while (interfaceClass != null
-                            && interfaceClass != ViewHelper.class
+                            && interfaceClass != IView.class
                             && interfaceClass != Object.class
-                            && ViewHelper.class.isAssignableFrom(interfaceClass)) {
-                        IMPLEMENTS.put((Class<? extends ViewHelper>) interfaceClass, clazz);
+                            && IView.class.isAssignableFrom(interfaceClass)) {
+                        IMPLEMENTS.put((Class<? extends IView>) interfaceClass, clazz);
                         interfaceClass = interfaceClass.getSuperclass();
                     }
                 }

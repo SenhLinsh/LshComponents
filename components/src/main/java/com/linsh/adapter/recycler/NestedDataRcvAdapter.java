@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.linsh.bean.NestedInfo;
 import com.linsh.utilseverywhere.ClassUtils;
 import com.linsh.view.ViewComponents;
-import com.linsh.view.ViewHelper;
+import com.linsh.view.IView;
 import com.linsh.views.R;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
  *    desc   :
  * </pre>
  */
-public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends ViewHelper, C extends ViewHelper>
+public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends IView, C extends IView>
         extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements View.OnClickListener, View.OnLongClickListener {
 
@@ -178,7 +178,7 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends ViewH
     }
 
     public interface OnItemClickListener {
-        void onItemClick(ViewHelper viewHelper, NestedInfo data, int[] position);
+        void onItemClick(IView viewHelper, NestedInfo data, int[] position);
     }
 
     @Override
@@ -213,7 +213,7 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends ViewH
     }
 
     public interface OnItemLongClickListener {
-        void onItemLongClick(ViewHelper viewHelper, NestedInfo data, int[] position);
+        void onItemLongClick(IView viewHelper, NestedInfo data, int[] position);
     }
 
     private class ParentViewHolder extends RecyclerView.ViewHolder {

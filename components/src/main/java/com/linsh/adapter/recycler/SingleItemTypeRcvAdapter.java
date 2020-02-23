@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import com.linsh.utilseverywhere.ClassUtils;
 import com.linsh.view.ViewComponents;
-import com.linsh.view.ViewHelper;
+import com.linsh.view.IView;
 import com.linsh.views.R;
 
 import java.lang.reflect.Type;
@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
  *    desc   :
  * </pre>
  */
-public abstract class SingleItemTypeRcvAdapter<T, V extends ViewHelper>
+public abstract class SingleItemTypeRcvAdapter<T, V extends IView>
         extends RecyclerView.Adapter<SingleItemTypeRcvAdapter.ViewHolder<V>>
         implements View.OnClickListener, View.OnLongClickListener {
 
@@ -64,7 +64,7 @@ public abstract class SingleItemTypeRcvAdapter<T, V extends ViewHelper>
         return data;
     }
 
-    static class ViewHolder<V extends ViewHelper> extends RecyclerView.ViewHolder {
+    static class ViewHolder<V extends IView> extends RecyclerView.ViewHolder {
 
         private V viewHelper;
 
@@ -93,7 +93,7 @@ public abstract class SingleItemTypeRcvAdapter<T, V extends ViewHelper>
         mOnItemClickListener = listener;
     }
 
-    public interface OnItemClickListener<T, V extends ViewHelper> {
+    public interface OnItemClickListener<T, V extends IView> {
         void onItemClick(V viewHelper, T item, int position);
     }
 
@@ -118,7 +118,7 @@ public abstract class SingleItemTypeRcvAdapter<T, V extends ViewHelper>
         mOnItemLongClickListener = listener;
     }
 
-    public interface OnItemLongClickListener<T, V extends ViewHelper> {
+    public interface OnItemLongClickListener<T, V extends IView> {
         void onItemLongClick(V viewHelper, T item, int position);
     }
 }
