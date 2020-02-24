@@ -12,7 +12,10 @@ import com.linsh.base.activity.IntentDelegate;
  */
 public interface ActivityFuture {
 
+    ActivityFuture subscribeActivity(Class<? extends IActivity> clazz);
+
     IntentDelegate intent();
 
     void start();
+
 }

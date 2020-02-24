@@ -1,6 +1,7 @@
 package com.linsh.activity;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * <pre>
@@ -19,4 +20,11 @@ public interface PhotoViewActivityFuture extends ActivityFuture {
     PhotoViewActivityFuture setPhotos(File... files);
 
     PhotoViewActivityFuture setDisplayItemIndex(int index);
+
+    interface IPhotoViewActivity extends IActivity {
+
+        void onPhotosReceived(List<Object> photos);
+
+        void onItemSelected(int index, Object photo);
+    }
 }

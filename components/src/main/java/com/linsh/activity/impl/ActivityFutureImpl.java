@@ -3,6 +3,7 @@ package com.linsh.activity.impl;
 import android.content.Context;
 
 import com.linsh.activity.ActivityFuture;
+import com.linsh.activity.IActivity;
 import com.linsh.base.LshActivity;
 import com.linsh.base.activity.Contract;
 import com.linsh.base.activity.IntentDelegate;
@@ -15,14 +16,20 @@ import com.linsh.base.activity.IntentDelegate;
  *    desc   :
  * </pre>
  */
-abstract class DefaultActivityFutureImpl implements ActivityFuture {
+abstract class ActivityFutureImpl implements ActivityFuture {
 
     private final Context context;
     private final IntentDelegate intent;
 
-    public DefaultActivityFutureImpl(Context context) {
+    public ActivityFutureImpl(Context context) {
         this.context = context;
         this.intent = LshActivity.intent(ComponentActivity.class);
+    }
+
+    @Override
+    public ActivityFuture subscribeActivity(Class<? extends IActivity> clazz) {
+        intent.putExtra(IActivity.class.getName(), clazz);
+        return this;
     }
 
     @Override

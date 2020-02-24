@@ -20,7 +20,6 @@ import java.util.Arrays;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 /**
@@ -31,7 +30,7 @@ import androidx.viewpager.widget.ViewPager;
  *    desc   :
  * </pre>
  */
-class PhotoViewActivityFutureImpl extends DefaultActivityFutureImpl implements PhotoViewActivityFuture {
+class PhotoViewActivityFutureImpl extends ActivityFutureImpl implements PhotoViewActivityFuture {
 
     public static final String EXTRA_PHOTOS = "photos";
     public static final String EXTRA_DISPLAY_ITEM_INDEX = "display_item_index";
@@ -67,11 +66,14 @@ class PhotoViewActivityFutureImpl extends DefaultActivityFutureImpl implements P
 
     private static class PhotoViewActivitySubscriber implements ActivitySubscribe.OnCreate {
 
-        private Activity activity;
+        private ComponentActivity activity;
+        private IPhotoViewActivity iActivity;
+        private PhotoViewAdapter adapter;
 
         @Override
         public void attach(Activity activity) {
-            this.activity = activity;
+            this.activity = (ComponentActivity) activity;
+            iActivity = (IPhotoViewActivity) ((ComponentActivity) activity).getIActivity();
         }
 
         @Override
@@ -81,16 +83,32 @@ class PhotoViewActivityFutureImpl extends DefaultActivityFutureImpl implements P
             viewPager.setBackgroundColor(Color.BLACK);
             activity.setContentView(viewPager);
 
-            if (activity instanceof AppCompatActivity) {
-                ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+            if (activity != null) {
+                ActionBar actionBar = activity.getSupportActionBar();
                 if (actionBar != null) {
                     actionBar.hide();
                 }
             }
             SystemUtils.setTranslucentStatusBar(activity, Color.BLACK);
 
-            PhotoViewAdapter adapter = new PhotoViewAdapter();
+            adapter = new PhotoViewAdapter();
             viewPager.setAdapter(adapter);
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (iActivity != null) {
+                        iActivity.onItemSelected(position, adapter.getData().get(position));
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
 
             Bundle extras = activity.getIntent().getExtras();
             if (extras != null) {
@@ -102,11 +120,17 @@ class PhotoViewActivityFutureImpl extends DefaultActivityFutureImpl implements P
                 } else if (photos instanceof File[]) {
                     adapter.setData(Arrays.asList((File[]) photos));
                 }
+                if (iActivity != null && photos != null) {
+                    iActivity.onPhotosReceived(adapter.getData());
+                }
             }
 
             int curItem = activity.getIntent().getIntExtra(EXTRA_DISPLAY_ITEM_INDEX, 0);
             if (curItem > 0 && curItem < adapter.getData().size()) {
                 viewPager.setCurrentItem(curItem);
+            }
+            if (iActivity != null && curItem < adapter.getData().size()) {
+                iActivity.onItemSelected(0, adapter.getData().get(0));
             }
         }
     }

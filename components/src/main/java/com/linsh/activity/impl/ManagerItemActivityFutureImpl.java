@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
  *    desc   :
  * </pre>
  */
-class ManagerItemActivityFutureImpl extends DefaultActivityFutureImpl implements ManagerItemActivityFuture {
+class ManagerItemActivityFutureImpl extends ActivityFutureImpl implements ManagerItemActivityFuture {
 
     public ManagerItemActivityFutureImpl(Context context) {
         super(context);
