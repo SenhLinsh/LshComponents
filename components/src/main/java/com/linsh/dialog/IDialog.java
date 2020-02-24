@@ -10,19 +10,19 @@ import android.app.Dialog;
  *    desc   :
  * </pre>
  */
-public interface DialogHelper {
+public interface IDialog {
 
     Dialog getDialog();
 
-    DialogHelper show();
+    IDialog show();
 
-    DialogHelper dismiss();
+    IDialog dismiss();
 
     interface OnClickListener {
-        void onClick(DialogHelper dialogHelper);
+        void onClick(IDialog dialog);
     }
 
     interface OnItemClickListener {
-        void onItemClick(DialogHelper dialogHelper, int position);
+        void onItemClick(IDialog dialog, int position);
     }
 }

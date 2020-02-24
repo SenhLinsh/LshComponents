@@ -5,7 +5,7 @@ import android.content.Context;
 import com.linsh.activity.ActivityFuture;
 import com.linsh.activity.IActivity;
 import com.linsh.base.LshActivity;
-import com.linsh.base.activity.Contract;
+import com.linsh.base.mvp.Contract;
 import com.linsh.base.activity.IntentDelegate;
 
 /**

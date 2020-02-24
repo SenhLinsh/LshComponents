@@ -8,6 +8,6 @@ package com.linsh.dialog.loading;
  *    desc   :
  * </pre>
  */
-public interface TextLoadingDialogHelper extends LoadingDialogHelper {
-    TextLoadingDialogHelper setText(CharSequence text);
+public interface ITextLoadingDialog extends ILoadingDialog {
+    ITextLoadingDialog setText(CharSequence text);
 }

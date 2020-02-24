@@ -1,6 +1,6 @@
 package com.linsh.activity;
 
-import com.linsh.base.activity.Contract;
+import com.linsh.base.mvp.Contract;
 
 import java.util.List;
 

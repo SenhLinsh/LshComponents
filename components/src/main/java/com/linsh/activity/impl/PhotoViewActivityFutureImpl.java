@@ -124,13 +124,9 @@ class PhotoViewActivityFutureImpl extends ActivityFutureImpl implements PhotoVie
                     iActivity.onPhotosReceived(adapter.getData());
                 }
             }
-
             int curItem = activity.getIntent().getIntExtra(EXTRA_DISPLAY_ITEM_INDEX, 0);
             if (curItem > 0 && curItem < adapter.getData().size()) {
                 viewPager.setCurrentItem(curItem);
-            }
-            if (iActivity != null && curItem < adapter.getData().size()) {
-                iActivity.onItemSelected(0, adapter.getData().get(0));
             }
         }
     }

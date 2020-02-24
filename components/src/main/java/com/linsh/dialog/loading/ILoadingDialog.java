@@ -1,6 +1,6 @@
 package com.linsh.dialog.loading;
 
-import com.linsh.dialog.DefaultDialogHelper;
+import com.linsh.dialog.IDefaultDialog;
 
 /**
  * <pre>
@@ -10,5 +10,5 @@ import com.linsh.dialog.DefaultDialogHelper;
  *    desc   :
  * </pre>
  */
-public interface LoadingDialogHelper extends DefaultDialogHelper {
+public interface ILoadingDialog extends IDefaultDialog {
 }

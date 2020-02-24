@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.linsh.activity.ManagerItemActivityFuture;
 import com.linsh.base.activity.ActivitySubscribe;
-import com.linsh.base.activity.Contract;
+import com.linsh.base.mvp.Contract;
 import com.linsh.lshutils.adapter.SingleItemTypeRcvAdapterEx;
 import com.linsh.lshutils.tools.ItemDragHelperEx;
 import com.linsh.views.R;
@@ -141,6 +141,11 @@ class ManagerItemActivityFutureImpl extends ActivityFutureImpl implements Manage
                 return (Presenter) presenter;
             }
             return null;
+        }
+
+        @Override
+        public Context getContext() {
+            return activity;
         }
 
         @Override

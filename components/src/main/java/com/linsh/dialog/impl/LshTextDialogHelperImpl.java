@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.linsh.dialog.custom.LshDialog;
-import com.linsh.dialog.text.TextDialogHelper;
+import com.linsh.dialog.text.ITextDialog;
 
 /**
  * <pre>
@@ -15,14 +15,14 @@ import com.linsh.dialog.text.TextDialogHelper;
  *    desc   :
  * </pre>
  */
-public class LshTextDialogHelperImpl extends LshDialogHelperImpl implements TextDialogHelper {
+class LshTextDialogHelperImpl extends LshDialogHelperImpl implements ITextDialog {
 
     public LshTextDialogHelperImpl(Context context) {
         super(new LshDialog(context).buildText());
     }
 
     @Override
-    public TextDialogHelper setText(CharSequence text) {
+    public ITextDialog setText(CharSequence text) {
         View contentView = dialog.getContentView();
         if (contentView instanceof TextView) {
             ((TextView) contentView).setText(text);

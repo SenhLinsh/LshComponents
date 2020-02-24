@@ -4,9 +4,9 @@ import android.os.Bundle;
 
 import com.linsh.activity.IActivity;
 import com.linsh.base.activity.ActivitySubscribe;
-import com.linsh.base.activity.Contract;
-import com.linsh.base.activity.mvp.BaseMvpActivity;
-import com.linsh.base.activity.mvp.Presenter;
+import com.linsh.base.mvp.Contract;
+import com.linsh.base.mvp.BaseMvpActivity;
+import com.linsh.base.mvp.Presenter;
 import com.linsh.utilseverywhere.ClassUtils;
 
 import java.io.Serializable;

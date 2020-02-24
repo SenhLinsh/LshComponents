@@ -27,10 +27,10 @@ public class ViewComponents {
     }
 
     @NonNull
-    public static <T extends IView> T create(final Context context, Class<T> viewHelper) {
-        if (!viewHelper.isInterface())
-            throw new IllegalArgumentException("viewHelper must be interface");
-        Class<? extends IView> clazz = IMPLEMENTS.get(viewHelper);
+    public static <T extends IView> T create(final Context context, Class<T> classOfIView) {
+        if (!classOfIView.isInterface())
+            throw new IllegalArgumentException("classOfIView must be interface");
+        Class<? extends IView> clazz = IMPLEMENTS.get(classOfIView);
         try {
             Object instance = ClassUtils.newInstance(clazz, new Class[]{Context.class}, new Object[]{context});
             return (T) instance;

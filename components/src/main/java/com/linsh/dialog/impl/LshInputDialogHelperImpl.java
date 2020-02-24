@@ -6,7 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.linsh.dialog.custom.LshDialog;
-import com.linsh.dialog.text.InputDialogHelper;
+import com.linsh.dialog.text.IInputDialog;
 
 /**
  * <pre>
@@ -16,14 +16,14 @@ import com.linsh.dialog.text.InputDialogHelper;
  *    desc   :
  * </pre>
  */
-public class LshInputDialogHelperImpl extends LshDialogHelperImpl implements InputDialogHelper {
+class LshInputDialogHelperImpl extends LshDialogHelperImpl implements IInputDialog {
 
     public LshInputDialogHelperImpl(Context context) {
         super(new LshDialog(context).buildInput());
     }
 
     @Override
-    public InputDialogHelper setText(CharSequence text) {
+    public IInputDialog setText(CharSequence text) {
         View contentView = dialog.getContentView();
         if (contentView instanceof EditText) {
             ((EditText) contentView).setText(text);

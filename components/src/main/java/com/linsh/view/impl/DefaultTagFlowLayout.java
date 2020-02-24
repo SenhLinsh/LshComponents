@@ -32,7 +32,7 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
     private final FlowLayout flowLayout;
     private OnItemClickListener onItemClickListener;
     private int itemCount;
-    private Consumer<View> consumer;
+    private Consumer<View> decorator;
 
     public DefaultTagFlowLayout(Context context) {
         flowLayout = new FlowLayout(context);
@@ -62,13 +62,13 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
     }
 
     @Override
-    public void onTagClick(OnItemClickListener listener) {
+    public void setOnTagClickListener(OnItemClickListener listener) {
         onItemClickListener = listener;
     }
 
     @Override
     public void decorateTagView(Consumer<View> consumer) {
-        this.consumer = consumer;
+        this.decorator = consumer;
     }
 
     private <T> CharSequence convert(Convertible<T, CharSequence> convertible, T value) {
@@ -119,7 +119,9 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
         params.setMargins(dp5, dp5, dp5, dp5);
         textView.setLayoutParams(params);
         flowLayout.addView(textView);
-        consumer.accept(textView);
+        if (decorator != null) {
+            decorator.accept(textView);
+        }
         return textView;
     }
 

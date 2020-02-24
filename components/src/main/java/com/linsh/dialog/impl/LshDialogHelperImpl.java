@@ -2,8 +2,8 @@ package com.linsh.dialog.impl;
 
 import android.app.Dialog;
 
-import com.linsh.dialog.DefaultDialogHelper;
-import com.linsh.dialog.DialogHelper;
+import com.linsh.dialog.IDefaultDialog;
+import com.linsh.dialog.IDialog;
 import com.linsh.dialog.custom.LshDialog;
 
 /**
@@ -14,7 +14,7 @@ import com.linsh.dialog.custom.LshDialog;
  *    desc   :
  * </pre>
  */
-abstract class LshDialogHelperImpl implements DefaultDialogHelper {
+abstract class LshDialogHelperImpl implements IDefaultDialog {
 
     protected final LshDialog dialog;
 
@@ -23,25 +23,25 @@ abstract class LshDialogHelperImpl implements DefaultDialogHelper {
     }
 
     @Override
-    public DefaultDialogHelper setTitle(CharSequence title) {
+    public IDefaultDialog setTitle(CharSequence title) {
         dialog.setTitle(title);
         return this;
     }
 
     @Override
-    public DefaultDialogHelper setPositiveButton() {
+    public IDefaultDialog setPositiveButton() {
         setPositiveButton("确定", null);
         return this;
     }
 
     @Override
-    public DefaultDialogHelper setPositiveButton(OnClickListener listener) {
+    public IDefaultDialog setPositiveButton(OnClickListener listener) {
         setPositiveButton(listener == null ? null : "确定", listener);
         return this;
     }
 
     @Override
-    public DefaultDialogHelper setPositiveButton(CharSequence text, final OnClickListener listener) {
+    public IDefaultDialog setPositiveButton(CharSequence text, final OnClickListener listener) {
         if (text == null && listener == null) {
             dialog.setPositiveButton(null, null);
         } else {
@@ -57,19 +57,19 @@ abstract class LshDialogHelperImpl implements DefaultDialogHelper {
     }
 
     @Override
-    public DefaultDialogHelper setNegativeButton() {
+    public IDefaultDialog setNegativeButton() {
         setNegativeButton("取消", null);
         return this;
     }
 
     @Override
-    public DefaultDialogHelper setNegativeButton(OnClickListener listener) {
+    public IDefaultDialog setNegativeButton(OnClickListener listener) {
         setNegativeButton(listener == null ? null : "取消", listener);
         return this;
     }
 
     @Override
-    public DefaultDialogHelper setNegativeButton(CharSequence text, final OnClickListener listener) {
+    public IDefaultDialog setNegativeButton(CharSequence text, final OnClickListener listener) {
         if (text == null && listener == null) {
             dialog.setNegativeButton(null, null);
         } else {
@@ -90,13 +90,13 @@ abstract class LshDialogHelperImpl implements DefaultDialogHelper {
     }
 
     @Override
-    public DialogHelper show() {
+    public IDialog show() {
         dialog.show();
         return this;
     }
 
     @Override
-    public DialogHelper dismiss() {
+    public IDialog dismiss() {
         dialog.dismiss();
         return this;
     }

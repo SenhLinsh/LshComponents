@@ -1,6 +1,6 @@
 package com.linsh.dialog.text;
 
-import com.linsh.dialog.DefaultDialogHelper;
+import com.linsh.dialog.IDefaultDialog;
 
 /**
  * <pre>
@@ -10,9 +10,9 @@ import com.linsh.dialog.DefaultDialogHelper;
  *    desc   :
  * </pre>
  */
-public interface TextDialogHelper extends DefaultDialogHelper {
+public interface IInputDialog extends IDefaultDialog {
 
-    TextDialogHelper setText(CharSequence text);
+    IInputDialog setText(CharSequence text);
 
     CharSequence getText();
 }

@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.linsh.dialog.custom.LshDialog;
-import com.linsh.dialog.loading.TextLoadingDialogHelper;
+import com.linsh.dialog.loading.ITextLoadingDialog;
 
 /**
  * <pre>
@@ -15,14 +15,14 @@ import com.linsh.dialog.loading.TextLoadingDialogHelper;
  *    desc   :
  * </pre>
  */
-public class LshTextLoadingDialogHelperImpl extends LshDialogHelperImpl implements TextLoadingDialogHelper {
+class LshTextLoadingDialogHelperImpl extends LshDialogHelperImpl implements ITextLoadingDialog {
 
     public LshTextLoadingDialogHelperImpl(Context context) {
         super(new LshDialog(context).buildText().setContent("加载中..."));
     }
 
     @Override
-    public TextLoadingDialogHelper setText(CharSequence text) {
+    public ITextLoadingDialog setText(CharSequence text) {
         View contentView = dialog.getContentView();
         if (contentView instanceof TextView) {
             ((TextView) contentView).setText(text);

@@ -23,7 +23,7 @@ public interface ITagFlowLayout extends IView {
 
     <T> void setTags(List<T> tags, Convertible<T, CharSequence> convertible);
 
-    void onTagClick(OnItemClickListener listener);
+    void setOnTagClickListener(OnItemClickListener listener);
 
     void decorateTagView(Consumer<View> consumer);
 }
