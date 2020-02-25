@@ -6,6 +6,7 @@ import com.linsh.utilseverywhere.interfaces.Consumer;
 import com.linsh.utilseverywhere.interfaces.Convertible;
 import com.linsh.view.IView;
 import com.linsh.view.OnItemClickListener;
+import com.linsh.view.OnItemLongClickListener;
 
 import java.util.List;
 
@@ -25,5 +26,17 @@ public interface ITagFlowLayout extends IView {
 
     void setOnTagClickListener(OnItemClickListener listener);
 
-    void decorateTagView(Consumer<View> consumer);
+    void setOnTagLongClickListener(OnItemLongClickListener listener);
+
+    /**
+     * 适配 generateView 操作
+     *
+     * @param consumer 需要调整的 TagView
+     */
+    void adaptGenerateView(Consumer<View> consumer);
+
+    /**
+     * 适配 bingView 操作
+     */
+    void adaptBindView(Consumer<View> consumer);
 }

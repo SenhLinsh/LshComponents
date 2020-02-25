@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +19,7 @@ import com.linsh.views.R;
 import java.io.File;
 import java.util.Arrays;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.viewpager.widget.ViewPager;
@@ -78,7 +80,7 @@ class PhotoViewActivityFutureImpl extends ActivityFutureImpl implements PhotoVie
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
-            ViewPager viewPager = new ViewPager(activity);
+            ViewPager viewPager = new HackyProblematicViewPager(activity);
             viewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             viewPager.setBackgroundColor(Color.BLACK);
             activity.setContentView(viewPager);
@@ -146,6 +148,26 @@ class PhotoViewActivityFutureImpl extends ActivityFutureImpl implements PhotoVie
                 LshImage.with((File) obj).error(R.drawable.ic_components_error_image).load(photoView);
             }
             return photoView;
+        }
+    }
+
+    /**
+     * 修复 PhotoView 在使用中发生崩溃的问题
+     */
+    private static class HackyProblematicViewPager extends ViewPager {
+
+        public HackyProblematicViewPager(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(MotionEvent ev) {
+            try {
+                return super.onInterceptTouchEvent(ev);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 }

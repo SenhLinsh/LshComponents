@@ -12,6 +12,7 @@ import com.linsh.utilseverywhere.interfaces.Consumer;
 import com.linsh.utilseverywhere.interfaces.Convertible;
 import com.linsh.utilseverywhere.tools.ShapeBuilder;
 import com.linsh.view.OnItemClickListener;
+import com.linsh.view.OnItemLongClickListener;
 import com.linsh.view.layout.ITagFlowLayout;
 import com.linsh.views.R;
 
@@ -31,8 +32,10 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
 
     private final FlowLayout flowLayout;
     private OnItemClickListener onItemClickListener;
+    private OnItemLongClickListener onItemLongClickListener;
+    private Consumer<View> generateAdapter;
+    private Consumer<View> bindAdapter;
     private int itemCount;
-    private Consumer<View> decorator;
 
     public DefaultTagFlowLayout(Context context) {
         flowLayout = new FlowLayout(context);
@@ -48,9 +51,9 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
         int size = tags == null ? 0 : tags.size();
         for (int i = 0; i < size; i++) {
             if (i < flowLayout.getChildCount()) {
-                setText(i, convert(convertible, tags.get(i)));
+                setText(flowLayout.getChildAt(i), convert(convertible, tags.get(i)));
             } else {
-                generateTextView().setText(convert(convertible, tags.get(i)));
+                setText(generateTextView(), convert(convertible, tags.get(i)));
             }
         }
         if (size < itemCount) {
@@ -67,8 +70,18 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
     }
 
     @Override
-    public void decorateTagView(Consumer<View> consumer) {
-        this.decorator = consumer;
+    public void setOnTagLongClickListener(OnItemLongClickListener listener) {
+        onItemLongClickListener = listener;
+    }
+
+    @Override
+    public void adaptGenerateView(Consumer<View> consumer) {
+        generateAdapter = consumer;
+    }
+
+    @Override
+    public void adaptBindView(Consumer<View> consumer) {
+        bindAdapter = consumer;
     }
 
     private <T> CharSequence convert(Convertible<T, CharSequence> convertible, T value) {
@@ -81,13 +94,15 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
         }
     }
 
-    private void setText(int index, CharSequence text) {
-        View child = flowLayout.getChildAt(index);
+    private void setText(View child, CharSequence text) {
         if (child.getVisibility() != View.VISIBLE) {
             child.setVisibility(View.VISIBLE);
         }
         if (child instanceof TextView) {
             ((TextView) child).setText(text);
+            if (bindAdapter != null) {
+                bindAdapter.accept(child);
+            }
         }
     }
 
@@ -113,14 +128,26 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
                 }
             }
         });
+        textView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (onItemLongClickListener != null) {
+                    Object position = v.getTag(R.id.tag_item_view);
+                    if (position instanceof Integer) {
+                        onItemLongClickListener.onItemLongClick(v, (Integer) position);
+                    }
+                }
+                return false;
+            }
+        });
         ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int dp5 = Dps.toPx(5);
         params.setMargins(dp5, dp5, dp5, dp5);
         textView.setLayoutParams(params);
         flowLayout.addView(textView);
-        if (decorator != null) {
-            decorator.accept(textView);
+        if (generateAdapter != null) {
+            generateAdapter.accept(textView);
         }
         return textView;
     }
