@@ -22,7 +22,7 @@ import androidx.annotation.Nullable;
  * </pre>
  */
 @Presenter(ComponentActivity.EmptyPresenter.class)
-public class ComponentActivity extends BaseMvpActivity<Contract.Presenter> implements Contract.View<Contract.Presenter> {
+public class ComponentActivity extends BaseMvpActivity<Contract.Presenter> implements Contract.View {
 
     private static final String TAG = "ComponentActivity";
     private Contract.View view;
@@ -60,6 +60,11 @@ public class ComponentActivity extends BaseMvpActivity<Contract.Presenter> imple
         if (view != null)
             return view;
         return this;
+    }
+
+    @Override
+    public Contract.Presenter getPresenter() {
+        return super.getPresenter();
     }
 
     IActivity getIActivity() {

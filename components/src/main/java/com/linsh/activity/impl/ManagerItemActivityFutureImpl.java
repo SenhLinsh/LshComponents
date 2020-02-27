@@ -134,7 +134,6 @@ class ManagerItemActivityFutureImpl extends ActivityFutureImpl implements Manage
             itemDragHelper.attachToRecyclerView(recyclerView);
         }
 
-        @Override
         public Presenter getPresenter() {
             Contract.Presenter presenter = activity.getPresenter();
             if (presenter instanceof Presenter) {

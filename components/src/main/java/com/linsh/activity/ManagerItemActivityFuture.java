@@ -34,7 +34,7 @@ public interface ManagerItemActivityFuture extends ActivityFuture {
         void saveItems(List<?> items);
     }
 
-    interface View extends Contract.View<Presenter> {
+    interface View extends Contract.View {
         void setItems(List<?> items);
 
         void finish();
