@@ -14,11 +14,11 @@ import com.linsh.dialog.custom.LshDialog;
  *    desc   :
  * </pre>
  */
-abstract class LshDialogHelperImpl implements IDefaultDialog {
+abstract class LshDialogImpl implements IDefaultDialog {
 
     protected final LshDialog dialog;
 
-    public LshDialogHelperImpl(LshDialog.BaseDialogInterface lshDialog) {
+    public LshDialogImpl(LshDialog.BaseDialogInterface lshDialog) {
         dialog = lshDialog.getDialog();
     }
 
@@ -49,7 +49,7 @@ abstract class LshDialogHelperImpl implements IDefaultDialog {
                     listener == null ? null : new LshDialog.OnPositiveListener() {
                         @Override
                         public void onClick(LshDialog dialog) {
-                            listener.onClick(LshDialogHelperImpl.this);
+                            listener.onClick(LshDialogImpl.this);
                         }
                     });
         }
@@ -77,7 +77,7 @@ abstract class LshDialogHelperImpl implements IDefaultDialog {
                     listener == null ? null : new LshDialog.OnNegativeListener() {
                         @Override
                         public void onClick(LshDialog dialog) {
-                            listener.onClick(LshDialogHelperImpl.this);
+                            listener.onClick(LshDialogImpl.this);
                         }
                     });
         }

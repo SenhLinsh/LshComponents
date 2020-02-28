@@ -14,9 +14,10 @@ public class Register {
 
     public static void init() {
         DialogComponents.register(
-                LshInputDialogHelperImpl.class,
-                LshTextDialogHelperImpl.class,
-                LshTextLoadingDialogHelperImpl.class
+                LshInputDialogImpl.class,
+                LshTextDialogImpl.class,
+                LshTextLoadingDialogImpl.class,
+                LshListDialogImpl.class
         );
     }
 }

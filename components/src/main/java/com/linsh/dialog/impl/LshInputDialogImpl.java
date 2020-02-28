@@ -16,9 +16,9 @@ import com.linsh.dialog.text.IInputDialog;
  *    desc   :
  * </pre>
  */
-class LshInputDialogHelperImpl extends LshDialogHelperImpl implements IInputDialog {
+class LshInputDialogImpl extends LshDialogImpl implements IInputDialog {
 
-    public LshInputDialogHelperImpl(Context context) {
+    public LshInputDialogImpl(Context context) {
         super(new LshDialog(context).buildInput());
     }
 

@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.linsh.utilseverywhere.BackgroundUtils;
 import com.linsh.views.R;
 
 import java.util.List;
@@ -259,17 +260,24 @@ public class LshDialog extends Dialog {
     public class ListDialogBuilder extends NoBtnDialogBuilder<ListDialogBuilder> implements ListDialogInterface<ListDialogBuilder, String> {
         private List<String> list;
         private OnItemClickListener mOnItemClickListener;
+        private ListDialogAdapter adapter;
 
 
         @Override
         public ListDialogBuilder setList(List<String> list) {
             this.list = list;
+            if (adapter != null) {
+                adapter.data = list;
+            }
             return this;
         }
 
         @Override
         public ListDialogBuilder setOnItemClickListener(OnItemClickListener listener) {
             mOnItemClickListener = listener;
+            if (adapter != null) {
+                adapter.mOnItemClickListener = listener;
+            }
             return this;
         }
 
@@ -281,7 +289,8 @@ public class LshDialog extends Dialog {
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             recyclerView.setLayoutParams(params);
             recyclerView.setLayoutManager(new LinearLayoutManager(dialog.getContext()));
-            recyclerView.setAdapter(new ListDialogAdapter(list, mOnItemClickListener));
+            adapter = new ListDialogAdapter(list, mOnItemClickListener);
+            recyclerView.setAdapter(adapter);
             addView(dialog, recyclerView);
             return recyclerView;
         }
@@ -318,6 +327,7 @@ public class LshDialog extends Dialog {
             // 添加到布局
             linearLayout.addView(textView);
             linearLayout.addView(line);
+            BackgroundUtils.addPressedEffect(linearLayout);
             return new RecyclerView.ViewHolder(linearLayout) {
             };
         }

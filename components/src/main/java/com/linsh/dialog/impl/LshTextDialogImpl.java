@@ -15,9 +15,9 @@ import com.linsh.dialog.text.ITextDialog;
  *    desc   :
  * </pre>
  */
-class LshTextDialogHelperImpl extends LshDialogHelperImpl implements ITextDialog {
+class LshTextDialogImpl extends LshDialogImpl implements ITextDialog {
 
-    public LshTextDialogHelperImpl(Context context) {
+    public LshTextDialogImpl(Context context) {
         super(new LshDialog(context).buildText());
     }
 
