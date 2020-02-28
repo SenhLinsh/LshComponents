@@ -2,6 +2,7 @@ package com.linsh.view.impl;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,7 +10,9 @@ import android.widget.TextView;
 import com.linsh.lshutils.utils.Dps;
 import com.linsh.utilseverywhere.UnitConverseUtils;
 import com.linsh.utilseverywhere.interfaces.Consumer;
+import com.linsh.utilseverywhere.interfaces.Consumer2;
 import com.linsh.utilseverywhere.interfaces.Convertible;
+import com.linsh.utilseverywhere.tools.DrawableSelectorBuilder;
 import com.linsh.utilseverywhere.tools.ShapeBuilder;
 import com.linsh.view.OnItemClickListener;
 import com.linsh.view.OnItemLongClickListener;
@@ -34,7 +37,7 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
     private Consumer<View> generateAdapter;
-    private Consumer<View> bindAdapter;
+    private Consumer2<View, Integer> bindAdapter;
     private int itemCount;
 
     public DefaultTagFlowLayout(Context context) {
@@ -51,9 +54,9 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
         int size = tags == null ? 0 : tags.size();
         for (int i = 0; i < size; i++) {
             if (i < flowLayout.getChildCount()) {
-                setText(flowLayout.getChildAt(i), convert(convertible, tags.get(i)));
+                setText(flowLayout.getChildAt(i), convert(convertible, tags.get(i)), i);
             } else {
-                setText(generateTextView(), convert(convertible, tags.get(i)));
+                setText(generateTextView(), convert(convertible, tags.get(i)), i);
             }
         }
         if (size < itemCount) {
@@ -84,7 +87,7 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
     }
 
     @Override
-    public ITagFlowLayout adaptBindView(Consumer<View> consumer) {
+    public ITagFlowLayout adaptBindView(Consumer2<View, Integer> consumer) {
         bindAdapter = consumer;
         return this;
     }
@@ -99,14 +102,14 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
         }
     }
 
-    private void setText(View child, CharSequence text) {
+    private void setText(View child, CharSequence text, int position) {
         if (child.getVisibility() != View.VISIBLE) {
             child.setVisibility(View.VISIBLE);
         }
         if (child instanceof TextView) {
             ((TextView) child).setText(text);
             if (bindAdapter != null) {
-                bindAdapter.accept(child);
+                bindAdapter.accept(child, position);
             }
         }
     }
@@ -116,11 +119,20 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
         int dp4 = UnitConverseUtils.dp2px(4);
         int dp8 = UnitConverseUtils.dp2px(8);
         textView.setPadding(dp8, dp4, dp8, dp4);
-        GradientDrawable shape = new ShapeBuilder()
+        GradientDrawable normalDrawable = new ShapeBuilder()
                 .setCornerRadius(1000)
                 .setStroke(Dps.toPx(1), 0xFF333333)
                 .getShape();
-        textView.setBackground(shape);
+        GradientDrawable selectedDrawable = new ShapeBuilder()
+                .setCornerRadius(1000)
+                .setColor(0x66000000)
+                .setStroke(Dps.toPx(1), 0xFF333333)
+                .getShape();
+        StateListDrawable selector = new DrawableSelectorBuilder()
+                .setSelectedDrawable(selectedDrawable)
+                .setOtherStateDrawable(normalDrawable)
+                .getSelector();
+        textView.setBackground(selector);
         textView.setTag(R.id.tag_item_view, flowLayout.getChildCount());
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +153,7 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
                     if (position instanceof Integer) {
                         onItemLongClickListener.onItemLongClick(v, (Integer) position);
                     }
+                    return true;
                 }
                 return false;
             }

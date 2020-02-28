@@ -2,44 +2,44 @@
 <resources>
 
     <declare-styleable name="RatioImageView">
-        <attr name="dafaultRatio" format="float"/>
-        <attr name="decidedRatio" format="float"/>
+        <attr name="dafaultRatio" format="float" />
+        <attr name="decidedRatio" format="float" />
     </declare-styleable>
 
     <declare-styleable name="DashedLine">
-        <attr name="dashColor" format="color"/>
-        <attr name="dashGap" format="dimension"/>
-        <attr name="dashWidth" format="dimension"/>
-        <attr name="strokeWidth" format="dimension"/>
+        <attr name="dashColor" format="color" />
+        <attr name="dashGap" format="dimension" />
+        <attr name="dashWidth" format="dimension" />
+        <attr name="strokeWidth" format="dimension" />
         <attr name="dashOrientation" format="enum">
-            <enum name="horizontal" value="0"/>
-            <enum name="vertical" value="1"/>
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
         </attr>
     </declare-styleable>
 
     <declare-styleable name="Preference">
-        <attr name="titleText" format="string"/>
-        <attr name="titleTextColor" format="color"/>
-        <attr name="titleTextSize" format="dimension"/>
+        <attr name="titleText" format="string" />
+        <attr name="titleTextColor" format="color" />
+        <attr name="titleTextSize" format="dimension" />
 
-        <attr name="titleWidth" format="dimension"/>
-        <attr name="titleHeight" format="dimension"/>
-        <attr name="detailWidth" format="dimension"/>
-        <attr name="detailHeight" format="dimension"/>
+        <attr name="titleWidth" format="dimension" />
+        <attr name="titleHeight" format="dimension" />
+        <attr name="detailWidth" format="dimension" />
+        <attr name="detailHeight" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="TextPreference">
-        <attr name="detailText" format="string"/>
-        <attr name="detailTextColor" format="color"/>
-        <attr name="detailTextSize" format="dimension"/>
+        <attr name="detailText" format="string" />
+        <attr name="detailTextColor" format="color" />
+        <attr name="detailTextSize" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="ImagePreference">
-        <attr name="imageSrc" format="reference"/>
+        <attr name="imageSrc" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="TogglePreference">
-        <attr name="toggleOn" format="boolean"/>
+        <attr name="toggleOn" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">
@@ -49,5 +49,9 @@
         <!-- {@deprecated Use civ_circlebackground_color instead.} -->
         <attr name="civ_fill_color" format="color" />
         <attr name="civ_circle_background_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ComponentView">
+        <attr name="viewInterface" format="string" />
     </declare-styleable>
 </resources>

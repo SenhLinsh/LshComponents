@@ -3,6 +3,7 @@ package com.linsh.view.layout;
 import android.view.View;
 
 import com.linsh.utilseverywhere.interfaces.Consumer;
+import com.linsh.utilseverywhere.interfaces.Consumer2;
 import com.linsh.utilseverywhere.interfaces.Convertible;
 import com.linsh.view.IView;
 import com.linsh.view.OnItemClickListener;
@@ -37,6 +38,8 @@ public interface ITagFlowLayout extends IView {
 
     /**
      * 适配 bingView 操作
+     *
+     * @param consumer 参数1 为 TagView, 参数2 为 position
      */
-    ITagFlowLayout adaptBindView(Consumer<View> consumer);
+    ITagFlowLayout adaptBindView(Consumer2<View, Integer> consumer);
 }
