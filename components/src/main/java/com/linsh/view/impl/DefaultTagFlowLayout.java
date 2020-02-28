@@ -42,12 +42,12 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
     }
 
     @Override
-    public void setTags(List<? extends CharSequence> tags) {
-        setTags(tags, null);
+    public ITagFlowLayout setTags(List<? extends CharSequence> tags) {
+        return setTags(tags, null);
     }
 
     @Override
-    public <T> void setTags(List<T> tags, Convertible<T, CharSequence> convertible) {
+    public <T> ITagFlowLayout setTags(List<T> tags, Convertible<T, CharSequence> convertible) {
         int size = tags == null ? 0 : tags.size();
         for (int i = 0; i < size; i++) {
             if (i < flowLayout.getChildCount()) {
@@ -62,26 +62,31 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
             }
         }
         itemCount = size;
+        return this;
     }
 
     @Override
-    public void setOnTagClickListener(OnItemClickListener listener) {
+    public ITagFlowLayout setOnTagClickListener(OnItemClickListener listener) {
         onItemClickListener = listener;
+        return this;
     }
 
     @Override
-    public void setOnTagLongClickListener(OnItemLongClickListener listener) {
+    public ITagFlowLayout setOnTagLongClickListener(OnItemLongClickListener listener) {
         onItemLongClickListener = listener;
+        return this;
     }
 
     @Override
-    public void adaptGenerateView(Consumer<View> consumer) {
+    public ITagFlowLayout adaptGenerateView(Consumer<View> consumer) {
         generateAdapter = consumer;
+        return this;
     }
 
     @Override
-    public void adaptBindView(Consumer<View> consumer) {
+    public ITagFlowLayout adaptBindView(Consumer<View> consumer) {
         bindAdapter = consumer;
+        return this;
     }
 
     private <T> CharSequence convert(Convertible<T, CharSequence> convertible, T value) {

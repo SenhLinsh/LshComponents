@@ -20,23 +20,23 @@ import java.util.List;
  */
 public interface ITagFlowLayout extends IView {
 
-    void setTags(List<? extends CharSequence> tags);
+    ITagFlowLayout setTags(List<? extends CharSequence> tags);
 
-    <T> void setTags(List<T> tags, Convertible<T, CharSequence> convertible);
+    <T> ITagFlowLayout setTags(List<T> tags, Convertible<T, CharSequence> convertible);
 
-    void setOnTagClickListener(OnItemClickListener listener);
+    ITagFlowLayout setOnTagClickListener(OnItemClickListener listener);
 
-    void setOnTagLongClickListener(OnItemLongClickListener listener);
+    ITagFlowLayout setOnTagLongClickListener(OnItemLongClickListener listener);
 
     /**
      * 适配 generateView 操作
      *
      * @param consumer 需要调整的 TagView
      */
-    void adaptGenerateView(Consumer<View> consumer);
+    ITagFlowLayout adaptGenerateView(Consumer<View> consumer);
 
     /**
      * 适配 bingView 操作
      */
-    void adaptBindView(Consumer<View> consumer);
+    ITagFlowLayout adaptBindView(Consumer<View> consumer);
 }
