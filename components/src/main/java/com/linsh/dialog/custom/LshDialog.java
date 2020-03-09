@@ -19,13 +19,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.linsh.utilseverywhere.BackgroundUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.linsh.lshutils.utils.BackgroundUtilsEx;
 import com.linsh.views.R;
 
 import java.util.List;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * <pre>
@@ -327,7 +327,7 @@ public class LshDialog extends Dialog {
             // 添加到布局
             linearLayout.addView(textView);
             linearLayout.addView(line);
-            BackgroundUtils.addPressedEffect(linearLayout);
+            BackgroundUtilsEx.addPressedEffect(linearLayout);
             return new RecyclerView.ViewHolder(linearLayout) {
             };
         }
