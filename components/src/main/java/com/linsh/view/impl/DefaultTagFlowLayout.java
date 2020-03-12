@@ -133,12 +133,12 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
                 .setOtherStateDrawable(normalDrawable)
                 .getSelector();
         textView.setBackground(selector);
-        textView.setTag(R.id.tag_item_view, flowLayout.getChildCount());
+        textView.setTag(R.id.uee_tag_item_view, flowLayout.getChildCount());
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
-                    Object position = v.getTag(R.id.tag_item_view);
+                    Object position = v.getTag(R.id.uee_tag_item_view);
                     if (position instanceof Integer) {
                         onItemClickListener.onItemClick(v, (Integer) position);
                     }
@@ -149,7 +149,7 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
             @Override
             public boolean onLongClick(View v) {
                 if (onItemLongClickListener != null) {
-                    Object position = v.getTag(R.id.tag_item_view);
+                    Object position = v.getTag(R.id.uee_tag_item_view);
                     if (position instanceof Integer) {
                         onItemLongClickListener.onItemLongClick(v, (Integer) position);
                     }
