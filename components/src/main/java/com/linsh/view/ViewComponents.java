@@ -32,7 +32,7 @@ public class ViewComponents {
             throw new IllegalArgumentException("classOfIView must be interface");
         Class<? extends IView> clazz = IMPLEMENTS.get(classOfIView);
         try {
-            Object instance = ClassUtils.newInstance(clazz, new Class[]{Context.class}, new Object[]{context});
+            Object instance = ClassUtils.newInstance(clazz, new Class[]{Context.class}, new Object[]{context}, true);
             return (T) instance;
         } catch (Exception e) {
             throw new IllegalStateException(e);
