@@ -1,1 +1,1 @@
-include ':demo', ':lshviews'
+include ':components'

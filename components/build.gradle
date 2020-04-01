@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 16
@@ -20,13 +20,17 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
-    implementation project(':ue')
-    implementation project(':uee')
-    implementation project(':base')
+    try {
+        implementation project(':ue')
+        implementation project(':uee')
+        implementation project(':base')
+    } catch (ignored) {
+        implementation 'com.github.SenhLinsh:Utils-Everywhere:3.+'
+        implementation 'com.github.SenhLinsh:Utils-Everywhere-Ex:3.+'
+        implementation 'com.github.SenhLinsh:LshBase:3.+'
+    }
 }
