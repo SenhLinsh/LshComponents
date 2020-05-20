@@ -1,24 +1,28 @@
 package com.linsh.activity;
 
-import com.linsh.base.mvp.Contract;
-
 import java.util.List;
 
 /**
  * <pre>
  *    author : Senh Linsh
  *    github : https://github.com/SenhLinsh
- *    date   : 2020/01/04
- *    desc   :
+ *    date   : 2020/05/19
+ *    desc   : 条目管理 的页面
+ *
+ *             对集合内的条目进行删除和排序
  * </pre>
  */
-public interface ManagerItemActivityFuture extends ActivityFuture {
+public interface IManagerItemActivity extends IActivity {
 
-    ManagerItemActivityFuture setTitle(String title);
+    interface View extends IActivity.View {
 
-    ManagerItemActivityFuture setPresenter(Class<? extends Presenter> presenter);
+        void setItems(List<?> items);
 
-    interface Presenter extends Contract.Presenter<View> {
+        void finish();
+    }
+
+    interface Presenter extends IActivity.Presenter<View> {
+
         boolean isItemViewSwipeEnabled();
 
         CharSequence getDisplayText(Object item, int position);
@@ -32,11 +36,5 @@ public interface ManagerItemActivityFuture extends ActivityFuture {
         void onItemLongClick(Object item, int position);
 
         void saveItems(List<?> items);
-    }
-
-    interface View extends Contract.View {
-        void setItems(List<?> items);
-
-        void finish();
     }
 }

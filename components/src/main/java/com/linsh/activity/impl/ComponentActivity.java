@@ -2,16 +2,15 @@ package com.linsh.activity.impl;
 
 import android.os.Bundle;
 
-import com.linsh.activity.IActivity;
+import androidx.annotation.Nullable;
+
 import com.linsh.base.activity.ActivitySubscribe;
-import com.linsh.base.mvp.Contract;
 import com.linsh.base.mvp.BaseMvpActivity;
+import com.linsh.base.mvp.Contract;
 import com.linsh.base.mvp.Presenter;
 import com.linsh.utilseverywhere.ClassUtils;
 
 import java.io.Serializable;
-
-import androidx.annotation.Nullable;
 
 /**
  * <pre>
@@ -26,7 +25,6 @@ public class ComponentActivity extends BaseMvpActivity<Contract.Presenter> imple
 
     private static final String TAG = "ComponentActivity";
     private Contract.View view;
-    private IActivity iActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,16 +40,6 @@ public class ComponentActivity extends BaseMvpActivity<Contract.Presenter> imple
                 throw new RuntimeException("initialize instance of Contract.View failed: " + extra, e);
             }
         }
-        // 使用传递过来的 IActivity
-        extra = getIntent().getSerializableExtra(IActivity.class.getName());
-        if (extra != null) {
-            try {
-                iActivity = (IActivity) ClassUtils.newInstance((Class) extra, true);
-                subscribe((ActivitySubscribe) iActivity);
-            } catch (Exception e) {
-                throw new RuntimeException("initialize instance of ActivityFuture.IActivity failed: " + extra, e);
-            }
-        }
         super.onCreate(savedInstanceState);
     }
 
@@ -65,10 +53,6 @@ public class ComponentActivity extends BaseMvpActivity<Contract.Presenter> imple
     @Override
     public Contract.Presenter getPresenter() {
         return super.getPresenter();
-    }
-
-    IActivity getIActivity() {
-        return iActivity;
     }
 
     static class EmptyPresenter implements Contract.Presenter {

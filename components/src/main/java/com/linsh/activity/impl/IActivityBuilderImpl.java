@@ -2,11 +2,10 @@ package com.linsh.activity.impl;
 
 import android.content.Context;
 
-import com.linsh.activity.ActivityFuture;
 import com.linsh.activity.IActivity;
 import com.linsh.base.LshActivity;
-import com.linsh.base.mvp.Contract;
 import com.linsh.base.activity.IntentDelegate;
+import com.linsh.base.mvp.Contract;
 
 /**
  * <pre>
@@ -16,19 +15,26 @@ import com.linsh.base.activity.IntentDelegate;
  *    desc   :
  * </pre>
  */
-abstract class ActivityFutureImpl implements ActivityFuture {
+public class IActivityBuilderImpl<P extends IActivity.Presenter> implements IActivity.Builder<P> {
 
     private final Context context;
     private final IntentDelegate intent;
 
-    public ActivityFutureImpl(Context context) {
+    public IActivityBuilderImpl(Context context, Class<? extends IActivity.View> iView) {
         this.context = context;
         this.intent = LshActivity.intent(ComponentActivity.class);
+        intent.putExtra(Contract.View.class.getName(), iView);
     }
 
     @Override
-    public ActivityFuture subscribeActivity(Class<? extends IActivity> clazz) {
-        intent.putExtra(IActivity.class.getName(), clazz);
+    public IActivity.Builder<P> presenter(Class<? extends P> clazz) {
+        intent.presenter(clazz);
+        return this;
+    }
+
+    @Override
+    public IActivity.Builder<P> customView(Class<? extends IActivity.View> viewClass) {
+        intent.putExtra(Contract.View.class.getName(), viewClass);
         return this;
     }
 
@@ -48,9 +54,5 @@ abstract class ActivityFutureImpl implements ActivityFuture {
 
     public IntentDelegate getIntent() {
         return intent;
-    }
-
-    protected void setViewInstance(Class<? extends Contract.View> view) {
-        intent.putExtra(Contract.View.class.getName(), view);
     }
 }
