@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.linsh.lshutils.utils.Dps;
 import com.linsh.utilseverywhere.UnitConverseUtils;
 import com.linsh.utilseverywhere.interfaces.Consumer;
@@ -16,12 +18,10 @@ import com.linsh.utilseverywhere.tools.DrawableSelectorBuilder;
 import com.linsh.utilseverywhere.tools.ShapeBuilder;
 import com.linsh.view.OnItemClickListener;
 import com.linsh.view.OnItemLongClickListener;
-import com.linsh.view.layout.ITagFlowLayout;
+import com.linsh.view.tag.ITagFlowLayout;
 import com.linsh.views.R;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 /**
  * <pre>

@@ -3,25 +3,27 @@ package com.linsh.adapter.recycler;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.linsh.bean.NestedInfo;
 import com.linsh.utilseverywhere.ClassUtils;
-import com.linsh.view.ViewComponents;
 import com.linsh.view.IView;
+import com.linsh.view.ViewComponents;
 import com.linsh.views.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 /**
  * <pre>
  *    author : Senh Linsh
  *    github : https://github.com/SenhLinsh
  *    date   : 2019/10/11
- *    desc   :
+ *    desc   : 为多层嵌套数据提供的可展开 Item 的 Adapter
+ *
+ *             数据层必须实现 NestedInfo 接口
  * </pre>
  */
 public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends IView, C extends IView>

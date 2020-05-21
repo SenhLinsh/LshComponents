@@ -1,4 +1,4 @@
-package com.linsh.view.layout;
+package com.linsh.view.tag;
 
 import android.view.View;
 
