@@ -1,8 +1,6 @@
 package com.linsh.view.impl;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,15 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.linsh.lshutils.utils.Dps;
-import com.linsh.utilseverywhere.UnitConverseUtils;
 import com.linsh.utilseverywhere.interfaces.Consumer;
 import com.linsh.utilseverywhere.interfaces.Consumer2;
 import com.linsh.utilseverywhere.interfaces.Convertible;
-import com.linsh.utilseverywhere.tools.DrawableSelectorBuilder;
-import com.linsh.utilseverywhere.tools.ShapeBuilder;
 import com.linsh.view.OnItemClickListener;
 import com.linsh.view.OnItemLongClickListener;
+import com.linsh.view.ViewComponents;
 import com.linsh.view.tag.ITagFlowLayout;
+import com.linsh.view.tag.ITagView;
 import com.linsh.views.R;
 
 import java.util.List;
@@ -114,27 +111,10 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
         }
     }
 
-    private TextView generateTextView() {
-        TextView textView = new TextView(flowLayout.getContext());
-        int dp4 = UnitConverseUtils.dp2px(4);
-        int dp8 = UnitConverseUtils.dp2px(8);
-        textView.setPadding(dp8, dp4, dp8, dp4);
-        GradientDrawable normalDrawable = new ShapeBuilder()
-                .setCornerRadius(1000)
-                .setStroke(Dps.toPx(1), 0xFF333333)
-                .getShape();
-        GradientDrawable selectedDrawable = new ShapeBuilder()
-                .setCornerRadius(1000)
-                .setColor(0x66000000)
-                .setStroke(Dps.toPx(1), 0xFF333333)
-                .getShape();
-        StateListDrawable selector = new DrawableSelectorBuilder()
-                .setSelectedDrawable(selectedDrawable)
-                .setOtherStateDrawable(normalDrawable)
-                .getSelector();
-        textView.setBackground(selector);
-        textView.setTag(R.id.uee_tag_item_view, flowLayout.getChildCount());
-        textView.setOnClickListener(new View.OnClickListener() {
+    private View generateTextView() {
+        View tagView = ViewComponents.create(flowLayout.getContext(), ITagView.class).getView();
+        tagView.setTag(R.id.uee_tag_item_view, flowLayout.getChildCount());
+        tagView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
@@ -145,7 +125,7 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
                 }
             }
         });
-        textView.setOnLongClickListener(new View.OnLongClickListener() {
+        tagView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (onItemLongClickListener != null) {
@@ -162,12 +142,12 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int dp5 = Dps.toPx(5);
         params.setMargins(dp5, dp5, dp5, dp5);
-        textView.setLayoutParams(params);
-        flowLayout.addView(textView);
+        tagView.setLayoutParams(params);
+        flowLayout.addView(tagView);
         if (generateAdapter != null) {
-            generateAdapter.accept(textView);
+            generateAdapter.accept(tagView);
         }
-        return textView;
+        return tagView;
     }
 
     @NonNull

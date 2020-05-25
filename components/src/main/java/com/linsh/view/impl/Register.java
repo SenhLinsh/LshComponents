@@ -16,7 +16,8 @@ public class Register {
         ViewComponents.register(
                 INormalTextItemViewImpl.class,
                 IDefaultButtonItemViewImpl.class,
-                DefaultTagFlowLayout.class
+                DefaultTagFlowLayout.class,
+                TagView.class
         );
     }
 }
