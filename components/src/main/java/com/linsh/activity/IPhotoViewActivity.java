@@ -15,6 +15,8 @@ public interface IPhotoViewActivity extends IActivity<IPhotoViewActivity.Present
     interface View extends IActivity.View {
         void setPhotos(List<Object> photos);
 
+        void setPhotos(List<Object> photos, int selectedIndex);
+
         void setItemSelected(int index);
     }
 

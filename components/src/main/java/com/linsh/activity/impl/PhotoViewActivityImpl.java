@@ -34,7 +34,7 @@ import java.util.List;
  */
 class PhotoViewActivityImpl extends IActivityViewImpl<IPhotoViewActivity.Presenter> implements IPhotoViewActivity.View, ActivitySubscribe.OnCreate {
 
-    private PhotoViewAdapter adapter;
+    private PhotoViewAdapter<Object> adapter;
     private ViewPager viewPager;
 
     @Override
@@ -50,7 +50,7 @@ class PhotoViewActivityImpl extends IActivityViewImpl<IPhotoViewActivity.Present
         }
         SystemUtils.setTranslucentStatusBar(getActivity(), Color.BLACK);
 
-        adapter = new PhotoViewAdapter();
+        adapter = new PhotoViewAdapter<>();
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -71,6 +71,14 @@ class PhotoViewActivityImpl extends IActivityViewImpl<IPhotoViewActivity.Present
     @Override
     public void setPhotos(List<Object> photos) {
         adapter.setData(photos);
+    }
+
+    @Override
+    public void setPhotos(List<Object> photos, int selectedIndex) {
+        adapter.setData(photos);
+        if (selectedIndex >= 0 && selectedIndex < photos.size()) {
+            viewPager.setCurrentItem(selectedIndex, false);
+        }
     }
 
     @Override
