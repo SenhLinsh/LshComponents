@@ -3,6 +3,7 @@ package com.linsh.activity.impl;
 import com.linsh.activity.ActivityComponents;
 import com.linsh.activity.IManagerItemActivity;
 import com.linsh.activity.IPhotoViewActivity;
+import com.linsh.activity.ISearchActivity;
 import com.linsh.activity.ITextEditActivity;
 
 /**
@@ -19,5 +20,6 @@ public class Register {
         ActivityComponents.register(IManagerItemActivity.class, ManagerItemActivityImpl.class);
         ActivityComponents.register(IPhotoViewActivity.class, PhotoViewActivityImpl.class);
         ActivityComponents.register(ITextEditActivity.class, TextEditActivityImpl.class);
+        ActivityComponents.register(ISearchActivity.class, SearchActivityImpl.class);
     }
 }

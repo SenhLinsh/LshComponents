@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.linsh.activity.IManagerItemActivity;
 import com.linsh.base.activity.ActivitySubscribe;
-import com.linsh.base.mvp.BaseMvpViewImpl;
 import com.linsh.base.mvp.Contract;
 import com.linsh.lshutils.adapter.SingleItemTypeRcvAdapterEx;
 import com.linsh.lshutils.tools.ItemDragHelperEx;
@@ -33,7 +32,7 @@ import java.util.List;
  *    desc   :
  * </pre>
  */
-class ManagerItemActivityImpl extends BaseMvpViewImpl<IManagerItemActivity.Presenter> implements IManagerItemActivity.View, ActivitySubscribe.OnCreate,
+class ManagerItemActivityImpl extends IActivityViewImpl<IManagerItemActivity.Presenter> implements IManagerItemActivity.View, ActivitySubscribe.OnCreate,
         ActivitySubscribe.OnCreateOptionsMenu, ActivitySubscribe.OnOptionsItemSelected {
 
     private ComponentActivity activity;

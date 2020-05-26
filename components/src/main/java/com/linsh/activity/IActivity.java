@@ -22,7 +22,7 @@ public interface IActivity<P extends IActivity.Presenter> {
     /**
      * 用于自定义 IActivity 业务逻辑
      */
-    interface Presenter<T extends IActivity.View> extends Contract.Presenter<T> {
+    interface Presenter<V extends IActivity.View> extends Contract.Presenter<V> {
     }
 
     /**
@@ -35,6 +35,8 @@ public interface IActivity<P extends IActivity.Presenter> {
         Context getContext();
 
         Intent getIntent();
+
+        void onCallback(Object data);
     }
 
     /**
@@ -54,6 +56,14 @@ public interface IActivity<P extends IActivity.Presenter> {
          */
         Builder<P> customView(Class<? extends View> viewClass);
 
+
+        /**
+         * 设置回调
+         * <p>
+         * 设置该回调, 目标 Activity 可直接使用 {@link View#onCallback(Object)} 来将消息回调给发起者
+         */
+        Builder<P> callback(Callback callback);
+
         /**
          * 获取 IntentDelegate, 进行 Intent 参数配置
          */
@@ -63,5 +73,13 @@ public interface IActivity<P extends IActivity.Presenter> {
          * 跳转 IActivity
          */
         void start();
+    }
+
+    /**
+     * Activity 回调
+     */
+    interface Callback {
+
+        void onCallback(Object data);
     }
 }
