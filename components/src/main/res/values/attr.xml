@@ -51,7 +51,12 @@
         <attr name="civ_circle_background_color" format="color" />
     </declare-styleable>
 
+    <!--  ViewComponents  -->
+    <attr name="viewInterface" format="string" />
     <declare-styleable name="ComponentView">
-        <attr name="viewInterface" format="string" />
+        <attr name="viewInterface" />
+    </declare-styleable>
+    <declare-styleable name="ComponentViewStub">
+        <attr name="viewInterface" />
     </declare-styleable>
 </resources>

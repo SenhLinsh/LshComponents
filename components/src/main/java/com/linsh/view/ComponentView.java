@@ -14,7 +14,7 @@ import com.linsh.views.R;
  *    author : Senh Linsh
  *    github : https://github.com/SenhLinsh
  *    date   : 2020/02/28
- *    desc   :
+ *    desc   : 用于指定 ViewComponents 的自定义 View
  * </pre>
  */
 public class ComponentView extends FrameLayout {
@@ -44,11 +44,11 @@ public class ComponentView extends FrameLayout {
     }
 
     public void setViewInterface(Class<? extends IView> classOfView) {
+        removeAllViews();
         setViewInterface(classOfView, null);
     }
 
     private void setViewInterface(Class<? extends IView> classOfView, AttributeSet attrs) {
-        removeAllViews();
         viewInterface = ViewComponents.create(getContext(), classOfView);
 
         if (attrs != null) {
