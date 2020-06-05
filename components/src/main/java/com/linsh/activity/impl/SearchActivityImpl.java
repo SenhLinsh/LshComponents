@@ -16,7 +16,7 @@ import com.linsh.base.activity.ActivitySubscribe;
 import com.linsh.lshutils.decoration.DividerItemDecoration;
 import com.linsh.lshutils.utils.Dps;
 import com.linsh.utilseverywhere.HandlerUtils;
-import com.linsh.utilseverywhere.interfaces.Function;
+import com.linsh.utilseverywhere.interfaces.Convertible;
 import com.linsh.view.item.ITextItemView;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class SearchActivityImpl extends IActivityViewImpl<ISearchActivity.Presen
         ActivitySubscribe.OnCreate, ActivitySubscribe.OnCreateOptionsMenu {
 
     private SearchAdapter adapter;
-    private Function converter;
+    private Convertible converter;
 
     @Override
     public void setResults(List<? extends CharSequence> results) {
@@ -42,7 +42,7 @@ public class SearchActivityImpl extends IActivityViewImpl<ISearchActivity.Presen
     }
 
     @Override
-    public <T> void setResults(List<T> results, Function<CharSequence, T> converter) {
+    public <T> void setResults(List<T> results, Convertible<T, CharSequence> converter) {
         adapter.setData(results);
         this.converter = converter;
     }
@@ -129,7 +129,7 @@ public class SearchActivityImpl extends IActivityViewImpl<ISearchActivity.Presen
             if (converter == null) {
                 viewHelper.setText((CharSequence) item);
             } else {
-                viewHelper.setText((CharSequence) converter.call(item));
+                viewHelper.setText((CharSequence) converter.convert(item));
             }
         }
     }

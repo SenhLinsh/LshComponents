@@ -1,6 +1,6 @@
 package com.linsh.activity;
 
-import com.linsh.utilseverywhere.interfaces.Function;
+import com.linsh.utilseverywhere.interfaces.Convertible;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface ISearchActivity extends IActivity<ISearchActivity.Presenter> {
 
         void setResults(List<? extends CharSequence> results);
 
-        <T> void setResults(List<T> results, Function<CharSequence, T> converter);
+        <T> void setResults(List<T> results, Convertible<T, CharSequence> converter);
     }
 
     interface Presenter extends IActivity.Presenter<View> {

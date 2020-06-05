@@ -6,7 +6,6 @@ import com.linsh.dialog.custom.LshDialog;
 import com.linsh.dialog.text.IListDialog;
 import com.linsh.utilseverywhere.ListUtils;
 import com.linsh.utilseverywhere.interfaces.Convertible;
-import com.linsh.utilseverywhere.interfaces.Function;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,9 +33,9 @@ public class LshListDialogImpl extends LshDialogImpl implements IListDialog {
 
     @Override
     public IListDialog setItems(List<? extends CharSequence> tags) {
-        builder.setList(ListUtils.convertList(tags, new Function<String, CharSequence>() {
+        builder.setList(ListUtils.convertList(tags, new Convertible<CharSequence, String>() {
             @Override
-            public String call(CharSequence o) {
+            public String convert(CharSequence o) {
                 return o.toString();
             }
         }));
@@ -45,9 +44,9 @@ public class LshListDialogImpl extends LshDialogImpl implements IListDialog {
 
     @Override
     public <T> IListDialog setItems(List<T> tags, final Convertible<T, CharSequence> convertible) {
-        builder.setList(ListUtils.convertList(tags, new Function<String, T>() {
+        builder.setList(ListUtils.convertList(tags, new Convertible<T, String>() {
             @Override
-            public String call(T o) {
+            public String convert(T o) {
                 if (convertible != null) {
                     return convertible.convert(o).toString();
                 }
