@@ -2,6 +2,8 @@ package com.linsh.dialog;
 
 import android.app.Dialog;
 
+import androidx.annotation.NonNull;
+
 /**
  * <pre>
  *    author : Senh Linsh
@@ -23,6 +25,6 @@ public interface IDialog {
     }
 
     interface OnItemClickListener {
-        void onItemClick(IDialog dialog, int position);
+        void onItemClick(@NonNull IDialog dialog, int position);
     }
 }
