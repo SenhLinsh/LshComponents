@@ -14,7 +14,7 @@ public interface ITextEditActivity extends IActivity<IActivity.Presenter> {
         void setText(String content);
     }
 
-    interface Presenter extends IActivity.Presenter<View> {
+    interface Presenter extends IActivity.Presenter {
         void saveText(String content);
     }
 }

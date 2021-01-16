@@ -20,7 +20,7 @@ public interface IPhotoViewActivity extends IActivity<IPhotoViewActivity.Present
         void setItemSelected(int index);
     }
 
-    interface Presenter extends IActivity.Presenter<View> {
+    interface Presenter extends IActivity.Presenter {
 
         void onItemSelected(int index, Object photo);
     }

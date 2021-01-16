@@ -17,13 +17,19 @@ import java.io.Serializable;
  *    author : Senh Linsh
  *    github : https://github.com/SenhLinsh
  *    date   : 2020/01/04
- *    desc   :
+ *    desc   : ActivityComponents 默认跳转的通用型 Activity
+ *
+ *             该 Activity 默认无任何内容, 页面内容通过注册时 {@link com.linsh.activity.ActivityComponents#register(Class, Class)}
+ *             所设置的 IView 进行实现.
+ *
+ *             IView 实际上是 Contract.View 的实现, 进行页面构建. 而 Contract.Presenter 则是通过 IActivity.Builder
+ *             进行指定, 通过 intent 传递到当前页面
  * </pre>
  */
+// 使用 EmptyPresenter 进行保底, 如果 intent 传递了 Presenter, 则优先用后者
 @Presenter(ComponentActivity.EmptyPresenter.class)
 public class ComponentActivity extends BaseMvpActivity<Contract.Presenter> implements Contract.View {
 
-    private static final String TAG = "ComponentActivity";
     private Contract.View view;
 
     @Override
@@ -32,7 +38,7 @@ public class ComponentActivity extends BaseMvpActivity<Contract.Presenter> imple
         Serializable extra = getIntent().getSerializableExtra(Contract.View.class.getName());
         if (extra != null) {
             try {
-                view = (Contract.View) ClassUtils.newInstance((Class) extra, true);
+                view = (Contract.View) ClassUtils.newInstance((Class<?>) extra, true);
                 if (view instanceof ActivitySubscribe) {
                     subscribe((ActivitySubscribe) view);
                 }

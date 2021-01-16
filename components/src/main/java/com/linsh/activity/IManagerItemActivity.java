@@ -12,7 +12,7 @@ import java.util.List;
  *             对集合内的条目进行删除和排序
  * </pre>
  */
-public interface IManagerItemActivity extends IActivity {
+public interface IManagerItemActivity extends IActivity<IManagerItemActivity.Presenter> {
 
     interface View extends IActivity.View {
 
@@ -21,7 +21,7 @@ public interface IManagerItemActivity extends IActivity {
         void finish();
     }
 
-    interface Presenter extends IActivity.Presenter<View> {
+    interface Presenter extends IActivity.Presenter {
 
         boolean isItemViewSwipeEnabled();
 

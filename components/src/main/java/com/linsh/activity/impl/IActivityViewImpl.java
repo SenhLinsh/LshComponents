@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.linsh.activity.IActivity;
 import com.linsh.base.activity.ActivitySubscribe;
 import com.linsh.base.activity.IObservableActivity;
+import com.linsh.base.mvp.BaseMvpViewImpl;
 import com.linsh.lshutils.utils.ActivityLifecycleUtilsEx;
 
 /**
@@ -17,7 +18,7 @@ import com.linsh.lshutils.utils.ActivityLifecycleUtilsEx;
  *    desc   :
  * </pre>
  */
-public class IActivityViewImpl<P extends IActivity.Presenter> implements IActivity.View, ActivitySubscribe {
+public class IActivityViewImpl<P extends IActivity.Presenter> extends BaseMvpViewImpl<P> implements IActivity.View, ActivitySubscribe {
 
     private Activity activity;
 
@@ -55,9 +56,5 @@ public class IActivityViewImpl<P extends IActivity.Presenter> implements IActivi
                 }
             }
         }
-    }
-
-    protected P getPresenter() {
-        return (P) ((ComponentActivity) activity).getPresenter();
     }
 }

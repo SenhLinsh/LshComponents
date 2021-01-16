@@ -22,7 +22,7 @@ public interface IActivity<P extends IActivity.Presenter> {
     /**
      * 用于自定义 IActivity 业务逻辑
      */
-    interface Presenter<V extends IActivity.View> extends Contract.Presenter<V> {
+    interface Presenter extends Contract.Presenter {
     }
 
     /**

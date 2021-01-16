@@ -21,7 +21,7 @@ public interface ISearchActivity extends IActivity<ISearchActivity.Presenter> {
         <T> void setResults(List<T> results, Convertible<T, CharSequence> converter);
     }
 
-    interface Presenter extends IActivity.Presenter<View> {
+    interface Presenter extends IActivity.Presenter {
 
         void search(String query);
 
