@@ -6,14 +6,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.linsh.bean.NestedInfo;
+import com.linsh.lshutils.entity.NestedInfo;
+import com.linsh.lshutils.tools.NestedList;
 import com.linsh.utilseverywhere.ClassUtils;
 import com.linsh.view.IView;
 import com.linsh.view.ViewComponents;
 import com.linsh.views.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,56 +32,36 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends IView
     private static final int ITEM_VIEW_TYPE_PARENT = 1;
     private static final int ITEM_VIEW_TYPE_CHILD = 2;
 
-    private List<T> data;
-    private List<NestedItem> items = new ArrayList<>();
+    private NestedList nestedList;
 
     public void setData(List<T> data) {
-        this.data = data;
-        items.clear();
-        if (data != null) {
-            for (int i = 0; i < data.size(); i++) {
-                int[] positions = {i};
-                items.add(new NestedItem(positions));
-                checkOpen(data.get(i), positions);
-            }
+        if (nestedList == null) {
+            nestedList = new NestedList(data);
+        } else {
+            nestedList.setNestedInfos(data);
         }
         notifyDataSetChanged();
     }
 
-    private void checkOpen(NestedInfo t, int[] positions) {
-        if (!t.isOpened()) return;
-        List<? extends NestedInfo> children = t.getChildren();
-        for (int i = 0; i < children.size(); i++) {
-            int[] childPositions = Arrays.copyOf(positions, positions.length + 1);
-            childPositions[childPositions.length - 1] = i;
-            items.add(new NestedItem(childPositions));
-            NestedInfo child = children.get(i);
-            checkOpen(child, childPositions);
-        }
+    public void setData(NestedList nestedList) {
+        this.nestedList = nestedList;
+        notifyDataSetChanged();
     }
 
-    public List<T> getData() {
-        return data;
+    public NestedInfo getNestedInfo(int position) {
+        return nestedList.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return nestedList != null ? nestedList.size() : 0;
     }
 
     @Override
     public int getItemViewType(int position) {
-        NestedItem item = items.get(position);
-        NestedInfo t = null;
-        for (int i = 0; i < item.position.length; i++) {
-            if (i == 0) {
-                t = data.get(item.position[i]);
-            } else {
-                t = t.getChildren().get(item.position[i]);
-            }
-        }
-        if (t != null) {
-            return t.isNested() ? ITEM_VIEW_TYPE_PARENT : ITEM_VIEW_TYPE_CHILD;
+        NestedInfo nestedInfo = getNestedInfo(position);
+        if (nestedInfo != null) {
+            return nestedInfo.isNested() ? ITEM_VIEW_TYPE_PARENT : ITEM_VIEW_TYPE_CHILD;
         }
         return super.getItemViewType(position);
     }
@@ -114,62 +93,31 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends IView
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         holder.itemView.setTag(R.id.tag_view_holder, holder);
 
-        NestedItem item = items.get(position);
-        NestedInfo t = null;
-        for (int i = 0; i < item.position.length; i++) {
-            if (i == 0) {
-                t = data.get(item.position[i]);
-            } else {
-                t = t.getChildren().get(item.position[i]);
-            }
-        }
+        NestedInfo nestedInfo = getNestedInfo(position);
 
         if (holder instanceof NestedDataRcvAdapter.ParentViewHolder) {
-            onBindViewHelper(((ParentViewHolder) holder).viewHelper, null, t, item.position);
+            onBindViewHolder(((ParentViewHolder) holder).viewHelper, nestedInfo);
         } else if (holder instanceof NestedDataRcvAdapter.ChildViewHolder) {
-            onBindViewHelper(null, ((ChildViewHolder) holder).viewHelper, t, item.position);
+            onBindViewHolder(((ChildViewHolder) holder).viewHelper, nestedInfo);
         }
     }
 
-    public abstract void onBindViewHelper(P parent, C child, NestedInfo data, int[] position);
+    public abstract void onBindViewHolder(IView view, NestedInfo item);
 
     @Override
     public void onClick(View v) {
         RecyclerView.ViewHolder holder = (RecyclerView.ViewHolder) v.getTag(R.id.tag_view_holder);
         int position = holder.getAdapterPosition();
-        NestedItem item = items.get(position);
-        NestedInfo t = null;
-        for (int i = 0; i < item.position.length; i++) {
-            if (i == 0) {
-                t = data.get(item.position[i]);
-            } else {
-                t = t.getChildren().get(item.position[i]);
-            }
-        }
+        NestedInfo nestedInfo = getNestedInfo(position);
 
         if (holder instanceof NestedDataRcvAdapter.ParentViewHolder) {
-            t.setOpened(!t.isOpened());
-            if (t.isOpened()) {
-                List<? extends NestedInfo> children = t.getChildren();
-                for (int i = children.size() - 1; i >= 0; i--) {
-                    int[] positions = items.get(position).position;
-                    positions = Arrays.copyOf(positions, positions.length + 1);
-                    positions[positions.length - 1] = i;
-                    items.add(position + 1, new NestedItem(positions));
-                }
-            } else {
-                int[] positions = items.get(position).position;
-                int next = position + 1;
-                while (next < items.size() && items.get(next).position.length > positions.length) {
-                    items.remove(next);
-                }
-            }
+            nestedList.toggle(position);
             notifyDataSetChanged();
             if (mOnItemClickListener != null)
-                mOnItemClickListener.onItemClick(((ParentViewHolder) holder).viewHelper, t, item.position);
+                mOnItemClickListener.onItemClick(((ParentViewHolder) holder).viewHelper, nestedInfo);
         } else if (holder instanceof NestedDataRcvAdapter.ChildViewHolder) {
             if (mOnItemClickListener != null)
-                mOnItemClickListener.onItemClick(((ChildViewHolder) holder).viewHelper, t, item.position);
+                mOnItemClickListener.onItemClick(((ChildViewHolder) holder).viewHelper, nestedInfo);
         }
     }
 
@@ -180,7 +128,7 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends IView
     }
 
     public interface OnItemClickListener {
-        void onItemClick(IView viewHelper, NestedInfo data, int[] position);
+        void onItemClick(IView viewHelper, NestedInfo item);
     }
 
     @Override
@@ -189,20 +137,13 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends IView
             return false;
 
         RecyclerView.ViewHolder holder = (RecyclerView.ViewHolder) v.getTag(R.id.tag_view_holder);
-        NestedItem item = items.get(holder.getAdapterPosition());
-        NestedInfo t = null;
-        for (int i = 0; i < item.position.length; i++) {
-            if (i == 0) {
-                t = data.get(item.position[i]);
-            } else {
-                t = t.getChildren().get(item.position[i]);
-            }
-        }
+        int position = holder.getAdapterPosition();
+        NestedInfo nestedInfo = getNestedInfo(position);
 
         if (holder instanceof NestedDataRcvAdapter.ParentViewHolder) {
-            mOnItemLongClickListener.onItemLongClick(((ParentViewHolder) holder).viewHelper, t, item.position);
+            mOnItemLongClickListener.onItemLongClick(((ParentViewHolder) holder).viewHelper, nestedInfo);
         } else if (holder instanceof NestedDataRcvAdapter.ChildViewHolder) {
-            mOnItemLongClickListener.onItemLongClick(((ChildViewHolder) holder).viewHelper, t, item.position);
+            mOnItemLongClickListener.onItemLongClick(((ChildViewHolder) holder).viewHelper, nestedInfo);
         }
         return true;
     }
@@ -215,7 +156,7 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends IView
     }
 
     public interface OnItemLongClickListener {
-        void onItemLongClick(IView viewHelper, NestedInfo data, int[] position);
+        void onItemLongClick(IView viewHelper, NestedInfo item);
     }
 
     private class ParentViewHolder extends RecyclerView.ViewHolder {
@@ -235,15 +176,6 @@ public abstract class NestedDataRcvAdapter<T extends NestedInfo, P extends IView
         public ChildViewHolder(@NonNull View itemView, C viewHelper) {
             super(itemView);
             this.viewHelper = viewHelper;
-        }
-    }
-
-    private static class NestedItem {
-
-        private final int[] position;
-
-        private NestedItem(int[] position) {
-            this.position = position;
         }
     }
 }
