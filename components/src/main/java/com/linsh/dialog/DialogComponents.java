@@ -3,6 +3,7 @@ package com.linsh.dialog;
 import android.content.Context;
 
 import com.linsh.base.LshLog;
+import com.linsh.base.activity.IObservableActivity;
 import com.linsh.dialog.impl.Register;
 import com.linsh.utilseverywhere.ClassUtils;
 
@@ -40,10 +41,26 @@ public class DialogComponents {
             throw new RuntimeException("can not find implement for dialog helper: " + dialogHelper.getName());
         }
         try {
-            Object instance = ClassUtils.newInstance(clazz, new Class[]{Context.class}, new Object[]{context}, true);
-            return (T) instance;
+            IDialog dialog = (IDialog) ClassUtils.newInstance(clazz, new Class[]{Context.class}, new Object[]{context}, true);
+            if (context instanceof IObservableActivity) {
+                ((IObservableActivity) context).subscribe(DialogSubscriber.class).bind(dialog);
+            }
+            return (T) dialog;
         } catch (Exception e) {
             throw new IllegalStateException(e);
+        }
+    }
+
+    public static <T extends IDialog> T find(Context context, Class<T> dialogClass) {
+        if (context instanceof IObservableActivity) {
+            return ((IObservableActivity) context).subscribe(DialogSubscriber.class).find(dialogClass);
+        }
+        return null;
+    }
+
+    public static void dismissAll(Context context) {
+        if (context instanceof IObservableActivity) {
+            ((IObservableActivity) context).subscribe(DialogSubscriber.class).dismissAll();
         }
     }
 
