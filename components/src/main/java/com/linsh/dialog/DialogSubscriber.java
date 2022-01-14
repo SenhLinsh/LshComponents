@@ -1,12 +1,14 @@
 package com.linsh.dialog;
 
 import android.app.Activity;
+import android.app.Dialog;
 
+import com.linsh.base.LshLog;
 import com.linsh.base.activity.ActivitySubscribe;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * <pre>
@@ -18,14 +20,16 @@ import java.util.List;
  */
 class DialogSubscriber implements ActivitySubscribe.OnDestroy {
 
-    private final List<WeakReference<IDialog>> dialogs = new ArrayList<>();
+    private static final String TAG = "DialogSubscriber";
+    private final Map<Dialog, IDialog> dialogs = new WeakHashMap<>();
 
     @Override
     public void attach(Activity activity) {
     }
 
     public void bind(IDialog dialog) {
-        dialogs.add(new WeakReference<>(dialog));
+        LshLog.i(TAG, "bind dialog, implement: " + dialog.getClass().getSimpleName());
+        dialogs.put(dialog.getDialog(), dialog);
     }
 
     public <T extends IDialog> T find(Class<T> dialogInterface) {
@@ -33,11 +37,11 @@ class DialogSubscriber implements ActivitySubscribe.OnDestroy {
     }
 
     public <T extends IDialog> T find(Class<T> dialogInterface, boolean needShowing) {
-        for (int i = 0; i < dialogs.size(); i++) {
-            WeakReference<IDialog> reference = dialogs.get(i);
-            IDialog dialog = reference.get();
+        Iterator<Map.Entry<Dialog, IDialog>> iterator = dialogs.entrySet().iterator();
+        while (iterator.hasNext()) {
+            IDialog dialog = iterator.next().getValue();
             if (dialog == null) {
-                dialogs.remove(i--);
+                iterator.remove();
                 continue;
             }
             if (needShowing && !dialog.getDialog().isShowing()) {
@@ -55,11 +59,11 @@ class DialogSubscriber implements ActivitySubscribe.OnDestroy {
     }
 
     public IDialog findFirst(boolean needShowing) {
-        for (int i = 0; i < dialogs.size(); i++) {
-            WeakReference<IDialog> reference = dialogs.get(i);
-            IDialog dialog = reference.get();
+        Iterator<Map.Entry<Dialog, IDialog>> iterator = dialogs.entrySet().iterator();
+        while (iterator.hasNext()) {
+            IDialog dialog = iterator.next().getValue();
             if (dialog == null) {
-                dialogs.remove(i--);
+                iterator.remove();
                 continue;
             }
             if (needShowing && !dialog.getDialog().isShowing()) {
@@ -71,16 +75,21 @@ class DialogSubscriber implements ActivitySubscribe.OnDestroy {
     }
 
     public void dismissAll() {
-        for (int i = 0; i < dialogs.size(); i++) {
-            WeakReference<IDialog> reference = dialogs.get(i);
-            IDialog dialog = reference.get();
+        LshLog.i(TAG, "dismiss all");
+        Iterator<Map.Entry<Dialog, IDialog>> iterator = dialogs.entrySet().iterator();
+        while (iterator.hasNext()) {
+            IDialog dialog = iterator.next().getValue();
             if (dialog == null) {
-                dialogs.remove(i--);
+                LshLog.d(TAG, "find empty dialog");
+                iterator.remove();
                 continue;
             }
             if (dialog.getDialog().isShowing()) {
+                LshLog.d(TAG, "find showing dialog: " + dialog.getClass().getSimpleName() + ", dismiss it");
                 dialog.dismiss();
-                dialogs.remove(i--);
+                iterator.remove();
+            } else {
+                LshLog.d(TAG, "find dismissed dialog: " + dialog.getClass().getSimpleName());
             }
         }
     }
