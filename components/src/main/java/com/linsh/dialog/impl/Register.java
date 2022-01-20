@@ -17,7 +17,8 @@ public class Register {
                 LshInputDialogImpl.class,
                 LshTextDialogImpl.class,
                 LshTextLoadingDialogImpl.class,
-                LshListDialogImpl.class
+                LshListDialogImpl.class,
+                LshSingleChoiceDialogImpl.class
         );
     }
 }

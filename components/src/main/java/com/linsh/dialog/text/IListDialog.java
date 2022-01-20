@@ -15,9 +15,9 @@ import java.util.List;
  */
 public interface IListDialog extends IDefaultDialog {
 
-    IListDialog setItems(List<? extends CharSequence> tags);
+    IListDialog setItems(List<? extends CharSequence> items);
 
-    <T> IListDialog setItems(List<T> tags, Convertible<T, CharSequence> convertible);
+    <T> IListDialog setItems(List<T> items, Convertible<T, CharSequence> convertible);
 
     IListDialog setItems(CharSequence[] items);
 
