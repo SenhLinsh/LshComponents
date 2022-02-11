@@ -18,7 +18,8 @@ import com.linsh.dialog.loading.ITextLoadingDialog;
 class LshTextLoadingDialogImpl extends LshDialogImpl implements ITextLoadingDialog {
 
     public LshTextLoadingDialogImpl(Context context) {
-        super(new LshDialog(context).buildText().setContent("加载中..."));
+        super(new LshDialog(context).buildText());
+        setText("加载中");
     }
 
     @Override
