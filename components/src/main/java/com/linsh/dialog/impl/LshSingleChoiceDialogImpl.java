@@ -23,7 +23,7 @@ public class LshSingleChoiceDialogImpl extends LshDialogImpl
 
     private final LshDialog.ListDialogBuilder builder;
     private final List<CharSequence> items = new ArrayList<>();
-    private final List<OnItemClickListener> listeners = new ArrayList<>();
+    private final List<OnClickListener> listeners = new ArrayList<>();
 
     public LshSingleChoiceDialogImpl(Context context) {
         this(new LshDialog(context).buildList());
@@ -36,7 +36,7 @@ public class LshSingleChoiceDialogImpl extends LshDialogImpl
     }
 
     @Override
-    public ISingleChoiceDialog addItem(CharSequence item, OnItemClickListener listener) {
+    public ISingleChoiceDialog addItem(CharSequence item, OnClickListener listener) {
         items.add(item);
         listeners.add(listener);
         builder.setList(ListUtils.convertList(items, new Convertible<CharSequence, String>() {
@@ -51,9 +51,9 @@ public class LshSingleChoiceDialogImpl extends LshDialogImpl
     @Override
     public void onClick(LshDialog dialog, int index) {
         dialog.dismiss();
-        OnItemClickListener listener = listeners.get(index);
+        OnClickListener listener = listeners.get(index);
         if (listener != null) {
-            listener.onItemClick(this, index);
+            listener.onClick(this);
         }
     }
 }

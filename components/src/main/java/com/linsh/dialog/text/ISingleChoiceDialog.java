@@ -12,5 +12,5 @@ import com.linsh.dialog.IDefaultDialog;
  */
 public interface ISingleChoiceDialog extends IDefaultDialog {
 
-    ISingleChoiceDialog addItem(CharSequence item, OnItemClickListener listener);
+    ISingleChoiceDialog addItem(CharSequence item, OnClickListener listener);
 }
