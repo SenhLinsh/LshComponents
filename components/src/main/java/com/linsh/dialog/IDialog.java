@@ -14,6 +14,10 @@ import androidx.annotation.NonNull;
  */
 public interface IDialog {
 
+    default <T extends IDialog> T as(Class<T> classOfDialog) {
+        return (T) this;
+    }
+
     Dialog getDialog();
 
     IDialog show();
