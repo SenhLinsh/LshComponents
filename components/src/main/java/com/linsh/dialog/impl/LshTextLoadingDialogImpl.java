@@ -19,7 +19,7 @@ class LshTextLoadingDialogImpl extends LshDialogImpl implements ITextLoadingDial
 
     public LshTextLoadingDialogImpl(Context context) {
         super(new LshDialog(context).buildText());
-        setText("加载中");
+        setText("加载中...");
     }
 
     @Override
