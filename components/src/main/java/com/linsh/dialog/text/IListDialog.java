@@ -25,4 +25,5 @@ public interface IListDialog extends IDefaultDialog {
 
     IListDialog setOnItemClickListener(OnItemClickListener listener);
 
+    IListDialog setOnItemLongClickListener(OnItemClickListener listener);
 }

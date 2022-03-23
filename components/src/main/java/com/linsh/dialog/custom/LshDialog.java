@@ -261,6 +261,7 @@ public class LshDialog extends Dialog {
     public class ListDialogBuilder extends NoBtnDialogBuilder<ListDialogBuilder> implements ListDialogInterface<ListDialogBuilder, String> {
         private List<String> list;
         private OnItemClickListener mOnItemClickListener;
+        private OnItemClickListener mOnItemLongClickListener;
         private ListDialogAdapter adapter;
 
 
@@ -283,6 +284,15 @@ public class LshDialog extends Dialog {
         }
 
         @Override
+        public ListDialogBuilder setOnItemLongClickListener(OnItemClickListener listener) {
+            mOnItemLongClickListener = listener;
+            if (adapter != null) {
+                adapter.mOnItemLongClickListener = listener;
+            }
+            return this;
+        }
+
+        @Override
         protected View initView(LshDialog dialog) {
             super.initView(dialog);
             // 生成RecyclerView
@@ -290,20 +300,22 @@ public class LshDialog extends Dialog {
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             recyclerView.setLayoutParams(params);
             recyclerView.setLayoutManager(new LinearLayoutManager(dialog.getContext()));
-            adapter = new ListDialogAdapter(list, mOnItemClickListener);
+            adapter = new ListDialogAdapter(list, mOnItemClickListener, mOnItemLongClickListener);
             recyclerView.setAdapter(adapter);
             addView(dialog, recyclerView);
             return recyclerView;
         }
     }
 
-    private class ListDialogAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+    private class ListDialogAdapter extends RecyclerView.Adapter implements View.OnClickListener, View.OnLongClickListener {
         private List<String> data;
         private OnItemClickListener mOnItemClickListener;
+        private OnItemClickListener mOnItemLongClickListener;
 
-        public ListDialogAdapter(List<String> list, OnItemClickListener listener) {
+        public ListDialogAdapter(List<String> list, OnItemClickListener itemClickListener, OnItemClickListener itemLongClickListener) {
             data = list;
-            mOnItemClickListener = listener;
+            mOnItemClickListener = itemClickListener;
+            mOnItemLongClickListener = itemLongClickListener;
         }
 
         @Override
@@ -340,6 +352,7 @@ public class LshDialog extends Dialog {
             textView.setText(data.get(position));
             layout.setTag(position);
             layout.setOnClickListener(this);
+            layout.setOnLongClickListener(this);
         }
 
         @Override
@@ -353,6 +366,16 @@ public class LshDialog extends Dialog {
                 int position = (int) v.getTag();
                 mOnItemClickListener.onClick(LshDialog.this, position);
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (mOnItemLongClickListener != null) {
+                int position = (int) v.getTag();
+                mOnItemLongClickListener.onClick(LshDialog.this, position);
+                return true;
+            }
+            return false;
         }
     }
 
@@ -452,6 +475,8 @@ public class LshDialog extends Dialog {
         T setList(List<S> list);
 
         T setOnItemClickListener(OnItemClickListener listener);
+
+        T setOnItemLongClickListener(OnItemClickListener listener);
     }
 
     private interface SelectDialogInterface<T extends SelectDialogBuilder> extends BaseDialogInterface {

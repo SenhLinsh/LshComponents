@@ -76,4 +76,15 @@ public class LshListDialogImpl extends LshDialogImpl implements IListDialog {
         });
         return this;
     }
+
+    @Override
+    public IListDialog setOnItemLongClickListener(OnItemClickListener listener) {
+        builder.setOnItemLongClickListener(new LshDialog.OnItemClickListener() {
+            @Override
+            public void onClick(LshDialog dialog, int index) {
+                listener.onItemClick(LshListDialogImpl.this, index);
+            }
+        });
+        return this;
+    }
 }
