@@ -1,6 +1,8 @@
 package com.linsh.dialog.impl;
 
 import com.linsh.dialog.DialogComponents;
+import com.linsh.dialog.impl.alert.InputAlertDialogImpl;
+import com.linsh.dialog.impl.alert.TextAlertDialogImpl;
 
 /**
  * <pre>
@@ -19,7 +21,9 @@ public class Register {
                 LshTextLoadingDialogImpl.class,
                 KeepScreenOnLoadingDialogImpl.class,
                 LshListDialogImpl.class,
-                LshSingleChoiceDialogImpl.class
+                LshSingleChoiceDialogImpl.class,
+                TextAlertDialogImpl.class,
+                InputAlertDialogImpl.class
         );
     }
 }

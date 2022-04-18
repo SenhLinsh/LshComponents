@@ -37,6 +37,9 @@ public class LshSingleChoiceDialogImpl extends LshDialogImpl
 
     @Override
     public ISingleChoiceDialog addItem(CharSequence item, OnClickListener listener) {
+        if (item == null) {
+            return this;
+        }
         items.add(item);
         listeners.add(listener);
         builder.setList(ListUtils.convertList(items, new Convertible<CharSequence, String>() {
