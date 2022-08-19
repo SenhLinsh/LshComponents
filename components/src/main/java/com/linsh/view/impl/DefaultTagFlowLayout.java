@@ -16,7 +16,6 @@ import com.linsh.view.OnItemLongClickListener;
 import com.linsh.view.ViewComponents;
 import com.linsh.view.tag.ITagFlowLayout;
 import com.linsh.view.tag.ITagView;
-import com.linsh.views.R;
 
 import java.util.List;
 
@@ -113,12 +112,12 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
 
     private View generateTextView() {
         View tagView = ViewComponents.create(flowLayout.getContext(), ITagView.class).getView();
-        tagView.setTag(R.id.uee_tag_item_view, flowLayout.getChildCount());
+        tagView.setTag(com.linsh.lshutils.R.id.uee_tag_item_view, flowLayout.getChildCount());
         tagView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
-                    Object position = v.getTag(R.id.uee_tag_item_view);
+                    Object position = v.getTag(com.linsh.lshutils.R.id.uee_tag_item_view);
                     if (position instanceof Integer) {
                         onItemClickListener.onItemClick(v, (Integer) position);
                     }
@@ -129,7 +128,7 @@ public class DefaultTagFlowLayout implements ITagFlowLayout {
             @Override
             public boolean onLongClick(View v) {
                 if (onItemLongClickListener != null) {
-                    Object position = v.getTag(R.id.uee_tag_item_view);
+                    Object position = v.getTag(com.linsh.lshutils.R.id.uee_tag_item_view);
                     if (position instanceof Integer) {
                         onItemLongClickListener.onItemLongClick(v, (Integer) position);
                     }
