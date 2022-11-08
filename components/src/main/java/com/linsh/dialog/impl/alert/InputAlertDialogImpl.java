@@ -6,6 +6,8 @@ import android.widget.EditText;
 
 import com.linsh.dialog.text.IInputDialog;
 import com.linsh.lshutils.utils.Dps;
+import com.linsh.utilseverywhere.HandlerUtils;
+import com.linsh.utilseverywhere.KeyboardUtils;
 
 /**
  * <pre>
@@ -30,11 +32,22 @@ public class InputAlertDialogImpl extends BaseAlertDialogImpl implements IInputD
     @Override
     public IInputDialog setText(CharSequence text) {
         editText.setText(text);
+        editText.setSelection(text.length());
         return this;
     }
 
     @Override
     public CharSequence getText() {
         return editText.getText();
+    }
+
+    @Override
+    public IInputDialog showKeyboard(boolean show) {
+        if (show) {
+            dialog.setOnShowListener(dialog -> HandlerUtils.postRunnable(() -> KeyboardUtils.showKeyboard(editText), 100));
+        } else {
+            dialog.setOnShowListener(null);
+        }
+        return this;
     }
 }

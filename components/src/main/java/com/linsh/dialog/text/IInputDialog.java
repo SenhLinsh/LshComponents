@@ -15,4 +15,6 @@ public interface IInputDialog extends IDefaultDialog {
     IInputDialog setText(CharSequence text);
 
     CharSequence getText();
+
+    IInputDialog showKeyboard(boolean show);
 }

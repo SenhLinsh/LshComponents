@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.linsh.dialog.custom.LshDialog;
 import com.linsh.dialog.text.IInputDialog;
+import com.linsh.utilseverywhere.HandlerUtils;
+import com.linsh.utilseverywhere.KeyboardUtils;
 
 /**
  * <pre>
@@ -39,5 +41,15 @@ class LshInputDialogImpl extends LshDialogImpl implements IInputDialog {
             return ((TextView) contentView).getText();
         }
         return null;
+    }
+
+    @Override
+    public IInputDialog showKeyboard(boolean show) {
+        if (show) {
+            dialog.setOnShowListener(dialog -> HandlerUtils.postRunnable(() -> KeyboardUtils.showKeyboard(this.dialog.getContentView()), 100));
+        } else {
+            dialog.setOnShowListener(null);
+        }
+        return this;
     }
 }
