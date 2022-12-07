@@ -2,6 +2,8 @@ package com.linsh.dialog.impl;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import com.linsh.dialog.custom.LshDialog;
 import com.linsh.dialog.text.IListDialog;
 import com.linsh.utilseverywhere.ListUtils;
@@ -67,24 +69,28 @@ public class LshListDialogImpl extends LshDialogImpl implements IListDialog {
     }
 
     @Override
-    public IListDialog setOnItemClickListener(final OnItemClickListener listener) {
-        builder.setOnItemClickListener(new LshDialog.OnItemClickListener() {
-            @Override
-            public void onClick(LshDialog dialog, int index) {
-                listener.onItemClick(LshListDialogImpl.this, index);
-            }
-        });
+    public IListDialog setOnItemClickListener(@Nullable OnItemClickListener listener) {
+        if (listener != null) {
+            builder.setOnItemClickListener(new LshDialog.OnItemClickListener() {
+                @Override
+                public void onClick(LshDialog dialog, int index) {
+                    listener.onItemClick(LshListDialogImpl.this, index);
+                }
+            });
+        }
         return this;
     }
 
     @Override
-    public IListDialog setOnItemLongClickListener(OnItemClickListener listener) {
-        builder.setOnItemLongClickListener(new LshDialog.OnItemClickListener() {
-            @Override
-            public void onClick(LshDialog dialog, int index) {
-                listener.onItemClick(LshListDialogImpl.this, index);
-            }
-        });
+    public IListDialog setOnItemLongClickListener(@Nullable OnItemClickListener listener) {
+        if (listener != null) {
+            builder.setOnItemLongClickListener(new LshDialog.OnItemClickListener() {
+                @Override
+                public void onClick(LshDialog dialog, int index) {
+                    listener.onItemClick(LshListDialogImpl.this, index);
+                }
+            });
+        }
         return this;
     }
 }
