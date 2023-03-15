@@ -19,7 +19,7 @@ import com.linsh.views.R;
  *    desc   :
  * </pre>
  */
-public class TextEditActivityImpl extends IActivityViewImpl<ITextEditActivity.Presenter>
+class TextEditActivityImpl extends IActivityViewImpl<ITextEditActivity.Presenter>
         implements ITextEditActivity.View, ActivitySubscribe.OnCreate, ActivitySubscribe.OnCreateOptionsMenu, ActivitySubscribe.OnOptionsItemSelected {
 
     private EditText editText;

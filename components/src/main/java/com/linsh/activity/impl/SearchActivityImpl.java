@@ -29,7 +29,7 @@ import java.util.List;
  *    desc   :
  * </pre>
  */
-public class SearchActivityImpl extends IActivityViewImpl<ISearchActivity.Presenter> implements ISearchActivity.View,
+class SearchActivityImpl extends IActivityViewImpl<ISearchActivity.Presenter> implements ISearchActivity.View,
         ActivitySubscribe.OnCreate, ActivitySubscribe.OnCreateOptionsMenu {
 
     private SearchAdapter adapter;

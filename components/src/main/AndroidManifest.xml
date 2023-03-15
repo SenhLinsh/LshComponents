@@ -3,5 +3,6 @@
 
     <application>
         <activity android:name="com.linsh.activity.impl.ComponentActivity" />
+        <activity android:name="com.linsh.fragment.FragmentComponentActivity" />
     </application>
 </manifest>
