@@ -88,23 +88,27 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
                         typeViewHolder.ivTool.setVisibility(View.VISIBLE);
                         if (matcher.group(1).equals("time")) {
                             String format = matcher.group(2);
-                            typeViewHolder.ivTool.setImageResource(R.drawable.ic_time);
-                            typeViewHolder.ivTool.setOnClickListener(v -> {
-                                String[] args = format.split("\\|");
-                                List<String> items = new ArrayList<>();
-                                List<String> formats = new ArrayList<>();
-                                for (String arg : args) {
-                                    if (arg.contains("yyyy")) {
-                                        if (arg.contains("HH")) {
-                                            items.add("使用当前日期+时间");
-                                        } else {
-                                            items.add("使用当前日期");
-                                            items.add("手动选择日期");
-                                            formats.add(arg);
-                                        }
+                            String[] args = format.split("\\|");
+                            List<String> items = new ArrayList<>();
+                            List<String> formats = new ArrayList<>();
+                            for (String arg : args) {
+                                if (arg.contains("yyyy")) {
+                                    if (arg.contains("HH")) {
+                                        items.add("使用当前日期+时间");
+                                    } else {
+                                        items.add("使用当前日期");
+                                        items.add("手动选择日期");
                                         formats.add(arg);
                                     }
+                                    formats.add(arg);
                                 }
+                            }
+                            if (items.size() > 0) {
+                                typeViewHolder.etInfo.setText(DateUtils.format(new Date(), formats.get(0)));
+                                EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+                            }
+                            typeViewHolder.ivTool.setImageResource(R.drawable.ic_time);
+                            typeViewHolder.ivTool.setOnClickListener(v -> {
                                 if (items.size() == 0) {
                                     return;
                                 }
