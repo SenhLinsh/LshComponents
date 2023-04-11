@@ -9,7 +9,11 @@ import java.util.Map;
  *    author : Senh Linsh
  *    github : https://github.com/SenhLinsh
  *    date   : 2023/03/06
- *    desc   :
+ *    desc   : 设置页面
+ *
+ *             可用于：
+ *                 1. 编辑配置
+ *                 2. 输入模板
  * </pre>
  */
 public interface ISettingsFragment extends IFragment<Contract.Presenter> {
