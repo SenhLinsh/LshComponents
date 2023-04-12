@@ -1,6 +1,7 @@
 package com.linsh.fragment.impl;
 
 import com.linsh.fragment.FragmentComponents;
+import com.linsh.fragment.IManagerItemFragment;
 import com.linsh.fragment.ISettingsFragment;
 
 /**
@@ -11,9 +12,10 @@ import com.linsh.fragment.ISettingsFragment;
  *    desc   :
  * </pre>
  */
-public class Register {
+public class _Register {
 
     public static void init() {
         FragmentComponents.register(ISettingsFragment.class, SettingsFragmentImpl.class);
+        FragmentComponents.register(IManagerItemFragment.class, ManagerItemActivityImpl.class);
     }
 }

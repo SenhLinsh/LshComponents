@@ -24,7 +24,7 @@ import com.linsh.views.R;
  */
 public class FragmentComponentActivity extends BaseActivity {
 
-    static <T extends Contract.Presenter> IntentDelegate navigate(Class<? extends IFragment<T>> fragmentInterface, Class<? extends T> presenterClass) {
+    static <T extends Contract.Presenter> IntentDelegate navigateIntent(Class<? extends IFragment<T>> fragmentInterface, Class<? extends T> presenterClass) {
         return LshActivity.intent(new Intent(ContextUtils.get(), FragmentComponentActivity.class)
                 .putExtra("fragmentInterface", fragmentInterface)
                 .putExtra("presenterClass", presenterClass));
@@ -54,7 +54,7 @@ public class FragmentComponentActivity extends BaseActivity {
         // 实例化 Contract.Presenter
         Contract.Presenter presenter;
         try {
-            presenter = (Contract.Presenter) ClassUtils.newInstance(presenterClass);
+            presenter = (Contract.Presenter) ClassUtils.newInstance(presenterClass, true);
         } catch (Exception e) {
             throw new RuntimeException("new presenter Contract.Presenter class error", e);
         }

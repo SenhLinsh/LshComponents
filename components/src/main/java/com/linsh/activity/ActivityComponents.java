@@ -3,7 +3,7 @@ package com.linsh.activity;
 import android.content.Context;
 
 import com.linsh.activity.impl.IActivityBuilderImpl;
-import com.linsh.activity.impl.Register;
+import com.linsh.activity.impl._Register;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class ActivityComponents {
 
     static {
         // TODO: 2021/1/16 后期应该改为使用类注解, 并在编译期进行注册
-        Register.init();
+        _Register.init();
     }
 
     /**

@@ -2,7 +2,7 @@ package com.linsh.fragment;
 
 import com.linsh.base.activity.IntentDelegate;
 import com.linsh.base.mvp.Contract;
-import com.linsh.fragment.impl.Register;
+import com.linsh.fragment.impl._Register;
 import com.linsh.utilseverywhere.ClassUtils;
 
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class FragmentComponents {
     private static final Map<Class<? extends IFragment<?>>, Class<? extends IFragment>> IMPLEMENTS = new HashMap<>();
 
     static {
-        Register.init();
+        _Register.init();
     }
 
     /**
@@ -60,7 +60,7 @@ public class FragmentComponents {
         IMPLEMENTS.put(iFragment, iFragmentImpl);
     }
 
-    public static <T extends Contract.Presenter> IntentDelegate navigateActivity(Class<? extends IFragment<T>> fragmentClass, Class<? extends T> presenterClass) {
-        return FragmentComponentActivity.navigate(fragmentClass, presenterClass);
+    public static <T extends Contract.Presenter> IntentDelegate navigateActivityIntent(Class<? extends IFragment<T>> fragmentClass, Class<? extends T> presenterClass) {
+        return FragmentComponentActivity.navigateIntent(fragmentClass, presenterClass);
     }
 }
