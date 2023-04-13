@@ -69,21 +69,27 @@ public class SimpleToolFragmentImpl extends BaseComponentFragment<ISimpleToolFra
     }
 
     @Override
-    public void buildButton(String id, String name) {
-        Button button = new Button(getContext());
+    public void buildOrUpdateButton(@NonNull String id, @NonNull String name) {
+        Button button = llButtons.findViewWithTag(id);
+        if (button != null) {
+            button.setText(name);
+            return;
+        }
+        button = new Button(getContext());
         button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         button.setText(name);
+        button.setTag(id);
         button.setOnClickListener(v -> getPresenter().onButtonClick(id));
         llButtons.addView(button);
     }
 
     @Override
-    public void setContent(String content) {
+    public void setContent(@NonNull String content) {
         tvContent.setText(content);
     }
 
     @Override
-    public void addLog(String log) {
+    public void addLog(@NonNull String log) {
         adapter.getData().add(log);
         adapter.notifyDataSetChanged();
     }

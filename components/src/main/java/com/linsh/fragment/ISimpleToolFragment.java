@@ -1,5 +1,7 @@
 package com.linsh.fragment;
 
+import androidx.annotation.NonNull;
+
 import com.linsh.base.mvp.Contract;
 
 /**
@@ -14,16 +16,16 @@ import com.linsh.base.mvp.Contract;
  */
 public interface ISimpleToolFragment extends IFragment<ISimpleToolFragment.Presenter> {
 
-    void buildButton(String id, String name);
+    void buildOrUpdateButton(@NonNull String id, @NonNull String name);
 
-    void setContent(String content);
+    void setContent(@NonNull String content);
 
-    void addLog(String log);
+    void addLog(@NonNull String log);
 
     void clearLogs();
 
     interface Presenter extends Contract.Presenter {
 
-        void onButtonClick(String id);
+        void onButtonClick(@NonNull String id);
     }
 }
