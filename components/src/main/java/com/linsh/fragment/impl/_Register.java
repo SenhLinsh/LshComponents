@@ -3,6 +3,7 @@ package com.linsh.fragment.impl;
 import com.linsh.fragment.FragmentComponents;
 import com.linsh.fragment.IManagerItemFragment;
 import com.linsh.fragment.ISettingsFragment;
+import com.linsh.fragment.ISimpleToolFragment;
 
 /**
  * <pre>
@@ -17,5 +18,6 @@ public class _Register {
     public static void init() {
         FragmentComponents.register(ISettingsFragment.class, SettingsFragmentImpl.class);
         FragmentComponents.register(IManagerItemFragment.class, ManagerItemActivityImpl.class);
+        FragmentComponents.register(ISimpleToolFragment.class, SimpleToolFragmentImpl.class);
     }
 }
