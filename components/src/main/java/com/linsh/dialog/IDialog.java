@@ -31,4 +31,8 @@ public interface IDialog {
     interface OnItemClickListener {
         void onItemClick(@NonNull IDialog dialog, int position);
     }
+
+    interface OnItemClickListenerEx<T> {
+        void onItemClick(@NonNull IDialog dialog, T item, int position);
+    }
 }
