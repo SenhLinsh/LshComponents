@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 28
@@ -33,8 +34,21 @@ dependencies {
         implementation project(':uee')
         implementation project(':base')
     } catch (ignored) {
-        implementation 'com.github.SenhLinsh:Utils-Everywhere:3.+'
-        implementation 'com.github.SenhLinsh:Utils-Everywhere-Ex:3.+'
-        implementation 'com.github.SenhLinsh:LshBase:3.+'
+        implementation 'com.github.SenhLinsh:Utils-Everywhere:3.1.+'
+        implementation 'com.github.SenhLinsh:Utils-Everywhere-Ex:3.1.+'
+        implementation 'com.github.SenhLinsh:LshBase:3.1.+'
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.SenhLinsh'
+                artifactId = 'LshComponents'
+                version = '1.0.0'
+            }
+        }
     }
 }
