@@ -9,6 +9,7 @@ import com.linsh.dialog.custom.LshDialog;
 import com.linsh.dialog.text.IInputDialog;
 import com.linsh.utilseverywhere.HandlerUtils;
 import com.linsh.utilseverywhere.KeyboardUtils;
+import com.linsh.utilseverywhere.StringUtils;
 
 /**
  * <pre>
@@ -28,6 +29,7 @@ class LshInputDialogImpl extends LshDialogImpl implements IInputDialog {
     public IInputDialog setText(CharSequence text) {
         View contentView = dialog.getContentView();
         if (contentView instanceof EditText) {
+            if (text == null) text = "";
             ((EditText) contentView).setText(text);
             ((EditText) contentView).setSelection(text.length());
         }
@@ -41,6 +43,15 @@ class LshInputDialogImpl extends LshDialogImpl implements IInputDialog {
             return ((TextView) contentView).getText();
         }
         return null;
+    }
+
+    @Override
+    public IInputDialog setHint(CharSequence hint) {
+        View contentView = dialog.getContentView();
+        if (contentView instanceof EditText) {
+            ((EditText) contentView).setHint(StringUtils.nullToEmpty(hint));
+        }
+        return this;
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.linsh.dialog.text.IInputDialog;
 import com.linsh.lshutils.utils.Dps;
 import com.linsh.utilseverywhere.HandlerUtils;
 import com.linsh.utilseverywhere.KeyboardUtils;
+import com.linsh.utilseverywhere.StringUtils;
 
 /**
  * <pre>
@@ -31,6 +32,7 @@ public class InputAlertDialogImpl extends BaseAlertDialogImpl implements IInputD
 
     @Override
     public IInputDialog setText(CharSequence text) {
+        if (text == null) text = "";
         editText.setText(text);
         editText.setSelection(text.length());
         return this;
@@ -39,6 +41,12 @@ public class InputAlertDialogImpl extends BaseAlertDialogImpl implements IInputD
     @Override
     public CharSequence getText() {
         return editText.getText();
+    }
+
+    @Override
+    public IInputDialog setHint(CharSequence hint) {
+        editText.setHint(StringUtils.nullToEmpty(hint));
+        return this;
     }
 
     @Override
