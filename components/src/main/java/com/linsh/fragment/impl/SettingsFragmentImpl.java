@@ -27,7 +27,7 @@ import com.linsh.utilseverywhere.DateUtils;
 import com.linsh.utilseverywhere.EditTextUtils;
 import com.linsh.utilseverywhere.HandlerUtils;
 import com.linsh.utilseverywhere.StringUtils;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -12,7 +12,7 @@ import com.linsh.base.activity.base.BaseActivity;
 import com.linsh.base.mvp.Contract;
 import com.linsh.utilseverywhere.ClassUtils;
 import com.linsh.utilseverywhere.ContextUtils;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 /**
  * <pre>

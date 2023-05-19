@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.linsh.utilseverywhere.UnitConverseUtils;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import androidx.annotation.Nullable;
 

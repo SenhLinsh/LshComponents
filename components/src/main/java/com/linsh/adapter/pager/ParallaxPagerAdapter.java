@@ -3,7 +3,7 @@ package com.linsh.adapter.pager;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;

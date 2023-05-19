@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.ViewGroup.LayoutParams;
 
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import androidx.appcompat.widget.AppCompatImageView;
 

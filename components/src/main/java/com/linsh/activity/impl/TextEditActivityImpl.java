@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.linsh.activity.ITextEditActivity;
 import com.linsh.base.activity.ActivitySubscribe;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 /**
  * <pre>

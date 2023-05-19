@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.linsh.utilseverywhere.ClassUtils;
 import com.linsh.view.IView;
 import com.linsh.view.ViewComponents;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import java.util.ArrayList;
 import java.util.Collection;

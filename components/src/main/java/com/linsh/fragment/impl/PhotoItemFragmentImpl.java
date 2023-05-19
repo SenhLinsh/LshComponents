@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.linsh.components.R;
 import com.linsh.fragment.BaseComponentFragment;
 import com.linsh.fragment.IPhotoItemFragment;
 import com.linsh.lshutils.adapter.BaseRcvAdapterEx;
 import com.linsh.lshutils.viewholder.ViewHolderEx;
 import com.linsh.utilseverywhere.ScreenUtils;
-import com.linsh.views.R;
 
 import java.io.File;
 import java.util.List;
@@ -52,7 +52,7 @@ public class PhotoItemFragmentImpl extends BaseComponentFragment<IPhotoItemFragm
     }
 
     @Override
-    public void setPhotos(List<Object> photos) {
+    public void setPhotos(List<?> photos) {
         if (adapter != null) {
             adapter.setData(photos);
         }
@@ -61,7 +61,7 @@ public class PhotoItemFragmentImpl extends BaseComponentFragment<IPhotoItemFragm
     static class PhotoFlowAdapter extends BaseRcvAdapterEx<Object, ViewHolder> {
         @Override
         protected ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_flow, parent, false));
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.components_item_flow, parent, false));
         }
 
         @Override

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.linsh.utilseverywhere.ClassUtils;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 /**
  * <pre>

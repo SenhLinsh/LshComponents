@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface IPhotoItemFragment extends IFragment<IPhotoItemFragment.Presenter> {
 
-    void setPhotos(List<Object> photos);
+    void setPhotos(List<?> photos);
 
     interface Presenter extends Contract.Presenter {
 

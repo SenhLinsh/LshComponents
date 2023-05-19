@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.linsh.lshutils.utils.BackgroundUtilsEx;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import java.util.List;
 

@@ -16,7 +16,7 @@ import com.linsh.fragment.IManagerItemFragment;
 import com.linsh.lshutils.adapter.SingleItemTypeRcvAdapterEx;
 import com.linsh.lshutils.tools.ItemDragHelperEx;
 import com.linsh.utilseverywhere.interfaces.Convertible;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import java.util.Collections;
 import java.util.List;

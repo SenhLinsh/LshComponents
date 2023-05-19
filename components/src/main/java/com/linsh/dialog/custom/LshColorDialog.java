@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.linsh.lshutils.utils.Dps;
 import com.linsh.utilseverywhere.DrawableSelectors;
 import com.linsh.utilseverywhere.tools.ShapeBuilder;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import java.util.Arrays;
 import java.util.List;

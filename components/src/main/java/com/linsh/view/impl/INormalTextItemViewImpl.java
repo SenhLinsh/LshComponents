@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import com.linsh.lshutils.utils.Dps;
 import com.linsh.utilseverywhere.ResourceUtils;
 import com.linsh.view.item.ITextItemView;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 /**
  * <pre>

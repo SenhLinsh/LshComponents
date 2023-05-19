@@ -17,9 +17,9 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.linsh.activity.IPhotoViewActivity;
 import com.linsh.base.LshImage;
 import com.linsh.base.activity.ActivitySubscribe;
+import com.linsh.components.R;
 import com.linsh.lshutils.adapter.ViewPagerAdapterEx;
 import com.linsh.utilseverywhere.SystemUtils;
-import com.linsh.views.R;
 
 import java.io.File;
 import java.util.List;

@@ -16,7 +16,7 @@ import com.linsh.fragment.BaseComponentFragment;
 import com.linsh.fragment.ISimpleToolFragment;
 import com.linsh.lshutils.adapter.SimpleRcvAdapterEx;
 import com.linsh.lshutils.viewholder.ViewHolderEx;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import java.util.ArrayList;
 

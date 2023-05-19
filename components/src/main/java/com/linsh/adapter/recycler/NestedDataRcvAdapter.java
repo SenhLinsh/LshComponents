@@ -11,7 +11,7 @@ import com.linsh.lshutils.tools.NestedList;
 import com.linsh.utilseverywhere.ClassUtils;
 import com.linsh.view.IView;
 import com.linsh.view.ViewComponents;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import java.util.List;
 

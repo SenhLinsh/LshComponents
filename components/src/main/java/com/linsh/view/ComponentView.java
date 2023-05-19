@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.linsh.utilseverywhere.ClassUtils;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 /**
  * <pre>

@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import androidx.annotation.Nullable;
 

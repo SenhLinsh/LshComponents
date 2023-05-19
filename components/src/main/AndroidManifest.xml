@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.linsh.views">
+          package="com.linsh.components">
 
     <application>
         <activity android:name="com.linsh.activity.impl.ComponentActivity" />

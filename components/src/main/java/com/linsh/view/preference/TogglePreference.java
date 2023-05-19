@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.linsh.utilseverywhere.DrawableSelectors;
 import com.linsh.utilseverywhere.ResourceUtils;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;

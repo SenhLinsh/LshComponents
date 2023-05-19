@@ -22,7 +22,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
 
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;

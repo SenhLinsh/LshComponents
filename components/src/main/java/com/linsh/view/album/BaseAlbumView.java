@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import java.util.List;
 

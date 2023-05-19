@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 /**
  * <pre>

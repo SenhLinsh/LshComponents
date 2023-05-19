@@ -3,16 +3,16 @@ package com.linsh.adapter.recycler;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.linsh.components.R;
 import com.linsh.utilseverywhere.ClassUtils;
-import com.linsh.view.ViewComponents;
 import com.linsh.view.IView;
-import com.linsh.views.R;
+import com.linsh.view.ViewComponents;
 
 import java.lang.reflect.Type;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * <pre>

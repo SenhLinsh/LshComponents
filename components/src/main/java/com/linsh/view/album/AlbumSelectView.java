@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 import java.util.ArrayList;
 import java.util.List;

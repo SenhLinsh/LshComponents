@@ -18,7 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.linsh.lshutils.utils.BackgroundUtilsEx;
-import com.linsh.views.R;
+import com.linsh.components.R;
 
 /**
  * <pre>
