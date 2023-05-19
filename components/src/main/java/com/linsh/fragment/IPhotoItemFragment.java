@@ -1,6 +1,7 @@
 package com.linsh.fragment;
 
 import com.linsh.base.mvp.Contract;
+import com.linsh.utilseverywhere.interfaces.Convertible;
 
 import java.util.List;
 
@@ -15,6 +16,10 @@ import java.util.List;
 public interface IPhotoItemFragment extends IFragment<IPhotoItemFragment.Presenter> {
 
     void setPhotos(List<?> photos);
+
+    <T> void setPhotos(List<T> photos, Convertible<T, ?> photoConverter);
+
+    <T> void setPhotos(List<T> photos, Convertible<T, ?> photoConverter, Convertible<T, CharSequence> nameConverter);
 
     interface Presenter extends Contract.Presenter {
 

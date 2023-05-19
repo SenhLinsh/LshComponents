@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.linsh.fragment.IPhotoItemFragment;
 import com.linsh.lshutils.adapter.BaseRcvAdapterEx;
 import com.linsh.lshutils.viewholder.ViewHolderEx;
 import com.linsh.utilseverywhere.ScreenUtils;
+import com.linsh.utilseverywhere.interfaces.Convertible;
 
 import java.io.File;
 import java.util.List;
@@ -58,14 +60,55 @@ public class PhotoItemFragmentImpl extends BaseComponentFragment<IPhotoItemFragm
         }
     }
 
+    @Override
+    public <T> void setPhotos(List<T> photos, Convertible<T, ?> photoConverter) {
+        if (adapter != null) {
+            adapter.setPhotoConverter(photoConverter);
+            adapter.setData(photos);
+        }
+    }
+
+    @Override
+    public <T> void setPhotos(List<T> photos, Convertible<T, ?> photoConverter, Convertible<T, CharSequence> nameConverter) {
+        if (adapter != null) {
+            adapter.setPhotoConverter(photoConverter);
+            adapter.setNameConverter(nameConverter);
+            adapter.setData(photos);
+        }
+    }
+
     static class PhotoFlowAdapter extends BaseRcvAdapterEx<Object, ViewHolder> {
+        private Convertible photoConverter;
+        private Convertible nameConverter;
+
         @Override
         protected ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.components_item_flow, parent, false));
         }
 
+        public void setPhotoConverter(Convertible<?, ?> photoConverter) {
+            this.photoConverter = photoConverter;
+        }
+
+        public void setNameConverter(Convertible<?, CharSequence> nameConverter) {
+            this.nameConverter = nameConverter;
+        }
+
         @Override
         protected void onBindItemViewHolder(ViewHolder holder, Object item, int position) {
+            // 设置名称
+            CharSequence name = nameConverter == null ? null : (CharSequence) nameConverter.convert(item);
+            // 适配类型
+            if (photoConverter != null) {
+                item = photoConverter.convert(item);
+            }
+            if (name != null) {
+                holder.tvName.setVisibility(View.VISIBLE);
+                holder.tvName.setText(name);
+            } else {
+                holder.tvName.setVisibility(View.GONE);
+            }
+            // 显示特殊文件类型图标
             int typeRes = getResByType(item);
             if (typeRes > 0) {
                 holder.ivType.setVisibility(View.VISIBLE);
@@ -73,6 +116,7 @@ public class PhotoItemFragmentImpl extends BaseComponentFragment<IPhotoItemFragm
             } else {
                 holder.ivType.setVisibility(View.GONE);
             }
+            // 加载图片
             Glide.with(holder.ivImage)
                     .load(item)
                     .into(holder.ivImage);
@@ -98,11 +142,13 @@ public class PhotoItemFragmentImpl extends BaseComponentFragment<IPhotoItemFragm
     static class ViewHolder extends ViewHolderEx {
 
         private final ImageView ivImage;
+        private final TextView tvName;
         private final ImageView ivType;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivImage = itemView.findViewById(R.id.iv_item_flow_image);
+            tvName = itemView.findViewById(R.id.tv_item_flow_name);
             ivType = itemView.findViewById(R.id.iv_item_flow_type);
             int screenWidth = ScreenUtils.getScreenWidth() / 4;
             ViewGroup.LayoutParams layoutParams = itemView.getLayoutParams();
