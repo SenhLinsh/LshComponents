@@ -2,6 +2,8 @@ package com.linsh.dialog;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.linsh.base.LshLog;
 import com.linsh.base.activity.IObservableActivity;
 import com.linsh.dialog.impl.Register;
@@ -9,8 +11,6 @@ import com.linsh.utilseverywhere.ClassUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
 
 /**
  * <pre>
@@ -85,7 +85,7 @@ public class DialogComponents {
                         && interfaceClass != IDefaultDialog.class
                         && interfaceClass != IDialog.class) {
                     IMPLEMENTS.put((Class<? extends IDialog>) interfaceClass, clazz);
-                    LshLog.d(TAG, "register implement for " + interfaceClass.getName() + ": " + clazz.getName());
+                    LshLog.v(TAG, "register implement for " + interfaceClass.getName() + ": " + clazz.getName());
                     registerInterface(clazz, interfaceClass.getInterfaces());
                 }
             }
