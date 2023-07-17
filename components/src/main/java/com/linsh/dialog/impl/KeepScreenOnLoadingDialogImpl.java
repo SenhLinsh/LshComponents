@@ -49,6 +49,7 @@ class KeepScreenOnLoadingDialogImpl extends LshDialogImpl implements IKeepScreen
     @Override
     public IDialog show() {
         IDialog show = super.show();
+        show.getDialog().setCanceledOnTouchOutside(false);
         show.getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface ignore) {
