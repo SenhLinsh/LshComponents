@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,12 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.linsh.components.R;
 import com.linsh.fragment.BaseComponentFragment;
 import com.linsh.fragment.IManagerItemFragment;
 import com.linsh.lshutils.adapter.SingleItemTypeRcvAdapterEx;
 import com.linsh.lshutils.tools.ItemDragHelperEx;
 import com.linsh.utilseverywhere.interfaces.Convertible;
-import com.linsh.components.R;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,14 +34,29 @@ import java.util.List;
 public class ManagerItemActivityImpl extends BaseComponentFragment<IManagerItemFragment.Presenter> implements IManagerItemFragment {
 
     private ManagerItemAdapter<Object> adapter;
-    private Convertible<Object, CharSequence> converter;
+    private Convertible<Object, CharSequence> textConverter;
+    private Convertible<Object, CharSequence> detailConverter;
+    private Convertible<Object, Object> iconConverter;
     private boolean isItemViewSwipeEnabled = true;
     private boolean isLongPressDragEnabled = true;
 
     @Override
-    public <T> void setItems(List<T> items, Convertible<T, CharSequence> converter) {
-        this.converter = (Convertible<Object, CharSequence>) converter;
-        adapter.setData((List<Object>) items);
+    public <T> void setItems(List<? extends CharSequence> items) {
+        adapter.setData((List) items);
+    }
+
+    @Override
+    public <T> void setItems(List<T> items, Convertible<T, CharSequence> textConverter) {
+        this.textConverter = (Convertible<Object, CharSequence>) textConverter;
+        adapter.setData((List) items);
+    }
+
+    @Override
+    public <T> void setItems(List<T> items, Convertible<T, CharSequence> textConverter, Convertible<T, CharSequence> detailConverter, Convertible<T, Object> iconConverter) {
+        this.textConverter = (Convertible<Object, CharSequence>) textConverter;
+        this.detailConverter = (Convertible<Object, CharSequence>) detailConverter;
+        this.iconConverter = (Convertible<Object, Object>) iconConverter;
+        adapter.setData((List) items);
     }
 
     @Override
@@ -106,7 +123,7 @@ public class ManagerItemActivityImpl extends BaseComponentFragment<IManagerItemF
 
         @Override
         protected int getLayout() {
-            return R.layout.item_type_edit;
+            return R.layout.components_item_manager;
         }
 
         @Override
@@ -116,25 +133,41 @@ public class ManagerItemActivityImpl extends BaseComponentFragment<IManagerItemF
 
         @Override
         protected void onBindViewHolder(ManagerItemViewHolder holder, T item, int position) {
-            if (converter != null) {
-                holder.tvText.setText(converter.convert(item));
-                return;
-            }
-            if (item instanceof CharSequence) {
+            if (textConverter != null) {
+                holder.tvText.setText(textConverter.convert(item));
+            } else if (item instanceof CharSequence) {
                 holder.tvText.setText((CharSequence) item);
-                return;
+            } else {
+                holder.tvText.setText(item.toString());
             }
-            holder.tvText.setText(item.toString());
+            if (detailConverter != null) {
+                holder.tvDetail.setVisibility(View.VISIBLE);
+                holder.tvDetail.setText(detailConverter.convert(item));
+            } else {
+                holder.tvDetail.setVisibility(View.GONE);
+                holder.tvDetail.setText("");
+            }
+            if (iconConverter != null) {
+                holder.ivICon.setVisibility(View.VISIBLE);
+                Glide.with(holder.ivICon).load(iconConverter.convert(item)).into(holder.ivICon);
+            } else {
+                holder.ivICon.setVisibility(View.GONE);
+                Glide.with(holder.ivICon).clear(holder.ivICon);
+            }
         }
     }
 
     private static class ManagerItemViewHolder extends RecyclerView.ViewHolder {
 
+        private final ImageView ivICon;
         private final TextView tvText;
+        private final TextView tvDetail;
 
         public ManagerItemViewHolder(@NonNull android.view.View itemView) {
             super(itemView);
-            tvText = itemView.findViewById(R.id.tv_item_type_edit_type_name);
+            ivICon = itemView.findViewById(R.id.iv_components_icon);
+            tvText = itemView.findViewById(R.id.tv_components_text);
+            tvDetail = itemView.findViewById(R.id.tv_components_detail);
         }
     }
 }

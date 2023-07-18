@@ -20,10 +20,27 @@ public interface IManagerItemFragment extends IFragment<IManagerItemFragment.Pre
     /**
      * 设置数据
      *
-     * @param items     数据列表
-     * @param converter 格式转行器，如果为 null，则直接将数据 toString 处理
+     * @param items 数据列表
      */
-    <T> void setItems(List<T> items, Convertible<T, CharSequence> converter);
+    <T> void setItems(List<? extends CharSequence> items);
+
+    /**
+     * 设置数据
+     *
+     * @param items         数据列表
+     * @param textConverter 内容文本格式转行器，如果为 null，则直接将数据 toString 处理
+     */
+    <T> void setItems(List<T> items, Convertible<T, CharSequence> textConverter);
+
+    /**
+     * 设置数据
+     *
+     * @param items           数据列表
+     * @param textConverter   内容文本格式转行器，如果为 null，则直接将数据 toString 处理
+     * @param detailConverter 详细文本格式转行器，如果为 null，则不显示详细文本
+     * @param iconConverter   图标格式转行器，如果为 null，则不显示图标
+     */
+    <T> void setItems(List<T> items, Convertible<T, CharSequence> textConverter, Convertible<T, CharSequence> detailConverter, Convertible<T, Object> iconConverter);
 
     /**
      * 是否启用滑动删除功能
