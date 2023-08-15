@@ -85,58 +85,9 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
                     String value = StringUtils.nullToEmpty(((Map.Entry<?, ?>) item).getValue()).trim();
                     Matcher matcher = Pattern.compile("<(.+?):(.+)>").matcher(value);
                     if (matcher.matches()) {
-                        typeViewHolder.ivTool.setVisibility(View.VISIBLE);
-                        if (matcher.group(1).equals("time")) {
-                            String format = matcher.group(2);
-                            String[] args = format.split("\\|");
-                            List<String> items = new ArrayList<>();
-                            List<String> formats = new ArrayList<>();
-                            for (String arg : args) {
-                                if (arg.contains("yyyy")) {
-                                    if (arg.contains("HH")) {
-                                        items.add("使用当前日期+时间");
-                                    } else {
-                                        items.add("使用当前日期");
-                                        items.add("手动选择日期");
-                                        formats.add(arg);
-                                    }
-                                    formats.add(arg);
-                                }
-                            }
-                            if (items.size() > 0) {
-                                typeViewHolder.etInfo.setText(DateUtils.format(new Date(), formats.get(0)));
-                                EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
-                            }
-                            typeViewHolder.ivTool.setImageResource(R.drawable.ic_time);
-                            typeViewHolder.ivTool.setOnClickListener(v -> {
-                                if (items.size() == 0) {
-                                    return;
-                                }
-                                DialogComponents.create(getContext(), IListDialog.class)
-                                        .setItems(items)
-                                        .setOnItemClickListener((dialog, position1) -> {
-                                            dialog.dismiss();
-                                            switch (items.get(position1)) {
-                                                case "使用当前日期":
-                                                case "使用当前日期+时间":
-                                                    typeViewHolder.etInfo.setText(DateUtils.format(new Date(), formats.get(position1)));
-                                                    EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
-                                                    break;
-                                                case "手动选择日期":
-                                                    DatePickerDialog pickerDialog = new DatePickerDialog(dialog.getDialog().getContext());
-                                                    pickerDialog.setOnDateSetListener((view, year, month, dayOfMonth) -> {
-                                                        Calendar calendar = Calendar.getInstance();
-                                                        calendar.set(year, month, dayOfMonth);
-                                                        typeViewHolder.etInfo.setText(DateUtils.format(calendar.getTime(), formats.get(position1)));
-                                                        EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
-                                                    });
-                                                    pickerDialog.show();
-                                                    break;
-                                            }
-                                        })
-                                        .show();
-                            });
-                        }
+                        setTimeMode(typeViewHolder, matcher);
+                    } else if ((matcher = Pattern.compile("\\[(.+)(\\|.+)+]").matcher(value)).matches()) {
+                        setSelectionMode(typeViewHolder, matcher);
                     } else {
                         typeViewHolder.ivTool.setVisibility(View.GONE);
                         typeViewHolder.etInfo.setText(value);
@@ -150,6 +101,81 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
         };
         recyclerView.setAdapter(adapter);
         return recyclerView;
+    }
+
+    private void setTimeMode(TypeViewHolder typeViewHolder, Matcher matcher) {
+        typeViewHolder.ivTool.setVisibility(View.VISIBLE);
+        if (matcher.group(1).equals("time")) {
+            String format = matcher.group(2);
+            String[] args = format.split("\\|");
+            List<String> items = new ArrayList<>();
+            List<String> formats = new ArrayList<>();
+            for (String arg : args) {
+                if (arg.contains("yyyy")) {
+                    if (arg.contains("HH")) {
+                        items.add("使用当前日期+时间");
+                    } else {
+                        items.add("使用当前日期");
+                        items.add("手动选择日期");
+                        formats.add(arg);
+                    }
+                    formats.add(arg);
+                }
+            }
+            if (items.size() > 0) {
+                typeViewHolder.etInfo.setText(DateUtils.format(new Date(), formats.get(0)));
+                EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+            }
+            typeViewHolder.ivTool.setImageResource(R.drawable.ic_time);
+            typeViewHolder.ivTool.setOnClickListener(v -> {
+                if (items.size() == 0) {
+                    return;
+                }
+                DialogComponents.create(getContext(), IListDialog.class)
+                        .setItems(items)
+                        .setOnItemClickListener((dialog, position1) -> {
+                            dialog.dismiss();
+                            switch (items.get(position1)) {
+                                case "使用当前日期":
+                                case "使用当前日期+时间":
+                                    typeViewHolder.etInfo.setText(DateUtils.format(new Date(), formats.get(position1)));
+                                    EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+                                    break;
+                                case "手动选择日期":
+                                    DatePickerDialog pickerDialog = new DatePickerDialog(dialog.getDialog().getContext());
+                                    pickerDialog.setOnDateSetListener((view, year, month, dayOfMonth) -> {
+                                        Calendar calendar = Calendar.getInstance();
+                                        calendar.set(year, month, dayOfMonth);
+                                        typeViewHolder.etInfo.setText(DateUtils.format(calendar.getTime(), formats.get(position1)));
+                                        EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+                                    });
+                                    pickerDialog.show();
+                                    break;
+                            }
+                        })
+                        .show();
+            });
+        }
+    }
+
+    private void setSelectionMode(TypeViewHolder typeViewHolder, Matcher matcher) {
+        typeViewHolder.ivTool.setVisibility(View.VISIBLE);
+        typeViewHolder.ivTool.setImageResource(R.drawable.ic_selection);
+        String[] items = new String[matcher.groupCount()];
+        items[0] = matcher.group(1);
+        for (int i = 1; i < matcher.groupCount(); i++) {
+            items[i] = matcher.group(i + 1).substring(1);
+        }
+        typeViewHolder.ivTool.setOnClickListener(v -> {
+            DialogComponents.create(getContext(), IListDialog.class)
+                    .setItems(items)
+                    .setOnItemClickListener((dialog, position) -> {
+                        dialog.dismiss();
+                        typeViewHolder.etInfo.setText(items[position]);
+                        EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+                    })
+                    .show();
+        });
     }
 
     @Override
