@@ -16,18 +16,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.linsh.base.mvp.Contract;
+import com.linsh.components.R;
 import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.text.IListDialog;
 import com.linsh.fragment.BaseComponentFragment;
 import com.linsh.fragment.ISettingsFragment;
 import com.linsh.lshutils.adapter.BaseRcvAdapterEx;
 import com.linsh.lshutils.utils.BackgroundUtilsEx;
+import com.linsh.lshutils.utils.StringUtilsEx;
 import com.linsh.lshutils.viewholder.ViewHolderEx;
 import com.linsh.utilseverywhere.DateUtils;
 import com.linsh.utilseverywhere.EditTextUtils;
 import com.linsh.utilseverywhere.HandlerUtils;
 import com.linsh.utilseverywhere.StringUtils;
-import com.linsh.components.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -86,8 +87,8 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
                     Matcher matcher = Pattern.compile("<(.+?):(.+)>").matcher(value);
                     if (matcher.matches()) {
                         setTimeMode(typeViewHolder, matcher);
-                    } else if ((matcher = Pattern.compile("\\[(.+)(\\|.+)+]").matcher(value)).matches()) {
-                        setSelectionMode(typeViewHolder, matcher);
+                    } else if ((matcher = Pattern.compile("\\[(.+?)(\\|.+?)+]").matcher(value)).matches()) {
+                        setSelectionMode(typeViewHolder, value);
                     } else {
                         typeViewHolder.ivTool.setVisibility(View.GONE);
                         typeViewHolder.etInfo.setText(value);
@@ -158,14 +159,10 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
         }
     }
 
-    private void setSelectionMode(TypeViewHolder typeViewHolder, Matcher matcher) {
+    private void setSelectionMode(TypeViewHolder typeViewHolder, String text) {
         typeViewHolder.ivTool.setVisibility(View.VISIBLE);
         typeViewHolder.ivTool.setImageResource(R.drawable.ic_selection);
-        String[] items = new String[matcher.groupCount()];
-        items[0] = matcher.group(1);
-        for (int i = 1; i < matcher.groupCount(); i++) {
-            items[i] = matcher.group(i + 1).substring(1);
-        }
+        String[] items = StringUtilsEx.trimArr(text.substring(1, text.length() - 1).split("\\|"));
         typeViewHolder.ivTool.setOnClickListener(v -> {
             DialogComponents.create(getContext(), IListDialog.class)
                     .setItems(items)
