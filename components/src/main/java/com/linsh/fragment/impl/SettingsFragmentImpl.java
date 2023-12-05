@@ -163,6 +163,7 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
         typeViewHolder.ivTool.setVisibility(View.VISIBLE);
         typeViewHolder.ivTool.setImageResource(R.drawable.ic_selection);
         String[] items = StringUtilsEx.trimArr(text.substring(1, text.length() - 1).split("\\|"));
+        typeViewHolder.etInfo.setText(items[0]);
         typeViewHolder.ivTool.setOnClickListener(v -> {
             DialogComponents.create(getContext(), IListDialog.class)
                     .setItems(items)
