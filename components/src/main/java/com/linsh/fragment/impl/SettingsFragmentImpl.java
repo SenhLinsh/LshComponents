@@ -2,6 +2,7 @@ package com.linsh.fragment.impl;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.linsh.dialog.text.IListDialog;
 import com.linsh.fragment.BaseComponentFragment;
 import com.linsh.fragment.ISettingsFragment;
 import com.linsh.lshutils.adapter.BaseRcvAdapterEx;
+import com.linsh.lshutils.adapter.TextWatcherAdapter;
 import com.linsh.lshutils.utils.BackgroundUtilsEx;
 import com.linsh.lshutils.utils.StringUtilsEx;
 import com.linsh.lshutils.viewholder.ViewHolderEx;
@@ -50,20 +52,20 @@ import java.util.regex.Pattern;
  */
 public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Presenter> implements ISettingsFragment {
 
-    private final List<Object> items = new ArrayList<>();
+    private final List<ItemInfo> items = new ArrayList<>();
     private RecyclerView recyclerView;
-    private BaseRcvAdapterEx<Object, ViewHolderEx> adapter;
+    private BaseRcvAdapterEx<ItemInfo, ViewHolderEx> adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         recyclerView = new RecyclerView(inflater.getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
-        adapter = new BaseRcvAdapterEx<Object, ViewHolderEx>() {
+        adapter = new BaseRcvAdapterEx<ItemInfo, ViewHolderEx>() {
 
             @Override
             public int getItemViewType(int position) {
-                return getData().get(position) instanceof String ? 0 : 1;
+                return getData().get(position).getDefaultValue() == null ? 0 : 1;
             }
 
             @Override
@@ -71,32 +73,48 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
                 if (viewType == 0) {
                     return new TitleViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_settings_title, parent, false));
                 }
-                return new TypeViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_settings, parent, false));
+                TypeViewHolder typeViewHolder = new TypeViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_settings, parent, false));
+                typeViewHolder.etInfo.addTextChangedListener(new TextWatcherAdapter() {
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        ItemInfo item = getData().get(typeViewHolder.getAbsoluteAdapterPosition());
+                        item.setValue(s.toString().trim());
+                    }
+                });
+                return typeViewHolder;
             }
 
             @Override
-            protected void onBindItemViewHolder(ViewHolderEx holder, Object item, int position) {
+            protected void onBindItemViewHolder(ViewHolderEx holder, ItemInfo item, int position) {
                 if (holder instanceof TitleViewHolder) {
-                    ((TitleViewHolder) holder).tvTitle.setText(item.toString());
+                    ((TitleViewHolder) holder).tvTitle.setText(item.getKey());
                     return;
                 }
-                if (holder instanceof TypeViewHolder && item instanceof Map.Entry) {
+                if (holder instanceof TypeViewHolder) {
                     TypeViewHolder typeViewHolder = (TypeViewHolder) holder;
-                    typeViewHolder.tvName.setText(((Map.Entry<?, ?>) item).getKey().toString());
-                    String value = StringUtils.nullToEmpty(((Map.Entry<?, ?>) item).getValue()).trim();
-                    Matcher matcher = Pattern.compile("<(.+?):(.+)>").matcher(value);
-                    if (matcher.matches()) {
-                        setTimeMode(typeViewHolder, matcher);
-                    } else if ((matcher = Pattern.compile("\\[(.+?)(\\|.+?)+]").matcher(value)).matches()) {
-                        setSelectionMode(typeViewHolder, value);
-                    } else {
-                        typeViewHolder.ivTool.setVisibility(View.GONE);
-                        typeViewHolder.etInfo.setText(value);
-                        EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+                    typeViewHolder.tvName.setText(item.getKey());
+                    typeViewHolder.ivTool.setVisibility(View.GONE);
+                    boolean isInitial = item.getValue() == null;
+                    typeViewHolder.etInfo.setText(isInitial ? "" : item.getValue());
+                    String defaultValue = item.getDefaultValue();
+                    if (StringUtils.isEmpty(defaultValue)) {
+                        return;
                     }
-                    typeViewHolder.etInfo.setOnFocusChangeListener((v, hasFocus) -> {
-                        ((Map.Entry) item).setValue(typeViewHolder.etInfo.getText().toString().trim());
-                    });
+                    // 匹配选择时间模式
+                    Matcher matcher = Pattern.compile("<(.+?):(.+)>").matcher(defaultValue);
+                    if (matcher.matches()) {
+                        setTimeMode(typeViewHolder, matcher, isInitial);
+                        return;
+                    }
+                    // 匹配多选模式
+                    if (Pattern.compile("\\[(.+?)(\\|.+?)+]").matcher(defaultValue).matches()) {
+                        setSelectionMode(typeViewHolder, defaultValue, isInitial);
+                        return;
+                    }
+                    // 正常模式
+                    if (isInitial) {
+                        updateValue(typeViewHolder, defaultValue, false);
+                    }
                 }
             }
         };
@@ -104,7 +122,10 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
         return recyclerView;
     }
 
-    private void setTimeMode(TypeViewHolder typeViewHolder, Matcher matcher) {
+    /**
+     * 选择时间
+     */
+    private void setTimeMode(TypeViewHolder typeViewHolder, Matcher matcher, boolean isInitial) {
         typeViewHolder.ivTool.setVisibility(View.VISIBLE);
         if (matcher.group(1).equals("time")) {
             String format = matcher.group(2);
@@ -123,9 +144,8 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
                     formats.add(arg);
                 }
             }
-            if (items.size() > 0) {
-                typeViewHolder.etInfo.setText(DateUtils.format(new Date(), formats.get(0)));
-                EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+            if (isInitial && items.size() > 0) {
+                updateValue(typeViewHolder, DateUtils.format(new Date(), formats.get(0)), false);
             }
             typeViewHolder.ivTool.setImageResource(R.drawable.ic_time);
             typeViewHolder.ivTool.setOnClickListener(v -> {
@@ -139,16 +159,14 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
                             switch (items.get(position1)) {
                                 case "使用当前日期":
                                 case "使用当前日期+时间":
-                                    typeViewHolder.etInfo.setText(DateUtils.format(new Date(), formats.get(position1)));
-                                    EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+                                    updateValue(typeViewHolder, DateUtils.format(new Date(), formats.get(position1)), true);
                                     break;
                                 case "手动选择日期":
                                     DatePickerDialog pickerDialog = new DatePickerDialog(dialog.getDialog().getContext());
                                     pickerDialog.setOnDateSetListener((view, year, month, dayOfMonth) -> {
                                         Calendar calendar = Calendar.getInstance();
                                         calendar.set(year, month, dayOfMonth);
-                                        typeViewHolder.etInfo.setText(DateUtils.format(calendar.getTime(), formats.get(position1)));
-                                        EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+                                        updateValue(typeViewHolder, DateUtils.format(calendar.getTime(), formats.get(position1)), true);
                                     });
                                     pickerDialog.show();
                                     break;
@@ -159,27 +177,40 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
         }
     }
 
-    private void setSelectionMode(TypeViewHolder typeViewHolder, String text) {
+    /**
+     * 多选
+     */
+    private void setSelectionMode(TypeViewHolder typeViewHolder, String text, boolean isInitial) {
         typeViewHolder.ivTool.setVisibility(View.VISIBLE);
         typeViewHolder.ivTool.setImageResource(R.drawable.ic_selection);
         String[] items = StringUtilsEx.trimArr(text.substring(1, text.length() - 1).split("\\|"));
-        typeViewHolder.etInfo.setText(items[0]);
+        if (isInitial && items.length > 0) {
+            updateValue(typeViewHolder, items[0], false);
+        }
         typeViewHolder.ivTool.setOnClickListener(v -> {
             DialogComponents.create(getContext(), IListDialog.class)
                     .setItems(items)
                     .setOnItemClickListener((dialog, position) -> {
                         dialog.dismiss();
-                        typeViewHolder.etInfo.setText(items[position]);
-                        EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+                        updateValue(typeViewHolder, items[position], true);
                     })
                     .show();
         });
     }
 
+    private void updateValue(TypeViewHolder typeViewHolder, String value, boolean moveCursor) {
+        typeViewHolder.etInfo.setText(value);
+        if (moveCursor) {
+            EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+        }
+    }
+
     @Override
     public void setProperties(Map<String, String> properties) {
         items.clear();
-        items.addAll(properties.entrySet());
+        for (Map.Entry<String, String> entry : properties.entrySet()) {
+            items.add(new ItemInfo(entry.getKey(), null, entry.getValue()));
+        }
         if (adapter != null) {
             adapter.setData(items);
             moveFocusToHeader();
@@ -188,9 +219,11 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
 
     @Override
     public void setPropertiesGroups(Map<String, Map<String, String>> propertiesGroups) {
-        for (Map.Entry<String, Map<String, String>> entry : propertiesGroups.entrySet()) {
-            items.add(entry.getKey());
-            items.addAll(entry.getValue().entrySet());
+        for (Map.Entry<String, Map<String, String>> groupEntry : propertiesGroups.entrySet()) {
+            items.add(new ItemInfo(groupEntry.getKey(), null, null));
+            for (Map.Entry<String, String> valueEntry : groupEntry.getValue().entrySet()) {
+                items.add(new ItemInfo(valueEntry.getKey(), null, valueEntry.getValue()));
+            }
         }
         if (adapter != null) {
             adapter.setData(items);
@@ -215,10 +248,8 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
     public Map<String, String> getProperties() {
         clearTextFocus();
         HashMap<String, String> map = new LinkedHashMap<>();
-        for (Object item : items) {
-            if (item instanceof Map.Entry) {
-                map.put((String) ((Map.Entry<?, ?>) item).getKey(), (String) ((Map.Entry<?, ?>) item).getValue());
-            }
+        for (ItemInfo item : items) {
+            map.put(item.getKey(), StringUtils.nullToEmpty(item.getValue()));
         }
         return map;
     }
@@ -229,16 +260,16 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
         HashMap<String, Map<String, String>> groups = new LinkedHashMap<>();
         String title = "";
         Map<String, String> properties = null;
-        for (Object item : items) {
-            if (item instanceof String) {
-                title = (String) item;
+        for (ItemInfo item : items) {
+            if (item.getDefaultValue() == null) {
+                title = item.getKey();
                 properties = null;
-            } else if (item instanceof Map.Entry) {
+            } else {
                 if (properties == null) {
                     properties = new LinkedHashMap<>();
                     groups.put(title, properties);
                 }
-                properties.put((String) ((Map.Entry<?, ?>) item).getKey(), (String) ((Map.Entry<?, ?>) item).getValue());
+                properties.put(item.getKey(), StringUtils.nullToEmpty(item.getValue()));
             }
         }
         return groups;
@@ -251,6 +282,35 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
             if (focus != null) {
                 focus.clearFocus();
             }
+        }
+    }
+
+    static class ItemInfo {
+        private final String key;
+        private String value;
+        private final String defaultValue;
+
+        public ItemInfo(String key, String value, String defaultValue) {
+            this.key = key;
+            this.value = value;
+            this.defaultValue = StringUtils.nullToEmpty(defaultValue);
+        }
+
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public String getDefaultValue() {
+            return defaultValue;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
         }
     }
 
@@ -280,3 +340,4 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
         }
     }
 }
+

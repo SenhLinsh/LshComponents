@@ -18,11 +18,23 @@ import java.util.Map;
  */
 public interface ISettingsFragment extends IFragment<Contract.Presenter> {
 
+    /**
+     * 设置配置项
+     */
     void setProperties(Map<String, String> properties);
 
+    /**
+     * 设置配置项（分组）
+     */
     void setPropertiesGroups(Map<String, Map<String, String>> propertiesGroups);
 
+    /**
+     * 获取配置项
+     */
     Map<String, String> getProperties();
 
+    /**
+     * 获取配置项（分组）
+     */
     Map<String, Map<String, String>> getPropertiesGroups();
 }
