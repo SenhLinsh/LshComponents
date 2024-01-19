@@ -12,13 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.linsh.adapter.holder.SimpleTextViewHolder;
+import com.linsh.base.adapter.DataAdaptedRcvAdapter;
+import com.linsh.components.R;
 import com.linsh.fragment.BaseComponentFragment;
 import com.linsh.fragment.ISimpleToolFragment;
-import com.linsh.lshutils.adapter.SimpleRcvAdapterEx;
-import com.linsh.lshutils.viewholder.ViewHolderEx;
-import com.linsh.components.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <pre>
@@ -30,9 +31,10 @@ import java.util.ArrayList;
  */
 public class SimpleToolFragmentImpl extends BaseComponentFragment<ISimpleToolFragment.Presenter> implements ISimpleToolFragment {
 
+    private final List<String> logs = new ArrayList<>();
+    private DataAdaptedRcvAdapter adapter;
     private LinearLayout llButtons;
     private TextView tvContent;
-    private SimpleRcvAdapterEx<String, ViewHolderEx> adapter;
 
     @Override
     protected int onCreateViewByLayoutId() {
@@ -46,26 +48,8 @@ public class SimpleToolFragmentImpl extends BaseComponentFragment<ISimpleToolFra
         tvContent = view.findViewById(R.id.components_tv_content);
         RecyclerView rcvLogs = view.findViewById(R.id.components_rcv_logs);
         rcvLogs.setLayoutManager(new LinearLayoutManager(getContext()));
-        rcvLogs.setAdapter(adapter = new SimpleRcvAdapterEx<String, ViewHolderEx>() {
-
-            @Override
-            protected String getItem(int position) {
-                return getData().get(getData().size() - 1 - position);
-            }
-
-            @Override
-            protected ViewHolderEx initViewHolder(ViewGroup parent, int viewType) {
-                TextView itemView = new TextView(parent.getContext());
-                itemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                return new ViewHolderEx(itemView);
-            }
-
-            @Override
-            protected void onBindViewHolder(ViewHolderEx holder, String s, int position) {
-                ((TextView) holder.itemView).setText(s);
-            }
-        });
-        adapter.setData(new ArrayList<>());
+        rcvLogs.setAdapter(adapter = new DataAdaptedRcvAdapter(SimpleTextViewHolder.class));
+        adapter.setData(logs);
     }
 
     @Override
@@ -90,13 +74,13 @@ public class SimpleToolFragmentImpl extends BaseComponentFragment<ISimpleToolFra
 
     @Override
     public void addLog(@NonNull String log) {
-        adapter.getData().add(log);
-        adapter.notifyDataSetChanged();
+        logs.add(0, log);
+        adapter.notifyItemInserted(0);
     }
 
     @Override
     public void clearLogs() {
-        adapter.getData().clear();
+        logs.clear();
         adapter.notifyDataSetChanged();
     }
 }

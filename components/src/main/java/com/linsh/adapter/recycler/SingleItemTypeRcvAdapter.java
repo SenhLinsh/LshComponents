@@ -19,7 +19,7 @@ import java.util.List;
  *    author : Senh Linsh
  *    github : https://github.com/SenhLinsh
  *    date   : 2019/10/11
- *    desc   :
+ *    desc   : 简单抽取的 RecyclerView Adapter 基类, 适用于单条目类型
  * </pre>
  */
 public abstract class SingleItemTypeRcvAdapter<T, V extends IView>

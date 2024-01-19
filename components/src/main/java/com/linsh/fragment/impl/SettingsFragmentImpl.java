@@ -26,7 +26,6 @@ import com.linsh.lshutils.adapter.BaseRcvAdapterEx;
 import com.linsh.lshutils.adapter.TextWatcherAdapter;
 import com.linsh.lshutils.utils.BackgroundUtilsEx;
 import com.linsh.lshutils.utils.StringUtilsEx;
-import com.linsh.lshutils.viewholder.ViewHolderEx;
 import com.linsh.utilseverywhere.DateUtils;
 import com.linsh.utilseverywhere.EditTextUtils;
 import com.linsh.utilseverywhere.HandlerUtils;
@@ -54,14 +53,14 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
 
     private final List<ItemInfo> items = new ArrayList<>();
     private RecyclerView recyclerView;
-    private BaseRcvAdapterEx<ItemInfo, ViewHolderEx> adapter;
+    private BaseRcvAdapterEx<ItemInfo, RecyclerView.ViewHolder> adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         recyclerView = new RecyclerView(inflater.getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
-        adapter = new BaseRcvAdapterEx<ItemInfo, ViewHolderEx>() {
+        adapter = new BaseRcvAdapterEx<ItemInfo, RecyclerView.ViewHolder>() {
 
             @Override
             public int getItemViewType(int position) {
@@ -69,7 +68,7 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
             }
 
             @Override
-            protected ViewHolderEx onCreateItemViewHolder(ViewGroup parent, int viewType) {
+            protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
                 if (viewType == 0) {
                     return new TitleViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_settings_title, parent, false));
                 }
@@ -85,7 +84,7 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
             }
 
             @Override
-            protected void onBindItemViewHolder(ViewHolderEx holder, ItemInfo item, int position) {
+            protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, ItemInfo item, int position) {
                 if (holder instanceof TitleViewHolder) {
                     ((TitleViewHolder) holder).tvTitle.setText(item.getKey());
                     return;
@@ -314,7 +313,7 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
         }
     }
 
-    static class TypeViewHolder extends ViewHolderEx {
+    static class TypeViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvName;
         private final EditText etInfo;
         private final ImageView ivTool;
@@ -330,7 +329,7 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
         }
     }
 
-    static class TitleViewHolder extends ViewHolderEx {
+    static class TitleViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tvTitle;
 

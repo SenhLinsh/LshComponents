@@ -17,7 +17,6 @@ import com.linsh.components.R;
 import com.linsh.fragment.BaseComponentFragment;
 import com.linsh.fragment.IPhotoItemFragment;
 import com.linsh.lshutils.adapter.BaseRcvAdapterEx;
-import com.linsh.lshutils.viewholder.ViewHolderEx;
 import com.linsh.utilseverywhere.ScreenUtils;
 import com.linsh.utilseverywhere.interfaces.Convertible;
 
@@ -139,7 +138,7 @@ public class PhotoItemFragmentImpl extends BaseComponentFragment<IPhotoItemFragm
         }
     }
 
-    static class ViewHolder extends ViewHolderEx {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView ivImage;
         private final TextView tvName;
