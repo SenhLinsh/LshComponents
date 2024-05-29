@@ -27,7 +27,7 @@ import com.linsh.lshutils.adapter.TextWatcherAdapter;
 import com.linsh.lshutils.utils.BackgroundUtilsEx;
 import com.linsh.lshutils.utils.StringUtilsEx;
 import com.linsh.utilseverywhere.DateUtils;
-import com.linsh.utilseverywhere.EditTextUtils;
+import com.linsh.lshutils.utils.EditTextUtilsEx;
 import com.linsh.utilseverywhere.HandlerUtils;
 import com.linsh.utilseverywhere.StringUtils;
 
@@ -200,7 +200,7 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
     private void updateValue(TypeViewHolder typeViewHolder, String value, boolean moveCursor) {
         typeViewHolder.etInfo.setText(value);
         if (moveCursor) {
-            EditTextUtils.moveCursorToLast(typeViewHolder.etInfo);
+            EditTextUtilsEx.moveCursorToLast(typeViewHolder.etInfo);
         }
     }
 
@@ -237,7 +237,7 @@ public class SettingsFragmentImpl extends BaseComponentFragment<Contract.Present
                 recyclerView.scrollToPosition(0);
                 RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(0);
                 if (viewHolder instanceof TypeViewHolder) {
-                    EditTextUtils.moveCursorToLast(((TypeViewHolder) viewHolder).etInfo);
+                    EditTextUtilsEx.moveCursorToLast(((TypeViewHolder) viewHolder).etInfo);
                 }
             }
         }, 100);
