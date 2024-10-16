@@ -131,7 +131,8 @@ public class PhotoItemFragmentImpl extends BaseComponentFragment<IPhotoItemFragm
             if (filename != null) {
                 if (filename.endsWith(".gif"))
                     return R.drawable.ic_gif;
-                if (filename.endsWith(".mp4") || filename.endsWith(".flv"))
+                if (filename.endsWith(".mp4") || filename.endsWith(".flv")
+                        || filename.endsWith(".avi") || filename.endsWith(".mov"))
                     return R.drawable.ic_video;
             }
             return -1;
